@@ -12,6 +12,8 @@ import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from "react-datepicker";
 
+import layerConf from './layerConf';
+
 import "react-datepicker/dist/react-datepicker.css";
 
 const SelectionMenu = (props) => {
@@ -75,7 +77,34 @@ const SelectionMenu = (props) => {
 	    });
 	}
 
-	const fetchGeojsonData = (productID) => {
+	const fetchGeojsonData = async (productID, yrStr, mpdNum) => {
+		let jsonFile = ''
+		if(productID === 'MPD'){
+			jsonFile = 'MPD_contour_' + yrStr + '_' + mpdNum + '.geojson'
+		} else {
+			if(productID === 'FFW'){
+				jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
+			} else {
+				jsonFile = productID + '_20km_' + yrStr + '_' + mpdNum + '.geojson'
+			}
+			
+		}
+		return (
+			axios.get(props.dataURL + yrStr + '/' + productID + '/' + jsonFile)
+	        // .then(response => {
+	        // 	tmpGeojsonData[productID] = response.data
+
+	        // 	props.handleMapDataChange(tmpGeojsonData)
+	        //     setDataLoadErrMsg(null)
+	        //     setDataIsFetching(false)
+	        // })
+	        // .catch(error => {
+	        // 	console.log(error)
+		    // });
+		)
+	}
+
+	const handleSubmit = () => {
 		setDataIsFetching(true)
 
 		let yrStr = null
@@ -91,36 +120,38 @@ const SelectionMenu = (props) => {
 
 			mpdNum = selectedMpd['value']
 		}
-		
-		let jsonFile = ''
-		if(productID === 'MPD'){
-			jsonFile = 'MPD_contour_' + yrStr + '_' + mpdNum + '.geojson'
-		} else {
-			jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
-		}
 
-		axios.get(props.dataURL + yrStr + '/' + productID + '/' + jsonFile)
-        .then(response => {
+		let tmpGeojsonData = {}
+		let allErrors = []
+		let allPromises = []
+		Object.keys(layerConf).forEach((productID) => {
+			allPromises.push(fetchGeojsonData(productID, yrStr, mpdNum))
+		})
 
-        	let tmpGeojsonData = {...props.geojsonData}
-        	tmpGeojsonData[productID] = response.data
+		Promise.allSettled(allPromises).then((results) => {
+		  results.forEach((result, i) => {
+		  	let productID = Object.keys(layerConf)[i]
 
-        	props.handleMapDataChange(tmpGeojsonData)
-            setDataLoadErrMsg(null)
-            setDataIsFetching(false)
-        })
-        .catch(error => {
-        	console.log(error)
-	      	if(error.response.status === 404) {
-	      		console.log("HERE1")
-	      		setDataLoadErrMsg("No " + productID + " data found for MPD " + mpdNum + " (" + yrStr + ")")
-	      	} else {
-	      		console.log("HERE2")
-	      		setDataLoadErrMsg("Error fetching data")
-	      	}
+		  	if(result.status === 'fulfilled'){
+		  		tmpGeojsonData[productID] = result.value.data
+		  	} else {
+		  		allErrors.push(productID)
+		  	}
+		  })
+		  console.log(tmpGeojsonData)
 
-	      	setDataIsFetching(false)
-	    });
+		  props.handleMapDataChange(tmpGeojsonData)
+		  setDataIsFetching(false)
+
+		  console.log(allErrors.toString())
+		  if(allErrors.length !== 0) {
+		  	setDataLoadErrMsg('Error loading data for: ' + allErrors.toString())
+		  } else {
+		  	setDataLoadErrMsg(null)
+		  }
+
+		});
+
 	}
 	
 	const genYearsArray = () => {
@@ -156,7 +187,7 @@ const SelectionMenu = (props) => {
 
 	return (
 		<>
-			<div className='flex relative ml-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[220px] p-3 shadow-md'>
+			<div className='flex relative ml-auto mr-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[220px] p-3 shadow-md'>
 				<div className='mb-2 text-center'>
 					<p className='text-white text-2xl'>MPD Verification</p>
 				</div>
@@ -223,7 +254,7 @@ const SelectionMenu = (props) => {
 
 				<div className='mt-4 w-full'>
 					<Button 
-						onClick={() => {fetchGeojsonData('MPD')}}
+						onClick={handleSubmit}
 						disabled={dataIsFetching || (mpdNumberValue === null && searchByNumber === true) || (selectedMpd === null && searchByNumber === false)} 
 						className='w-full' 
 						variant="contained"

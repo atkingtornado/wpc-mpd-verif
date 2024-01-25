@@ -2,21 +2,13 @@ import { useState } from 'react'
 import Map, {Source, Layer, useMap, MapProvider, FullscreenControl, useControl} from 'react-map-gl/maplibre';
 import LegendControl from 'mapboxgl-legend';
 
+import layerConf from './layerConf';
+
 import 'maplibre-gl/dist/maplibre-gl.css';
 import 'mapboxgl-legend/dist/style.css';
 import '../index.css';
 
-const layerConf = {
-	'MPD': {
-		id: 'MPD',
-	    type: 'line',
-	    paint: {
-	        'line-color': 'red',
-	        'line-opacity': 0.8,
-	        'line-width': 3
-	    }
-	}
-}
+
 
 const MapDisplay = (props) => {
 
@@ -24,7 +16,7 @@ const MapDisplay = (props) => {
         layers: Object.keys(layerConf),
         toggler: true
     });
-
+	console.log(legend)
 	return (
 		<div className='fixed top-[113px] bottom-0 left-0 right-0'>
 			<Map
