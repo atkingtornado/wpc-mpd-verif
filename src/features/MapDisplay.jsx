@@ -1,12 +1,32 @@
 import { useState } from 'react'
-import Map from 'react-map-gl/maplibre';
+import Map, {Source, Layer, useMap, MapProvider, FullscreenControl, useControl} from 'react-map-gl/maplibre';
+import LegendControl from 'mapboxgl-legend';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import 'mapboxgl-legend/dist/style.css';
+import '../index.css';
 
-const MapDisplay = () => {
+const layerConf = {
+	'MPD': {
+		id: 'MPD',
+	    type: 'line',
+	    paint: {
+	        'line-color': 'red',
+	        'line-opacity': 0.8,
+	        'line-width': 3
+	    }
+	}
+}
+
+const MapDisplay = (props) => {
+
+	const legend = new LegendControl({
+        layers: Object.keys(layerConf),
+        toggler: true
+    });
 
 	return (
-		<div className={'w-full h-[calc(100vh-113px)]'}>
+		<div className='fixed top-[113px] bottom-0 left-0 right-0'>
 			<Map
 		      initialViewState={{
 			      longitude: -98.4,
@@ -15,9 +35,35 @@ const MapDisplay = () => {
 			  }}
 		      style={{width: '100%', height: '100%'}}
 		      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
-		    />
+		    >
+		    	<LegendControlElement legend={legend}/>
+
+		    	{Object.keys(props.geojsonData).map((key) => {
+		    		let layerData = props.geojsonData[key]
+		    		return (
+		    			<Source key={key} id={key} type="geojson" data={layerData}>
+                          <Layer {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
+                        </Source>
+		    		)
+		    	})}
+		    	                
+
+		    </Map>
 		</div>
 	)
 }
+
+const LegendControlElement = (props) => {
+
+    useControl(() => props.legend, {
+        position: 'bottom-left',
+        onRemove: () => {console.log("remove")},
+        onAdd: () => {console.log("add")},
+        onCreate: () => {console.log("create")},
+    });
+
+    return null
+}
+
 
 export default MapDisplay
