@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { NavBar } from "@atkingtornado/wpc-navbar-reactjs";
 
@@ -9,9 +9,13 @@ import './App.css'
 
 function App() {
 
-  const dataURL = 'http://localhost:3001/' 
-
   const [geojsonData, setGeojsonData] = useState({})
+  const [dataURL, setDataURL] = useState('')
+
+  useEffect(() => {
+    const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" : window.location.href
+    setDataURL(tmpDataUrl)
+  },[])
 
   const handleMapDataChange = (newData) => {
     console.log(newData)

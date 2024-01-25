@@ -67,6 +67,7 @@ const SelectionMenu = (props) => {
             setDataIsFetching(false)
         })
         .catch(error => {
+        	console.log(error)
 	      	if(error.response.status === 404) {
 	      		setErrMsg("No MPD data for " + dateStr)
 	      	} else {

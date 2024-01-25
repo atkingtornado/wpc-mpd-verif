@@ -8,15 +8,12 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import 'mapboxgl-legend/dist/style.css';
 import '../index.css';
 
-
-
 const MapDisplay = (props) => {
 
 	const legend = new LegendControl({
         layers: Object.keys(layerConf),
         toggler: true
     });
-	console.log(legend)
 	return (
 		<div className='fixed top-[113px] bottom-0 left-0 right-0'>
 			<Map
