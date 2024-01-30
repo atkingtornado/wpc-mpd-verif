@@ -10,6 +10,7 @@ import Alert from '@mui/material/Alert';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Tooltip from '@mui/material/Tooltip';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
@@ -190,6 +191,8 @@ const SelectionMenu = (props) => {
 	    return num;
 	}
     const incrementMpd = (increment) => {
+    	setDataIsFetching(true)
+
     	let yrStr = null
 		let mpdNum = null
 
@@ -259,6 +262,13 @@ const SelectionMenu = (props) => {
 
 	return (
 		<>
+			{dataIsFetching ? 
+				<div className='fixed flex top-[223px] left-1/2 transform -translate-x-1/2 z-10' >
+					<CircularProgress />
+				</div>
+			:
+				null
+			}
 			<div className='flex relative ml-auto mr-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[220px] p-3 shadow-md'>
 				<div className='mb-2 text-center'>
 					<p className='text-white text-2xl font-bold'>MPD Verification</p>
