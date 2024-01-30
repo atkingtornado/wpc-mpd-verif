@@ -391,8 +391,8 @@ const MetadataDisplay = (props) => {
 			    }}
 				title="Previous MPD"
 	        >
-				<div onClick={()=>{props.incrementMpd(-1)}} className='cursor-pointer self-center text-white h-full mr-2'>
-					<Button disabled={props.dataIsFetching} style={{color: 'white'}}>
+				<div className='cursor-pointer self-center text-white h-full mr-2'>
+					<Button onClick={()=>{props.incrementMpd(-1)}} disabled={props.dataIsFetching} style={{color: 'white'}}>
         				<ChevronLeftIcon fontSize="large"/>
         			</Button>
 				</div>
@@ -428,8 +428,8 @@ const MetadataDisplay = (props) => {
 			    }}
 			    title="Next MPD"
 			>
-				<div onClick={()=>{props.incrementMpd(1)}} className='cursor-pointer self-center text-white h-full ml-2'>
-					<Button disabled={props.dataIsFetching} style={{color: 'white'}}>
+				<div className='cursor-pointer self-center text-white h-full ml-2'>
+					<Button onClick={()=>{props.incrementMpd(1)}} disabled={props.dataIsFetching} style={{color: 'white'}}>
 						<ChevronRightIcon fontSize="large"/>
 					</Button>
 				</div>
