@@ -9,9 +9,25 @@ import 'mapboxgl-legend/dist/style.css';
 import '../index.css';
 
 const MapDisplay = (props) => {
+	const layerIDs = Object.keys(layerConf)
+
+	let layersObj = {}
+	layerIDs.forEach((layerID) => {
+		// Default to collapsed in legend
+		if(layerID === 'StageIV') {
+			layersObj[layerID] = {
+				collapsed: true
+			}
+		} else {
+			layersObj[layerID] = true
+		}	
+		
+	})
+
+	console.log(layersObj)
 
 	const legend = new LegendControl({
-        layers: Object.keys(layerConf),
+        layers: layersObj,
         toggler: true
     });
 	return (
@@ -27,14 +43,18 @@ const MapDisplay = (props) => {
 		    >
 		    	<LegendControlElement legend={legend}/>
 
-		    	{Object.keys(props.geojsonData).map((key) => {
+		    	{props.geojsonData !== null ? 
+		    		Object.keys(props.geojsonData).map((key) => {
 		    		let layerData = props.geojsonData[key]
 		    		return (
 		    			<Source key={key} id={key} type="geojson" data={layerData}>
                           <Layer {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
                         </Source>
 		    		)
-		    	})}
+		    	})
+		    	:
+		    		null
+		    	}
 		    	                
 
 		    </Map>

@@ -9,7 +9,7 @@ import './App.css'
 
 function App() {
 
-  const [geojsonData, setGeojsonData] = useState({})
+  const [geojsonData, setGeojsonData] = useState(null)
   const [dataURL, setDataURL] = useState('')
 
   useEffect(() => {

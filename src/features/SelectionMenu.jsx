@@ -7,6 +7,9 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import Tooltip from '@mui/material/Tooltip';
 
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
@@ -126,8 +129,12 @@ const SelectionMenu = (props) => {
 
 		  	if(result.status === 'fulfilled'){
 		  		tmpGeojsonData[productID] = result.value.data
-			  	if(productID === "MPD" && 'metadata' in result.value.data){
-			  		setMpdMetadata(result.value.data['metadata'])
+			  	if(productID === "MPD"){
+			  		if('metadata' in result.value.data){
+			  			setMpdMetadata(result.value.data['metadata'])
+			  		} else {
+			  			setMpdMetadata(null)
+			  		}
 			  	}
 		  	} else {
 		  		allErrors.push(productID)
@@ -149,7 +156,6 @@ const SelectionMenu = (props) => {
 		  }
 
 		});
-
 	}
 	
 	const genYearsArray = () => {
@@ -178,16 +184,84 @@ const SelectionMenu = (props) => {
     	}
     }
 
+    const padMpdNum = (num, size) => {
+	    num = num.toString();
+	    while (num.length < size) num = "0" + num;
+	    return num;
+	}
+    const incrementMpd = (increment) => {
+    	let yrStr = null
+		let mpdNum = null
+
+		if (searchByNumber) {
+			yrStr = yearSelection['value']
+			mpdNum = mpdNumberValue['value']
+		} else {
+			let dateStr = mpdDate.toISOString().substring(0, 10)
+			dateStr = dateStr.replaceAll('-','')
+			yrStr = dateStr.substring(0, 4)
+
+			mpdNum = selectedMpd['value']
+		}
+
+		mpdNum = padMpdNum(Math.abs(parseInt(mpdNum) + increment), 4)
+
+		setYearSelection(createOption(yrStr))
+		setMpdNumberValue(createOption(mpdNum))
+    	setSearchByNumber(true)
+
+
+    	let tmpGeojsonData = {}
+		let allErrors = []
+		let allPromises = []
+		Object.keys(layerConf).forEach((productID) => {
+			allPromises.push(fetchGeojsonData(productID, yrStr, mpdNum))
+		})
+
+		Promise.allSettled(allPromises).then((results) => {
+		  results.forEach((result, i) => {
+		  	let productID = Object.keys(layerConf)[i]
+
+		  	if(result.status === 'fulfilled'){
+		  		tmpGeojsonData[productID] = result.value.data
+			  	if(productID === "MPD"){
+			  		if('metadata' in result.value.data){
+			  			setMpdMetadata(result.value.data['metadata'])
+			  		} else {
+			  			setMpdMetadata(null)
+			  		}
+			  	}
+		  	} else {
+		  		allErrors.push(productID)
+		  	}
+
+		  })
+
+
+		  props.handleMapDataChange(tmpGeojsonData)
+		  setDataLoadErrMsg(null)
+		  setErrMsg(null)
+		  setDataIsFetching(false)
+
+		  console.log(allErrors.toString())
+		  if(allErrors.length !== 0) {
+		  	setDataLoadErrMsg('Error loading data for: ' + allErrors.toString())
+		  } else {
+		  	setDataLoadErrMsg(null)
+		  }
+
+		});
+    }
+
     const components = {
 	  DropdownIndicator: null,
 	};	
-
 
 	return (
 		<>
 			<div className='flex relative ml-auto mr-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[220px] p-3 shadow-md'>
 				<div className='mb-2 text-center'>
-					<p className='text-white text-2xl'>MPD Verification</p>
+					<p className='text-white text-2xl font-bold'>MPD Verification</p>
 				</div>
 				<Divider/>
 
@@ -270,8 +344,8 @@ const SelectionMenu = (props) => {
 				}
 			</div>
 
-			{mpdMetadata !== null ?
-				<MetadataDisplay mpdMetadata={mpdMetadata}/>
+			{props.geojsonData !== null ?
+				<MetadataDisplay dataIsFetching={dataIsFetching} mpdMetadata={mpdMetadata} incrementMpd={incrementMpd}/>
 			:
 				null
 			}
@@ -290,19 +364,66 @@ const SelectionMenu = (props) => {
 
 const MetadataDisplay = (props) => {
 
-	console.log(props.mpdMetadata)
-
 	return (
-		<div className='fixed top-[133px] rounded bg-slate-900/60 p-2 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
-			<p className='text-white text-center text-lg'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
-			<p className='text-white text-xs'>
-				<span className='underline mr-2'><b>Valid Start:</b></span> 
-				<span className='float-right'>{props.mpdMetadata['valid_start']}</span> 
-			</p>
-			<p className='text-white text-xs'>
-				<span className='underline mr-2'><b>Valid End:</b></span> 
-				<span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
-			</p>
+		<div className='fixed flex top-[133px] rounded bg-slate-900/60 p-2 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
+			<Tooltip 
+				slotProps={{
+			        popper: {
+			          modifiers: [
+			            {
+			              name: 'offset',
+			              options: {
+			                offset: [0, 20],
+			              },
+			            },
+			          ],
+			        },
+			    }}
+				title="Previous MPD"
+	        >
+				<div onClick={()=>{props.incrementMpd(-1)}} className='cursor-pointer self-center text-white h-full mr-2'>
+					<Button disabled={props.dataIsFetching} style={{color: 'white'}}>
+        				<ChevronLeftIcon fontSize="large"/>
+        			</Button>
+				</div>
+			</Tooltip>
+			{ props.mpdMetadata !== null ?
+				<div className='h-full'>
+					<p className='text-white text-center text-lg'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
+					<p className='text-white text-xs'>
+						<span className='underline mr-2'><b>Valid Start:</b></span> 
+						<span className='float-right'>{props.mpdMetadata['valid_start']}</span> 
+					</p>
+					<p className='text-white text-xs'>
+						<span className='underline mr-2'><b>Valid End:</b></span> 
+						<span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
+					</p>
+				</div>
+			:
+				null
+			}
+
+			<Tooltip 
+				slotProps={{
+			        popper: {
+			          modifiers: [
+			            {
+			              name: 'offset',
+			              options: {
+			                offset: [0, 20],
+			              },
+			            },
+			          ],
+			        },
+			    }}
+			    title="Next MPD"
+			>
+				<div onClick={()=>{props.incrementMpd(1)}} className='cursor-pointer self-center text-white h-full ml-2'>
+					<Button disabled={props.dataIsFetching} style={{color: 'white'}}>
+						<ChevronRightIcon fontSize="large"/>
+					</Button>
+				</div>
+			</Tooltip>
 		</div>
 	)
 }
