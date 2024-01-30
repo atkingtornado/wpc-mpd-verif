@@ -28,6 +28,8 @@ const SelectionMenu = (props) => {
 	const [mpdOptions, setMpdOptions] = useState(null);
 	const [selectedMpd, setSelectedMpd] = useState(null);
 
+	const [mpdMetadata, setMpdMetadata] = useState(null)
+
 	const [errMsg, setErrMsg] = useState(null);
 	const [dataLoadErrMsg, setDataLoadErrMsg] = useState(null);
 	const [dataIsFetching, setDataIsFetching] = useState(false);
@@ -83,26 +85,15 @@ const SelectionMenu = (props) => {
 		if(productID === 'MPD'){
 			jsonFile = 'MPD_contour_' + yrStr + '_' + mpdNum + '.geojson'
 		} else {
-			if(productID === 'FFW'){
+			if(productID === 'FFW' || productID === 'StageIV'){
 				jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
 			} else {
 				jsonFile = productID + '_20km_' + yrStr + '_' + mpdNum + '.geojson'
 			}
 			
 		}
-		return (
-			axios.get(props.dataURL + yrStr + '/' + productID + '/' + jsonFile)
-	        // .then(response => {
-	        // 	tmpGeojsonData[productID] = response.data
 
-	        // 	props.handleMapDataChange(tmpGeojsonData)
-	        //     setDataLoadErrMsg(null)
-	        //     setDataIsFetching(false)
-	        // })
-	        // .catch(error => {
-	        // 	console.log(error)
-		    // });
-		)
+		return axios.get(props.dataURL + yrStr + '/' + productID + '/' + jsonFile)
 	}
 
 	const handleSubmit = () => {
@@ -135,13 +126,19 @@ const SelectionMenu = (props) => {
 
 		  	if(result.status === 'fulfilled'){
 		  		tmpGeojsonData[productID] = result.value.data
+			  	if(productID === "MPD" && 'metadata' in result.value.data){
+			  		setMpdMetadata(result.value.data['metadata'])
+			  	}
 		  	} else {
 		  		allErrors.push(productID)
 		  	}
+
 		  })
-		  console.log(tmpGeojsonData)
+
 
 		  props.handleMapDataChange(tmpGeojsonData)
+		  setDataLoadErrMsg(null)
+		  setErrMsg(null)
 		  setDataIsFetching(false)
 
 		  console.log(allErrors.toString())
@@ -273,6 +270,12 @@ const SelectionMenu = (props) => {
 				}
 			</div>
 
+			{mpdMetadata !== null ?
+				<MetadataDisplay mpdMetadata={mpdMetadata}/>
+			:
+				null
+			}
+
 			{dataLoadErrMsg !== null ?
 				<div className='fixed bottom-5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10'>
 					<Alert severity="error">{dataLoadErrMsg}</Alert>
@@ -282,6 +285,25 @@ const SelectionMenu = (props) => {
 			} 
 
 		</>
+	)
+}
+
+const MetadataDisplay = (props) => {
+
+	console.log(props.mpdMetadata)
+
+	return (
+		<div className='fixed top-[133px] rounded bg-slate-900/60 p-2 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
+			<p className='text-white text-center text-lg'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
+			<p className='text-white text-xs'>
+				<span className='underline mr-2'><b>Valid Start:</b></span> 
+				<span className='float-right'>{props.mpdMetadata['valid_start']}</span> 
+			</p>
+			<p className='text-white text-xs'>
+				<span className='underline mr-2'><b>Valid End:</b></span> 
+				<span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
+			</p>
+		</div>
 	)
 }
 

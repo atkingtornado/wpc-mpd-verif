@@ -18,7 +18,6 @@ function App() {
   },[])
 
   const handleMapDataChange = (newData) => {
-    console.log(newData)
     setGeojsonData(newData)
   }
 
