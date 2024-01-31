@@ -170,8 +170,8 @@ const layerConf = {
 			'visibility': 'none'
 		},
         paint: {
-            'fill-color': 'blue',
-            'fill-opacity': 0.5
+            'fill-color': '#00FF00',
+            'fill-opacity': 0.3
         }
     },
     'LSRFLASH': {

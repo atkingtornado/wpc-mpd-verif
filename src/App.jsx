@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import {MapProvider, Map, useMap} from 'react-map-gl/maplibre';
 
 import { NavBar } from "@atkingtornado/wpc-navbar-reactjs";
 
@@ -23,21 +24,23 @@ function App() {
 
   return (
     <>
-      <div className="App">
-        <div className="relative">
-          <div className="z-50 relative">
-            <NavBar/>
+      <MapProvider>
+        <div className="App">
+          <div className="relative">
+            <div className="z-50 relative">
+              <NavBar/>
+            </div>
+            <SelectionMenu 
+              geojsonData={geojsonData} 
+              handleMapDataChange={handleMapDataChange} 
+              dataURL={dataURL}
+            />
+            <MapDisplay
+              geojsonData={geojsonData}
+            />
           </div>
-          <SelectionMenu 
-            geojsonData={geojsonData} 
-            handleMapDataChange={handleMapDataChange} 
-            dataURL={dataURL}
-          />
-          <MapDisplay
-            geojsonData={geojsonData}
-          />
         </div>
-      </div>
+      </MapProvider>
     </>
   )
 }
