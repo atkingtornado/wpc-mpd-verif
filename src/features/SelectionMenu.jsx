@@ -62,8 +62,8 @@ const SelectionMenu = (props) => {
 
 		axios.get(props.dataURL + yrStr + '/' + 'MPD_nums_valid_' + dateStr + '.json')
         .then(response => {
-
-            const tmpOptions = response.data['valid_mpds'].map((mpdNum) => {
+        	console.log(response.data['mpd_nums:'])
+            const tmpOptions = response.data['mpd_nums:'].map((mpdNum) => {
             	return createOption(mpdNum)
             })
 
@@ -87,7 +87,7 @@ const SelectionMenu = (props) => {
 	const fetchGeojsonData = async (productID, yrStr, mpdNum) => {
 		let jsonFile = ''
 		if(productID === 'MPD'){
-			jsonFile = 'MPD_contour_' + yrStr + '_' + mpdNum + '.geojson'
+			jsonFile = 'MPD_contour_META_' + yrStr + '_' + mpdNum + '.geojson'
 		} else {
 			if(productID === 'FFW' || productID === 'StageIV'){
 				jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
