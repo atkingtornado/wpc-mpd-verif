@@ -262,7 +262,7 @@ const SelectionMenu = (props) => {
 	return (
 		<>
 			{dataIsFetching ? 
-				<div className='fixed flex top-1/2 left-1/2 z-10' >
+				<div className='fixed flex top-1/2 left-1/2 z-10 transform -translate-y-[-40px] z-20' >
 					<CircularProgress />
 				</div>
 			:
