@@ -62,8 +62,7 @@ const SelectionMenu = (props) => {
 
 		axios.get(props.dataURL + yrStr + '/' + 'MPD_nums_valid_' + dateStr + '.json')
         .then(response => {
-        	console.log(response.data['mpd_nums:'])
-            const tmpOptions = response.data['mpd_nums:'].map((mpdNum) => {
+            const tmpOptions = response.data['mpd_nums'].map((mpdNum) => {
             	return createOption(mpdNum)
             })
 
@@ -87,7 +86,7 @@ const SelectionMenu = (props) => {
 	const fetchGeojsonData = async (productID, yrStr, mpdNum) => {
 		let jsonFile = ''
 		if(productID === 'MPD'){
-			jsonFile = 'MPD_contour_META_' + yrStr + '_' + mpdNum + '.geojson'
+			jsonFile = 'MPD_contour_' + yrStr + '_' + mpdNum + '.geojson'
 		} else {
 			if(productID === 'FFW' || productID === 'StageIV'){
 				jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
@@ -375,7 +374,7 @@ const SelectionMenu = (props) => {
 const MetadataDisplay = (props) => {
 
 	return (
-		<div className='fixed flex top-[133px] rounded bg-slate-900/60 p-2 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
+		<div className='fixed flex top-[133px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
 			<Tooltip 
 				slotProps={{
 			        popper: {
@@ -391,7 +390,7 @@ const MetadataDisplay = (props) => {
 			    }}
 				title="Previous MPD"
 	        >
-				<div className='cursor-pointer self-center text-white h-full mr-2'>
+				<div className='cursor-pointer self-center text-white h-full'>
 					<Button onClick={()=>{props.incrementMpd(-1)}} disabled={props.dataIsFetching} style={{color: 'white'}}>
         				<ChevronLeftIcon fontSize="large"/>
         			</Button>
@@ -401,12 +400,33 @@ const MetadataDisplay = (props) => {
 				<div className='h-full'>
 					<p className='text-white text-center text-lg'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
 					<p className='text-white text-xs'>
-						<span className='underline mr-2'><b>Valid Start:</b></span> 
+						<span className='underline mr-2 font-bold'>Valid Start:</span> 
 						<span className='float-right'>{props.mpdMetadata['valid_start']}</span> 
 					</p>
-					<p className='text-white text-xs'>
-						<span className='underline mr-2'><b>Valid End:</b></span> 
+					<p className='text-white text-xs mb-2'>
+						<span className='underline mr-2 font-bold'>Valid End:</span> 
 						<span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
+					</p>
+					<Divider><p className='text-white font-bold text-sm'>Statistics</p></Divider>
+					<p className='text-white text-xs'>
+						<span className='mr-2 font-bold'>Fr Cov:</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['FCOV']).toFixed(3)}</span> 
+					</p>
+					<p className='text-white text-xs'>
+						<span className='mr-2 font-bold'>CSI Value:</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['CSI']).toFixed(3)}</span> 
+					</p>
+					<p className='text-white text-xs'>
+						<span className='mr-2 font-bold'>Interest:</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['INTEREST']).toFixed(5)}</span> 
+					</p>
+					<p className='text-white text-xs'>
+						<span className='mr-2 font-bold'>Centroid Distance:</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['CENTROID_DIST']).toFixed(5)}</span> 
+					</p>
+					<p className='text-white text-xs'>
+						<span className='mr-2 font-bold'>GSS:</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['GSS']).toFixed(5)}</span> 
 					</p>
 				</div>
 			:
@@ -428,7 +448,7 @@ const MetadataDisplay = (props) => {
 			    }}
 			    title="Next MPD"
 			>
-				<div className='cursor-pointer self-center text-white h-full ml-2'>
+				<div className='cursor-pointer self-center text-white h-full'>
 					<Button onClick={()=>{props.incrementMpd(1)}} disabled={props.dataIsFetching} style={{color: 'white'}}>
 						<ChevronRightIcon fontSize="large"/>
 					</Button>
