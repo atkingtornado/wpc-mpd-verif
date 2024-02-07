@@ -376,18 +376,7 @@ const MetadataDisplay = (props) => {
 	return (
 		<div className='fixed flex top-[133px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
 			<Tooltip 
-				slotProps={{
-			        popper: {
-			          modifiers: [
-			            {
-			              name: 'offset',
-			              options: {
-			                offset: [0, 20],
-			              },
-			            },
-			          ],
-			        },
-			    }}
+				placement="left"
 				title="Previous MPD"
 	        >
 				<div className='cursor-pointer self-center text-white h-full'>
@@ -434,18 +423,7 @@ const MetadataDisplay = (props) => {
 			}
 
 			<Tooltip 
-				slotProps={{
-			        popper: {
-			          modifiers: [
-			            {
-			              name: 'offset',
-			              options: {
-			                offset: [0, 20],
-			              },
-			            },
-			          ],
-			        },
-			    }}
+				placement="right"
 			    title="Next MPD"
 			>
 				<div className='cursor-pointer self-center text-white h-full'>
