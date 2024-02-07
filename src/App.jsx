@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import {MapProvider, Map, useMap} from 'react-map-gl/maplibre';
+import Alert from '@mui/material/Alert';
 
 import { NavBar } from "@atkingtornado/wpc-navbar-reactjs";
 
@@ -30,6 +31,7 @@ function App() {
             <div className="z-50 relative">
               <NavBar/>
             </div>
+            <Alert className="z-20 relative flex justify-center" severity="error">****THIS IS A PROTOTYPE WEBSITE****</Alert>
             <SelectionMenu 
               geojsonData={geojsonData} 
               handleMapDataChange={handleMapDataChange} 

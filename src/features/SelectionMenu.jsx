@@ -374,7 +374,7 @@ const SelectionMenu = (props) => {
 const MetadataDisplay = (props) => {
 
 	return (
-		<div className='fixed flex top-[133px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
+		<div className='fixed flex top-[181px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
 			<Tooltip 
 				placement="left"
 				title="Previous MPD"
