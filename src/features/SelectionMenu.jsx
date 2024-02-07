@@ -387,7 +387,7 @@ const MetadataDisplay = (props) => {
 			</Tooltip>
 			{ props.mpdMetadata !== null ?
 				<div className='h-full'>
-					<p className='text-white text-center text-lg'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
+					<p className='text-white text-center text-xl p-1'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
 					<p className='text-white text-xs'>
 						<span className='underline mr-2 font-bold'>Valid Start:</span> 
 						<span className='float-right'>{props.mpdMetadata['valid_start']}</span> 
@@ -396,7 +396,7 @@ const MetadataDisplay = (props) => {
 						<span className='underline mr-2 font-bold'>Valid End:</span> 
 						<span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
 					</p>
-					<Divider><p className='text-white font-bold text-sm'>Statistics</p></Divider>
+					<Divider><p className='text-white font-bold text-sm underline'>Statistics</p></Divider>
 					<p className='text-white text-xs'>
 						<span className='mr-2 font-bold'>Fr Cov:</span> 
 						<span className='float-right'>{parseFloat(props.mpdMetadata['FCOV']).toFixed(3)}</span> 
@@ -407,15 +407,15 @@ const MetadataDisplay = (props) => {
 					</p>
 					<p className='text-white text-xs'>
 						<span className='mr-2 font-bold'>Interest:</span> 
-						<span className='float-right'>{parseFloat(props.mpdMetadata['INTEREST']).toFixed(5)}</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['INTEREST']).toFixed(3)}</span> 
 					</p>
 					<p className='text-white text-xs'>
 						<span className='mr-2 font-bold'>Centroid Distance:</span> 
-						<span className='float-right'>{parseFloat(props.mpdMetadata['CENTROID_DIST']).toFixed(5)}</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['CENTROID_DIST']).toFixed(3)}</span> 
 					</p>
 					<p className='text-white text-xs'>
 						<span className='mr-2 font-bold'>GSS:</span> 
-						<span className='float-right'>{parseFloat(props.mpdMetadata['GSS']).toFixed(5)}</span> 
+						<span className='float-right'>{parseFloat(props.mpdMetadata['GSS']).toFixed(3)}</span> 
 					</p>
 				</div>
 			:
