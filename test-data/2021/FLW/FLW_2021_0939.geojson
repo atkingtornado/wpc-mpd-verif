@@ -1,0 +1,69 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -95.08,
+              37.84
+            ],
+            [
+              -95.08,
+              38.04
+            ],
+            [
+              -94.61,
+              38.04
+            ],
+            [
+              -94.61,
+              38.06
+            ],
+            [
+              -94.45,
+              38.06
+            ],
+            [
+              -94.45,
+              37.83
+            ],
+            [
+              -95.08,
+              37.84
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "SGF",
+        "ISSUED": "",
+        "EXPIRED": "202109041045",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109041045",
+        "PHENOM": "FF",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "84",
+        "STATUS": "EXP",
+        "NWS_UGC": "",
+        "AREA_KM2": 1289.4565132437133,
+        "UPDATED": "202109041047",
+        "HV_NWSLI": "00000",
+        "HV_SEV": "0",
+        "HV_CAUSE": "ER",
+        "HV_REC": "OO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109041047",
+        "POLY_END": "202109041045",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    }
+  ]
+}
