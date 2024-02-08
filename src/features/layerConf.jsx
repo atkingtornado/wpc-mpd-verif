@@ -158,8 +158,8 @@ const layerConf = {
 			'visibility': 'none'
 		},
         paint: {
-            'fill-color': 'blue',
-            'fill-opacity': 0.5
+            'circle-color': 'blue',
+            'circle-opacity': 0.5
         }
     },
     'FFW': {
