@@ -152,7 +152,7 @@ const layerConf = {
     },
     'ST4gFFG': {
     	id: 'ST4gFFG',
-        type: 'fill',
+        type: 'circle',
         layout: {
 			// Make the layer invisible by default.
 			'visibility': 'none'
