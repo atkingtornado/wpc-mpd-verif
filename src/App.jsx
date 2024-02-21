@@ -15,7 +15,8 @@ function App() {
   const [dataURL, setDataURL] = useState('')
 
   useEffect(() => {
-    const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" : window.location.href
+    //const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" : "https://www.wpc.ncep.noaa.gov/verification/mpd_verif/"
+    const tmpDataUrl = "https://www.wpc.ncep.noaa.gov/verification/mpd_verif/"
     setDataURL(tmpDataUrl)
   },[])
 
