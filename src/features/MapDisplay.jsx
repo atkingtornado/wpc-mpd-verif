@@ -52,7 +52,7 @@ const MapDisplay = (props) => {
         toggler: true
     });
 	return (
-		<div className='fixed top-[113px] bottom-0 left-0 right-0'>
+		<div className='fixed top-[160px] bottom-0 left-0 right-0'>
 			<Map
 		      {...viewState}
 		      id="map"
@@ -62,31 +62,34 @@ const MapDisplay = (props) => {
 		    >
 		    	<LegendControlElement legend={legend}/>
 
-		    	<Source id="cwa_bounds" type="vector" tiles={["http://localhost:3001/overlays/cwa_bounds/{z}/{x}/{y}.pbf"]}>
+		    	
+
+		    	{props.geojsonData !== null ? 
+			    	<>
+			    		<Source id="cwa_bounds" type="vector" tiles={[props.dataURL + "overlays/cwa_bounds/{z}/{x}/{y}.pbf"]}>
                   <Layer {...staticLayerConf["cwa_bounds"]} metadata={{name: "CWA Boundries", labels:{other:false}}}/>
                 </Source>
 
-               <Source id="rfc_bounds" type="vector" tiles={["http://localhost:3001/overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
+               	<Source id="rfc_bounds" type="vector" tiles={[props.dataURL + "overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
                   <Layer {...staticLayerConf["rfc_bounds"]} metadata={{name: "RFC Boundries", labels:{other:false}}}/>
                 </Source>
 
-                <Source id="county_bounds" type="vector" tiles={["http://localhost:3001/overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
+                <Source id="county_bounds" type="vector" tiles={[props.dataURL + "overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
                   <Layer {...staticLayerConf["county_bounds"]} metadata={{name: "County Boundries", labels:{other:false}}}/>
                 </Source>
 
-                <Source id="FEMA_regions" type="vector" tiles={["http://localhost:3001/overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
+                <Source id="FEMA_regions" type="vector" tiles={[props.dataURL + "overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
                   <Layer {...staticLayerConf["FEMA_regions"]} metadata={{name: "FEMA Regions", labels:{other:false}}}/>
                 </Source>
-
-		    	{props.geojsonData !== null ? 
-		    		Object.keys(props.geojsonData).map((key) => {
-			    		let layerData = props.geojsonData[key]
-			    		return (
-			    			<Source key={key} id={key} type="geojson" data={layerData}>
-	                          <Layer source {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
-	                        </Source>
-			    		)
-		    		})
+			    		{Object.keys(props.geojsonData).map((key) => {
+				    		let layerData = props.geojsonData[key]
+				    		return (
+				    			<Source key={key} id={key} type="geojson" data={layerData}>
+		                          <Layer source {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
+		                        </Source>
+				    		)
+			    		})}
+			    	</>
 		    	:
 		    		null
 		    	}

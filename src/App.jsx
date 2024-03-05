@@ -39,6 +39,7 @@ function App() {
               dataURL={dataURL}
             />
             <MapDisplay
+              dataURL={dataURL}
               geojsonData={geojsonData}
             />
           </div>
