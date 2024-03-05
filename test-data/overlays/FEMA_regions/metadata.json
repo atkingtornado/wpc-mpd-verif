@@ -1,0 +1,16 @@
+{
+"name": "FEMA_regions",
+"description": "FEMA_regions",
+"version": "2",
+"minzoom": "0",
+"maxzoom": "7",
+"center": "-77.343750,37.710240,7",
+"bounds": "-179.168567,17.881241,179.748709,71.389610",
+"antimeridian_adjusted_bounds": "172.226957,17.881241,294.778893,71.389610",
+"type": "overlay",
+"strategies": "[{\"tiny_polygons\":8},{\"tiny_polygons\":10},{\"tiny_polygons\":14},{\"tiny_polygons\":19},{\"tiny_polygons\":30},{\"tiny_polygons\":38},{\"tiny_polygons\":52},{\"tiny_polygons\":81}]",
+"format": "pbf",
+"generator": "tippecanoe v2.49.0",
+"generator_options": "tippecanoe --no-tile-compression -z7 --output-to-directory FEMA_regions --drop-densest-as-needed FEMA_Regions.geojson",
+"json": "{\"vector_layers\":[{\"id\":\"FEMA_Regions\",\"description\":\"\",\"minzoom\":0,\"maxzoom\":7,\"fields\":{\"CNT_REGION\":\"Number\",\"OBJECTID\":\"Number\",\"REGION\":\"String\",\"RuleID\":\"Number\",\"Shape_Area\":\"Number\",\"Shape_Leng\":\"Number\"}}],\"tilestats\":{\"layerCount\":1,\"layers\":[{\"layer\":\"FEMA_Regions\",\"count\":10,\"geometry\":\"Polygon\",\"attributeCount\":6,\"attributes\":[{\"attribute\":\"CNT_REGION\",\"count\":5,\"type\":\"number\",\"values\":[3,4,5,6,8],\"min\":3,\"max\":8},{\"attribute\":\"OBJECTID\",\"count\":10,\"type\":\"number\",\"values\":[1,10,11,2,3,4,5,7,8,9],\"min\":1,\"max\":11},{\"attribute\":\"REGION\",\"count\":10,\"type\":\"string\",\"values\":[\"REGION I\",\"REGION II\",\"REGION III\",\"REGION IV\",\"REGION IX\",\"REGION V\",\"REGION VI\",\"REGION VII\",\"REGION VIII\",\"REGION X\"]},{\"attribute\":\"RuleID\",\"count\":10,\"type\":\"number\",\"values\":[1,10,2,3,4,5,6,7,8,9],\"min\":1,\"max\":10},{\"attribute\":\"Shape_Area\",\"count\":10,\"type\":\"number\",\"values\":[101.933956038,138.650740148,16.6720371957,168.482898674,19.0999478258,32.7732377896,352.023674288,78.0912260549,94.8561937565,95.5689425108],\"min\":16.6720371957,\"max\":352.023674288},{\"attribute\":\"Shape_Leng\",\"count\":10,\"type\":\"number\",\"values\":[1160.03638138,129.444297967,152.233790233,176.372194187,209.810972414,428.810972678,471.324787591,51.3180180891,83.6081105791,94.2020567973],\"min\":51.3180180891,\"max\":1160.03638138}]}]}}"
+}

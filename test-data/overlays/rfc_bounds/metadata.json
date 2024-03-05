@@ -1,0 +1,16 @@
+{
+"name": "rfc_bounds",
+"description": "rfc_bounds",
+"version": "2",
+"minzoom": "0",
+"maxzoom": "7",
+"center": "-133.593750,56.551547,7",
+"bounds": "-179.133163,13.232306,179.788025,71.398094",
+"antimeridian_adjusted_bounds": "144.615856,13.232306,293.050201,71.398094",
+"type": "overlay",
+"strategies": "[{\"tiny_polygons\":10},{\"tiny_polygons\":11},{\"tiny_polygons\":14},{\"tiny_polygons\":15},{\"tiny_polygons\":13},{\"tiny_polygons\":12},{\"tiny_polygons\":9},{\"tiny_polygons\":13}]",
+"format": "pbf",
+"generator": "tippecanoe v2.49.0",
+"generator_options": "tippecanoe --no-tile-compression -z7 --output-to-directory rfc_bounds --drop-densest-as-needed rfc_bounds.geojson",
+"json": "{\"vector_layers\":[{\"id\":\"rfc_bounds\",\"description\":\"\",\"minzoom\":0,\"maxzoom\":7,\"fields\":{\"BASIN_ID\":\"String\",\"OBJECTID\":\"Number\",\"RFC_CITY\":\"String\",\"RFC_NAME\":\"String\",\"SITE_ID\":\"String\",\"STATE\":\"String\"}}],\"tilestats\":{\"layerCount\":1,\"layers\":[{\"layer\":\"rfc_bounds\",\"count\":13,\"geometry\":\"Polygon\",\"attributeCount\":6,\"attributes\":[{\"attribute\":\"BASIN_ID\",\"count\":13,\"type\":\"string\",\"values\":[\"ABRFC\",\"AKRFC\",\"CBRFC\",\"CNRFC\",\"LMRFC\",\"MARFC\",\"MBRFC\",\"NCRFC\",\"NERFC\",\"NWRFC\",\"OHRFC\",\"SERFC\",\"WGRFC\"]},{\"attribute\":\"OBJECTID\",\"count\":13,\"type\":\"number\",\"values\":[1,10,11,12,13,2,3,4,5,6,7,8,9],\"min\":1,\"max\":13},{\"attribute\":\"RFC_CITY\",\"count\":13,\"type\":\"string\",\"values\":[\"Anchorage\",\"Atlanta\",\"Boston\",\"Central Pennsylvania\",\"Cincinatti\",\"Dallas/Fort Worth\",\"Kansas City/Pleasant Hill\",\"Minneapolis\",\"New Orleans/Baton Rouge\",\"Portland\",\"Sacramento\",\"Salt Lake City\",\"Tulsa\"]},{\"attribute\":\"RFC_NAME\",\"count\":13,\"type\":\"string\",\"values\":[\"Alaska\",\"Arkansas-Red Basin\",\"California-Nevada\",\"Colorado Basin\",\"Lower Mississippi\",\"Middle Atlantic\",\"Missouri Basin\",\"North Central\",\"Northeast\",\"Northwest\",\"Ohio\",\"Southeast\",\"West Gulf\"]},{\"attribute\":\"SITE_ID\",\"count\":13,\"type\":\"string\",\"values\":[\"ACR\",\"ALR\",\"FWR\",\"KRF\",\"MSR\",\"ORN\",\"PTR\",\"RHA\",\"RSA\",\"STR\",\"TAR\",\"TIR\",\"TUA\"]},{\"attribute\":\"STATE\",\"count\":13,\"type\":\"string\",\"values\":[\"AK\",\"CA\",\"GA\",\"LA\",\"MA\",\"MN\",\"MO\",\"OH\",\"OK\",\"OR\",\"PA\",\"TX\",\"UT\"]}]}]}}"
+}

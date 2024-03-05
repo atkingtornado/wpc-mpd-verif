@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import Map, {Source, Layer, useMap, MapProvider, FullscreenControl, useControl} from 'react-map-gl/maplibre';
 import LegendControl from 'mapboxgl-legend';
 
-import layerConf from './layerConf';
+import layerConf, {staticLayerConf} from './layerConf';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 import 'mapboxgl-legend/dist/style.css';
 import '../index.css';
 
 const MapDisplay = (props) => {
-	const layerIDs = Object.keys(layerConf)
+	const layerIDs = Object.keys({...staticLayerConf, ...layerConf})
 	const [viewState, setViewState] = useState({
 		longitude: -98.4,
 		latitude: 39.5,
@@ -20,7 +20,6 @@ const MapDisplay = (props) => {
 
 	useEffect(() => {
 		if(props.geojsonData !==  null) {
-			console.log(props.geojsonData)
 			try{
 				let coordsArr = props.geojsonData['MPD'].features[0].geometry.coordinates
 				let coordMean = coordsArr.reduce((acc, cur) => {
@@ -38,7 +37,7 @@ const MapDisplay = (props) => {
 	let layersObj = {}
 	layerIDs.forEach((layerID) => {
 		// Default to collapsed in legend
-		if(layerID === 'StageIV') {
+		if(layerID === 'StageIV' || Object.keys(staticLayerConf).includes(layerID)) {
 			layersObj[layerID] = {
 				collapsed: true
 			}
@@ -63,15 +62,31 @@ const MapDisplay = (props) => {
 		    >
 		    	<LegendControlElement legend={legend}/>
 
+		    	<Source id="cwa_bounds" type="vector" tiles={["http://localhost:3001/overlays/cwa_bounds/{z}/{x}/{y}.pbf"]}>
+                  <Layer {...staticLayerConf["cwa_bounds"]} metadata={{name: "CWA Boundries", labels:{other:false}}}/>
+                </Source>
+
+               <Source id="rfc_bounds" type="vector" tiles={["http://localhost:3001/overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
+                  <Layer {...staticLayerConf["rfc_bounds"]} metadata={{name: "RFC Boundries", labels:{other:false}}}/>
+                </Source>
+
+                <Source id="county_bounds" type="vector" tiles={["http://localhost:3001/overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
+                  <Layer {...staticLayerConf["county_bounds"]} metadata={{name: "County Boundries", labels:{other:false}}}/>
+                </Source>
+
+                <Source id="FEMA_regions" type="vector" tiles={["http://localhost:3001/overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
+                  <Layer {...staticLayerConf["FEMA_regions"]} metadata={{name: "FEMA Regions", labels:{other:false}}}/>
+                </Source>
+
 		    	{props.geojsonData !== null ? 
 		    		Object.keys(props.geojsonData).map((key) => {
-		    		let layerData = props.geojsonData[key]
-		    		return (
-		    			<Source key={key} id={key} type="geojson" data={layerData}>
-                          <Layer {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
-                        </Source>
-		    		)
-		    	})
+			    		let layerData = props.geojsonData[key]
+			    		return (
+			    			<Source key={key} id={key} type="geojson" data={layerData}>
+	                          <Layer source {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
+	                        </Source>
+			    		)
+		    		})
 		    	:
 		    		null
 		    	}

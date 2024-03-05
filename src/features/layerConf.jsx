@@ -221,4 +221,63 @@ const layerConf = {
 	},
 }
 
+export const staticLayerConf = {
+    'FEMA_regions': {
+        id: 'FEMA_regions',
+        'source-layer': 'FEMA_Regions',
+        type: 'line',
+        layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+        },
+        paint: {
+            'line-color': 'black',
+            'line-opacity': 0.5,
+            'line-width': 1.5
+        }
+    },
+    'rfc_bounds': {
+        id: 'rfc_bounds',
+        'source-layer': 'rfc_bounds',
+        type: 'line',
+        layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+        },
+        paint: {
+            'line-color': 'black',
+            'line-opacity': 0.5,
+            'line-width': 1.5
+        }
+    },
+    'county_bounds': {
+        id: 'county_bounds',
+        'source-layer': 'county_bounds',
+        type: 'line',
+        layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+        },
+        paint: {
+            'line-color': 'black',
+            'line-opacity': 0.3,
+            'line-width': 0.5
+        }
+    },
+    'cwa_bounds': {
+        id: 'cwa_bounds',
+        'source-layer': 'cwa_bounds',
+        type: 'line',
+        layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+        },
+        paint: {
+            'line-color': 'black',
+            'line-opacity': 0.5,
+            'line-width': 1.5
+        }
+    }
+}
+
 export default layerConf
