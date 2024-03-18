@@ -54,7 +54,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109300752-KTWC-WGUS75-FFSTWC"
       }
     },
     {
@@ -110,7 +111,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109300608-KTWC-WGUS55-FFWTWC"
       }
     },
     {
@@ -166,7 +168,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109300950-KTWC-WGUS75-FFSTWC"
       }
     },
     {
@@ -222,7 +225,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109300651-KTWC-WGUS55-FFWTWC"
       }
     },
     {
@@ -898,7 +902,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109300608-KTWC-WGUS55-FFWTWC"
       }
     },
     {
@@ -1574,7 +1579,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109300651-KTWC-WGUS55-FFWTWC"
       }
     }
   ]

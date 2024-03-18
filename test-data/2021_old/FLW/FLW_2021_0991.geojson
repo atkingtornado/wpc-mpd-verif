@@ -1,0 +1,613 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.77,
+              30.98
+            ],
+            [
+              -88.72,
+              30.98
+            ],
+            [
+              -88.71,
+              30.82
+            ],
+            [
+              -88.64,
+              30.74
+            ],
+            [
+              -88.68,
+              30.74
+            ],
+            [
+              -88.79,
+              30.82
+            ],
+            [
+              -88.77,
+              30.98
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "202109200600",
+        "EXPIRED": "202109191350",
+        "INIT_ISS": "202109200600",
+        "INIT_EXP": "202109210000",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "89",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 161.33442164367062,
+        "UPDATED": "202109180201",
+        "HV_NWSLI": "MRRM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109180201",
+        "POLY_END": "202109181623",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.77,
+              30.98
+            ],
+            [
+              -88.72,
+              30.98
+            ],
+            [
+              -88.71,
+              30.82
+            ],
+            [
+              -88.64,
+              30.74
+            ],
+            [
+              -88.68,
+              30.74
+            ],
+            [
+              -88.79,
+              30.82
+            ],
+            [
+              -88.77,
+              30.98
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "202109200600",
+        "EXPIRED": "202109191350",
+        "INIT_ISS": "202109200600",
+        "INIT_EXP": "202109210000",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "89",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 161.33442164367062,
+        "UPDATED": "202109181623",
+        "HV_NWSLI": "MRRM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109181623",
+        "POLY_END": "202109190050",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.77,
+              30.98
+            ],
+            [
+              -88.72,
+              30.98
+            ],
+            [
+              -88.71,
+              30.82
+            ],
+            [
+              -88.64,
+              30.74
+            ],
+            [
+              -88.68,
+              30.74
+            ],
+            [
+              -88.79,
+              30.82
+            ],
+            [
+              -88.77,
+              30.98
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "202109200600",
+        "EXPIRED": "202109191350",
+        "INIT_ISS": "202109200600",
+        "INIT_EXP": "202109210000",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "89",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 161.33442164367062,
+        "UPDATED": "202109171537",
+        "HV_NWSLI": "MRRM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171537",
+        "POLY_END": "202109180201",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.14,
+              30.38
+            ],
+            [
+              -93.03,
+              30.31
+            ],
+            [
+              -93.08,
+              30.25
+            ],
+            [
+              -93.21,
+              30.19
+            ],
+            [
+              -93.29,
+              30.3
+            ],
+            [
+              -93.14,
+              30.38
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202110110318",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110110318",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "231",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 285.6146367401987,
+        "UPDATED": "202109200318",
+        "HV_NWSLI": "CWOL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200318",
+        "POLY_END": "202109201515",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -92.4,
+              30.57
+            ],
+            [
+              -92.35,
+              30.56
+            ],
+            [
+              -92.56,
+              30.19
+            ],
+            [
+              -92.6,
+              30.22
+            ],
+            [
+              -92.57,
+              30.45
+            ],
+            [
+              -92.4,
+              30.57
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202109211800",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109211800",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "233",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 405.165153907694,
+        "UPDATED": "202109200318",
+        "HV_NWSLI": "BDCL1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "UU",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200318",
+        "POLY_END": "202109201515",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -92.5,
+              30.62
+            ],
+            [
+              -92.56,
+              30.22
+            ],
+            [
+              -92.67,
+              30.22
+            ],
+            [
+              -92.69,
+              30.46
+            ],
+            [
+              -92.62,
+              30.61
+            ],
+            [
+              -92.5,
+              30.62
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202109212100",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109212100",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "238",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 586.6918548319201,
+        "UPDATED": "202109200318",
+        "HV_NWSLI": "BSLL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200318",
+        "POLY_END": "202109201515",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -92.55,
+              30.24
+            ],
+            [
+              -92.54,
+              30.19
+            ],
+            [
+              -92.6,
+              30.04
+            ],
+            [
+              -92.76,
+              30.04
+            ],
+            [
+              -92.66,
+              30.25
+            ],
+            [
+              -92.55,
+              30.24
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202109220000",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109220000",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "240",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 324.04908958631484,
+        "UPDATED": "202109200318",
+        "HV_NWSLI": "MRML1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200318",
+        "POLY_END": "202109201515",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -86.51,
+              35.17
+            ],
+            [
+              -86.5,
+              35.09
+            ],
+            [
+              -86.83,
+              35.03
+            ],
+            [
+              -86.83,
+              35.13
+            ],
+            [
+              -86.51,
+              35.17
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "HUN",
+        "ISSUED": "",
+        "EXPIRED": "202109210231",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109210231",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "20",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 298.3594877415619,
+        "UPDATED": "202109200830",
+        "HV_NWSLI": "FYTT1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200830",
+        "POLY_END": "202109201334",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -86.49,
+              34.76
+            ],
+            [
+              -86.38,
+              34.75
+            ],
+            [
+              -86.39,
+              34.61
+            ],
+            [
+              -86.47,
+              34.47
+            ],
+            [
+              -86.55,
+              34.54
+            ],
+            [
+              -86.49,
+              34.76
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "HUN",
+        "ISSUED": "",
+        "EXPIRED": "202109210638",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109210638",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "19",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 322.0427844667895,
+        "UPDATED": "202109200547",
+        "HV_NWSLI": "BSBA1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200547",
+        "POLY_END": "202109201017",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -86.49,
+              34.76
+            ],
+            [
+              -86.38,
+              34.75
+            ],
+            [
+              -86.39,
+              34.61
+            ],
+            [
+              -86.47,
+              34.47
+            ],
+            [
+              -86.55,
+              34.54
+            ],
+            [
+              -86.49,
+              34.76
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "HUN",
+        "ISSUED": "202109200600",
+        "EXPIRED": "202109201200",
+        "INIT_ISS": "202109200600",
+        "INIT_EXP": "202109201200",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "19",
+        "STATUS": "NEW",
+        "NWS_UGC": "",
+        "AREA_KM2": 322.0427844667895,
+        "UPDATED": "202109191327",
+        "HV_NWSLI": "BSBA1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109200600",
+        "POLY_END": "202109191850",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    }
+  ]
+}

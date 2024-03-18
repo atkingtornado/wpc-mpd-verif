@@ -54,7 +54,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090804-KALY-WGUS41-FLWALY"
       }
     },
     {
@@ -110,7 +111,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090432-KPHI-WGUS81-FLSPHI"
       }
     },
     {
@@ -174,7 +176,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090900-KDVN-WGUS83-FLSDVN"
       }
     },
     {
@@ -618,7 +621,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090804-KALY-WGUS41-FLWALY"
       }
     },
     {
@@ -926,7 +930,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090804-KALY-WGUS41-FLWALY"
       }
     }
   ]

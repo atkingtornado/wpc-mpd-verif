@@ -54,7 +54,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171426-KTBW-WGUS42-FLWTBW"
       }
     },
     {
@@ -118,7 +119,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181624-KMOB-WGUS84-FLSMOB"
       }
     },
     {
@@ -182,7 +184,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181625-KMOB-WGUS84-FLSMOB"
       }
     }
   ]

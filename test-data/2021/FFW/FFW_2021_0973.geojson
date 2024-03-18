@@ -94,7 +94,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109152236-KABQ-WGUS75-FFSABQ"
       }
     },
     {
@@ -166,7 +167,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109152220-KLWX-WGUS51-FFWLWX"
       }
     },
     {
@@ -234,7 +236,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109152343-KLWX-WGUS51-FFWLWX"
       }
     },
     {
@@ -310,7 +313,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109152322-KLWX-WGUS51-FFWLWX"
       }
     },
     {
@@ -402,7 +406,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109152241-KCTP-WGUS71-FFSCTP"
       }
     },
     {
@@ -494,7 +499,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109152318-KCTP-WGUS71-FFSCTP"
       }
     },
     {
@@ -1504,7 +1510,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109152220-KLWX-WGUS51-FFWLWX"
       }
     },
     {
@@ -2514,7 +2521,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109152322-KLWX-WGUS51-FFWLWX"
       }
     },
     {
@@ -3262,7 +3270,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109152322-KLWX-WGUS51-FFWLWX"
       }
     }
   ]

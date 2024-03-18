@@ -66,7 +66,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109280139-KFGZ-WGUS75-FFSFGZ"
       }
     },
     {
@@ -134,7 +135,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109280324-KFGZ-WGUS75-FFSFGZ"
       }
     },
     {
@@ -202,7 +204,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109280029-KFGZ-WGUS55-FFWFGZ"
       }
     },
     {
@@ -270,7 +273,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109280238-KFGZ-WGUS75-FFSFGZ"
       }
     },
     {
@@ -338,7 +342,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109280316-KFGZ-WGUS75-FFSFGZ"
       }
     },
     {
@@ -406,7 +411,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109280114-KFGZ-WGUS55-FFWFGZ"
       }
     },
     {
@@ -1710,7 +1716,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109280029-KFGZ-WGUS55-FFWFGZ"
       }
     },
     {
@@ -4282,7 +4289,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109280114-KFGZ-WGUS55-FFWFGZ"
       }
     }
   ]

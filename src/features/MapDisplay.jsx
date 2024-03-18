@@ -34,22 +34,40 @@ const MapDisplay = (props) => {
 		}
 	},[props.geojsonData])
 
+	const handleMapUpdate = (e) => {
+		if(props.loadFromQueryString) {
+			if ('overlay' in props.queryStringObj) {
+				let overlays = props.queryStringObj['overlay']
+				if (!Array.isArray(overlays)) {
+					overlays = [overlays]
+				}
+				overlays.forEach((overlayID) => {
+					if (map.getLayer(overlayID)) {
+						map.getMap().setLayoutProperty(overlayID, 'visibility', 'visible');
+					}
+				})
+			}
+			props.setLoadFromQueryString(false)
+		}
+	}
+
 	let layersObj = {}
-	layerIDs.forEach((layerID) => {
+	layerIDs.forEach((productID) => {
 		// Default to collapsed in legend
-		if(layerID === 'StageIV' || Object.keys(staticLayerConf).includes(layerID)) {
-			layersObj[layerID] = {
+		if(productID === 'FLW' || productID === 'FFW' || productID === 'StageIV' || Object.keys(staticLayerConf).includes(productID)) {
+			layersObj[productID] = {
 				collapsed: true
 			}
 		} else {
-			layersObj[layerID] = true
+			layersObj[productID] = true
 		}	
 		
 	})
 
 	const legend = new LegendControl({
         layers: layersObj,
-        toggler: true
+        toggler: true,
+        onToggle: (id, vis) => {console.log(id, vis)}
     });
 	return (
 		<div className='fixed top-[160px] bottom-0 left-0 right-0'>
@@ -57,36 +75,36 @@ const MapDisplay = (props) => {
 		      {...viewState}
 		      id="map"
 		      onMove={evt => setViewState(evt.viewState)}
+		      onLoad={handleMapUpdate}
 		      style={{width: '100%', height: '100%'}}
 		      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
 		    >
 		    	<LegendControlElement legend={legend}/>
 
-		    	
-
 		    	{props.geojsonData !== null ? 
 			    	<>
 			    		<Source id="cwa_bounds" type="vector" tiles={[props.dataURL + "overlays/cwa_bounds/{z}/{x}/{y}.pbf"]}>
-                  <Layer {...staticLayerConf["cwa_bounds"]} metadata={{name: "CWA Boundries", labels:{other:false}}}/>
-                </Source>
+                <Layer {...staticLayerConf["cwa_bounds"]} metadata={{name: "CWA Boundries", labels:{other:false}}}/>
+              </Source>
 
-               	<Source id="rfc_bounds" type="vector" tiles={[props.dataURL + "overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
-                  <Layer {...staticLayerConf["rfc_bounds"]} metadata={{name: "RFC Boundries", labels:{other:false}}}/>
-                </Source>
+             	<Source id="rfc_bounds" type="vector" tiles={[props.dataURL + "overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
+                <Layer {...staticLayerConf["rfc_bounds"]} metadata={{name: "RFC Boundries", labels:{other:false}}}/>
+              </Source>
 
-                <Source id="county_bounds" type="vector" tiles={[props.dataURL + "overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
-                  <Layer {...staticLayerConf["county_bounds"]} metadata={{name: "County Boundries", labels:{other:false}}}/>
-                </Source>
+              <Source id="county_bounds" type="vector" tiles={[props.dataURL + "overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
+                <Layer {...staticLayerConf["county_bounds"]} metadata={{name: "County Boundries", labels:{other:false}}}/>
+              </Source>
 
-                <Source id="FEMA_regions" type="vector" tiles={[props.dataURL + "overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
-                  <Layer {...staticLayerConf["FEMA_regions"]} metadata={{name: "FEMA Regions", labels:{other:false}}}/>
-                </Source>
+              <Source id="FEMA_regions" type="vector" tiles={[props.dataURL + "overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
+                <Layer {...staticLayerConf["FEMA_regions"]} metadata={{name: "FEMA Regions", labels:{other:false}}}/>
+              </Source>
+
 			    		{Object.keys(props.geojsonData).map((key) => {
 				    		let layerData = props.geojsonData[key]
 				    		return (
 				    			<Source key={key} id={key} type="geojson" data={layerData}>
-		                          <Layer source {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
-		                        </Source>
+                    <Layer source {...layerConf[key]} metadata={{name: key, labels:{other:false}}}/>
+                  </Source>
 				    		)
 			    		})}
 			    	</>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import {MapProvider, Map, useMap} from 'react-map-gl/maplibre';
 import Alert from '@mui/material/Alert';
+import queryString from 'query-string';
 
 import { NavBar } from "@atkingtornado/wpc-navbar-reactjs";
 
@@ -13,12 +14,17 @@ function App() {
 
   const [geojsonData, setGeojsonData] = useState(null)
   const [dataURL, setDataURL] = useState('')
+  const [queryStringObj, setQueryStringObj] = useState({})
+  const [loadFromQueryString, setLoadFromQueryString] = useState(false);
 
   useEffect(() => {
     const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" : "https://origin.wpc.ncep.noaa.gov/verification/mpd/"
     // const tmpDataUrl = "https://origin.wpc.ncep.noaa.gov/verification/mpd/"
     setDataURL(tmpDataUrl)
+    setQueryStringObj(queryString.parse(location.search))
   },[])
+
+
 
   const handleMapDataChange = (newData) => {
     setGeojsonData(newData)
@@ -37,10 +43,17 @@ function App() {
               geojsonData={geojsonData} 
               handleMapDataChange={handleMapDataChange} 
               dataURL={dataURL}
+              queryStringObj={queryStringObj}
+              setQueryStringObj={setQueryStringObj}
+              loadFromQueryString={loadFromQueryString}
+              setLoadFromQueryString={setLoadFromQueryString}
             />
             <MapDisplay
               dataURL={dataURL}
               geojsonData={geojsonData}
+              queryStringObj={queryStringObj}
+              loadFromQueryString={loadFromQueryString}
+              setLoadFromQueryString={setLoadFromQueryString}
             />
           </div>
         </div>

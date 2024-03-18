@@ -86,7 +86,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200319-KMRX-WGUS74-FFSMRX"
       }
     },
     {
@@ -166,7 +167,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200320-KMRX-WGUS74-FFSMRX"
       }
     }
   ]

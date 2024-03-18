@@ -66,7 +66,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171656-KMOB-WGUS74-FFSMOB"
       }
     },
     {
@@ -142,7 +143,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171651-KMOB-WGUS74-FFSMOB"
       }
     },
     {
@@ -206,7 +208,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171732-KMOB-WGUS74-FFSMOB"
       }
     },
     {
@@ -322,7 +325,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171638-KLIX-WGUS74-FFSLIX"
       }
     },
     {
@@ -430,7 +434,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171952-KLIX-WGUS74-FFSLIX"
       }
     },
     {
@@ -538,7 +543,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171839-KLIX-WGUS54-FFWLIX"
       }
     },
     {
@@ -622,7 +628,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172154-KLIX-WGUS54-FFWLIX"
       }
     },
     {
@@ -694,7 +701,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109172253-KPSR-WGUS75-FFSPSR"
       }
     },
     {
@@ -766,7 +774,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109172233-KPSR-WGUS55-FFWPSR"
       }
     },
     {
@@ -822,7 +831,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171632-KSHV-WGUS74-FFSSHV"
       }
     },
     {
@@ -886,7 +896,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172211-KHUN-WGUS54-FFWHUN"
       }
     },
     {
@@ -1390,7 +1401,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171839-KLIX-WGUS54-FFWLIX"
       }
     },
     {
@@ -1956,7 +1968,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171839-KLIX-WGUS54-FFWLIX"
       }
     },
     {
@@ -2424,7 +2437,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172154-KLIX-WGUS54-FFWLIX"
       }
     },
     {
@@ -3108,7 +3122,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172154-KLIX-WGUS54-FFWLIX"
       }
     },
     {
@@ -3680,7 +3695,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172211-KHUN-WGUS54-FFWHUN"
       }
     },
     {
@@ -4324,7 +4340,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172211-KHUN-WGUS54-FFWHUN"
       }
     },
     {
@@ -5520,7 +5537,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109172233-KPSR-WGUS55-FFWPSR"
       }
     }
   ]

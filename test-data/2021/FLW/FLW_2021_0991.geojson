@@ -62,7 +62,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109180201-KMOB-WGUS84-FLSMOB"
       }
     },
     {
@@ -126,7 +127,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181623-KMOB-WGUS84-FLSMOB"
       }
     },
     {
@@ -190,7 +192,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109171537-KMOB-WGUS84-FLSMOB"
       }
     },
     {
@@ -250,7 +253,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200318-KLCH-WGUS84-FLSLCH"
       }
     },
     {
@@ -310,7 +314,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200318-KLCH-WGUS84-FLSLCH"
       }
     },
     {
@@ -370,7 +375,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200318-KLCH-WGUS84-FLSLCH"
       }
     },
     {
@@ -430,7 +436,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200318-KLCH-WGUS84-FLSLCH"
       }
     },
     {
@@ -486,7 +493,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200830-KHUN-WGUS44-FLWHUN"
       }
     },
     {
@@ -546,7 +554,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109200547-KHUN-WGUS84-FLSHUN"
       }
     },
     {
@@ -606,7 +615,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109191327-KHUN-WGUS44-FLWHUN"
       }
     }
   ]

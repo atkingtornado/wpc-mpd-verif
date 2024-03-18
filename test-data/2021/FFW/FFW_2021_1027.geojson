@@ -70,7 +70,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": "CONSIDERABLE"
+        "DAMAGTAG": "CONSIDERABLE",
+        "PROD_ID": "202109292257-KSJT-WGUS54-FFWSJT"
       }
     },
     {
@@ -554,7 +555,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109292257-KSJT-WGUS54-FFWSJT"
       }
     },
     {
@@ -1556,7 +1558,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109292257-KSJT-WGUS54-FFWSJT"
       }
     }
   ]

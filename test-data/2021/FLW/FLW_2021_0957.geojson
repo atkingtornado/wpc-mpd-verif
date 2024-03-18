@@ -62,7 +62,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109131348-KJAX-WGUS82-FLSJAX"
       }
     },
     {
@@ -122,7 +123,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109131445-KLCH-WGUS84-FLSLCH"
       }
     }
   ]

@@ -62,7 +62,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109210344-KOHX-WGUS84-FLSOHX"
       }
     },
     {
@@ -126,7 +127,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109210442-KOHX-WGUS84-FLSOHX"
       }
     },
     {
@@ -190,7 +192,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109210828-KFFC-WGUS82-FLSFFC"
       }
     }
   ]

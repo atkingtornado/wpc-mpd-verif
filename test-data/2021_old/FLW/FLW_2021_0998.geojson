@@ -1,0 +1,197 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -86.66,
+              35.53
+            ],
+            [
+              -86.64,
+              35.62
+            ],
+            [
+              -86.45,
+              35.53
+            ],
+            [
+              -86.25,
+              35.49
+            ],
+            [
+              -86.25,
+              35.43
+            ],
+            [
+              -86.48,
+              35.42
+            ],
+            [
+              -86.66,
+              35.53
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "OHX",
+        "ISSUED": "",
+        "EXPIRED": "202109210601",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109210601",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "43",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 397.5889125495028,
+        "UPDATED": "202109210344",
+        "HV_NWSLI": "SHVT1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109210344",
+        "POLY_END": "202109210442",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -86.66,
+              35.53
+            ],
+            [
+              -86.64,
+              35.62
+            ],
+            [
+              -86.45,
+              35.53
+            ],
+            [
+              -86.25,
+              35.49
+            ],
+            [
+              -86.25,
+              35.43
+            ],
+            [
+              -86.48,
+              35.42
+            ],
+            [
+              -86.66,
+              35.53
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "OHX",
+        "ISSUED": "",
+        "EXPIRED": "202109211100",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109211100",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "43",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 397.5889125495028,
+        "UPDATED": "202109210442",
+        "HV_NWSLI": "SHVT1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109210442",
+        "POLY_END": "202109211026",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -84.24,
+              34.18
+            ],
+            [
+              -84.2,
+              34.17
+            ],
+            [
+              -84.19,
+              34.11
+            ],
+            [
+              -84.2,
+              34.1
+            ],
+            [
+              -84.25,
+              34.1
+            ],
+            [
+              -84.24,
+              34.11
+            ],
+            [
+              -84.24,
+              34.18
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "FFC",
+        "ISSUED": "",
+        "EXPIRED": "202109211443",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110120828",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "171",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 34.79640580365522,
+        "UPDATED": "202109210828",
+        "HV_NWSLI": "CMGG1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "UU",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109210828",
+        "POLY_END": "202109211443",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    }
+  ]
+}

@@ -118,7 +118,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090828-KPHI-WGUS71-FFSPHI"
       }
     },
     {
@@ -174,7 +175,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109090826-KPHI-WGUS71-FFSPHI"
       }
     }
   ]

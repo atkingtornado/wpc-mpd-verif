@@ -62,7 +62,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109220049-KTBW-WGUS82-FLSTBW"
       }
     },
     {
@@ -126,7 +127,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109211450-KTBW-WGUS42-FLWTBW"
       }
     },
     {
@@ -194,7 +196,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109230401-KLWX-WGUS81-FLSLWX"
       }
     },
     {
@@ -250,7 +253,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109222007-KDTX-WGUS83-FLSDTX"
       }
     },
     {
@@ -306,7 +310,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109230143-KDTX-WGUS83-FLSDTX"
       }
     },
     {
@@ -362,7 +367,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109221511-KDTX-WGUS43-FLWDTX"
       }
     },
     {
@@ -1160,7 +1166,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109221511-KDTX-WGUS43-FLWDTX"
       }
     }
   ]

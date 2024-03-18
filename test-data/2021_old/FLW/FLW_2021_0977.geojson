@@ -1,0 +1,2629 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -82.78,
+              29.9
+            ],
+            [
+              -82.8,
+              29.92
+            ],
+            [
+              -82.83,
+              29.9
+            ],
+            [
+              -82.83,
+              29.93
+            ],
+            [
+              -82.79,
+              29.96
+            ],
+            [
+              -82.76,
+              29.93
+            ],
+            [
+              -82.78,
+              29.9
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "JAX",
+        "ISSUED": "",
+        "EXPIRED": "202110081425",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110081425",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "36",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 25.18238832291564,
+        "UPDATED": "202109171425",
+        "HV_NWSLI": "TREF1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171425",
+        "POLY_END": "202109180122",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -86.5,
+              30.78
+            ],
+            [
+              -86.49,
+              30.78
+            ],
+            [
+              -86.53,
+              30.69
+            ],
+            [
+              -86.63,
+              30.69
+            ],
+            [
+              -86.63,
+              30.7
+            ],
+            [
+              -86.55,
+              30.7
+            ],
+            [
+              -86.5,
+              30.78
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "202109171600",
+        "EXPIRED": "202109171548",
+        "INIT_ISS": "202109171600",
+        "INIT_EXP": "202109181200",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "91",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 25.50651854477454,
+        "UPDATED": "202109170116",
+        "HV_NWSLI": "CRVF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109170116",
+        "POLY_END": "202109171548",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.92,
+              31.16
+            ],
+            [
+              -88.92,
+              31.23
+            ],
+            [
+              -88.77,
+              31.16
+            ],
+            [
+              -88.71,
+              31.0
+            ],
+            [
+              -88.79,
+              30.98
+            ],
+            [
+              -88.84,
+              31.09
+            ],
+            [
+              -88.92,
+              31.16
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "",
+        "EXPIRED": "202109201419",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109211424",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "88",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 244.59052336885483,
+        "UPDATED": "202109171541",
+        "HV_NWSLI": "MCLM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171541",
+        "POLY_END": "202109180202",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.57,
+              31.44
+            ],
+            [
+              -88.46,
+              31.44
+            ],
+            [
+              -88.54,
+              31.08
+            ],
+            [
+              -88.73,
+              30.98
+            ],
+            [
+              -88.75,
+              31.0
+            ],
+            [
+              -88.58,
+              31.1
+            ],
+            [
+              -88.57,
+              31.44
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "",
+        "EXPIRED": "202109201421",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110081529",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "90",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 351.79218966961656,
+        "UPDATED": "202109171529",
+        "HV_NWSLI": "LEKM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171529",
+        "POLY_END": "202109180203",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.17,
+              30.39
+            ],
+            [
+              -89.22,
+              30.37
+            ],
+            [
+              -89.22,
+              30.41
+            ],
+            [
+              -89.19,
+              30.42
+            ],
+            [
+              -89.17,
+              30.39
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109181326",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109182100",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "230",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 16.52966285314656,
+        "UPDATED": "202109171430",
+        "HV_NWSLI": "GLFM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171430",
+        "POLY_END": "202109181326",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.55,
+              30.2
+            ],
+            [
+              -89.64,
+              30.18
+            ],
+            [
+              -89.9,
+              30.67
+            ],
+            [
+              -89.76,
+              30.67
+            ],
+            [
+              -89.55,
+              30.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109221319",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109231200",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "245",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 613.098983641058,
+        "UPDATED": "202109171411",
+        "HV_NWSLI": "PERL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171411",
+        "POLY_END": "202109180046",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.95,
+              30.67
+            ],
+            [
+              -89.83,
+              30.63
+            ],
+            [
+              -89.78,
+              30.53
+            ],
+            [
+              -89.82,
+              30.53
+            ],
+            [
+              -89.86,
+              30.58
+            ],
+            [
+              -89.99,
+              30.62
+            ],
+            [
+              -90.18,
+              30.81
+            ],
+            [
+              -90.12,
+              30.81
+            ],
+            [
+              -89.95,
+              30.67
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109210300",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109210300",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "241",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 256.7588264335453,
+        "UPDATED": "202109171411",
+        "HV_NWSLI": "BSHL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171411",
+        "POLY_END": "202109180047",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.01,
+              30.48
+            ],
+            [
+              -89.09,
+              30.48
+            ],
+            [
+              -89.12,
+              30.55
+            ],
+            [
+              -89.05,
+              30.55
+            ],
+            [
+              -89.01,
+              30.48
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109181327",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109190000",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "229",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 55.92215638888388,
+        "UPDATED": "202109171434",
+        "HV_NWSLI": "LYMM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171434",
+        "POLY_END": "202109181327",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.76,
+              30.67
+            ],
+            [
+              -89.9,
+              30.67
+            ],
+            [
+              -89.79,
+              31.0
+            ],
+            [
+              -89.69,
+              31.0
+            ],
+            [
+              -89.76,
+              30.67
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109191630",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109191630",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "244",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 420.54431254815347,
+        "UPDATED": "202109171411",
+        "HV_NWSLI": "BXAL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171411",
+        "POLY_END": "202109180046",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.76,
+              30.67
+            ],
+            [
+              -89.9,
+              30.67
+            ],
+            [
+              -89.79,
+              31.0
+            ],
+            [
+              -89.69,
+              31.0
+            ],
+            [
+              -89.76,
+              30.67
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "202109171800",
+        "EXPIRED": "202109202200",
+        "INIT_ISS": "202109171800",
+        "INIT_EXP": "202109202200",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "244",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 420.54431254815347,
+        "UPDATED": "202109160303",
+        "HV_NWSLI": "BXAL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109160303",
+        "POLY_END": "202109161651",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.07,
+              30.46
+            ],
+            [
+              -90.18,
+              30.41
+            ],
+            [
+              -90.27,
+              30.51
+            ],
+            [
+              -90.16,
+              30.56
+            ],
+            [
+              -90.07,
+              30.46
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109190200",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109190200",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "234",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 165.1537316111553,
+        "UPDATED": "202109171408",
+        "HV_NWSLI": "CUSL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171408",
+        "POLY_END": "202109180041",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.25,
+              30.36
+            ],
+            [
+              -90.3,
+              30.3
+            ],
+            [
+              -90.5,
+              30.69
+            ],
+            [
+              -90.43,
+              30.69
+            ],
+            [
+              -90.25,
+              30.36
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109211013",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109211800",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "233",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 290.6149213359093,
+        "UPDATED": "202109171425",
+        "HV_NWSLI": "ROBL1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171425",
+        "POLY_END": "202109180040",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.64,
+              30.35
+            ],
+            [
+              -90.66,
+              30.26
+            ],
+            [
+              -90.84,
+              30.26
+            ],
+            [
+              -90.78,
+              30.33
+            ],
+            [
+              -90.64,
+              30.35
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109180440",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109180440",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "248",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 132.35399559533454,
+        "UPDATED": "202109171414",
+        "HV_NWSLI": "FSLL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171414",
+        "POLY_END": "202109180441",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.61,
+              30.88
+            ],
+            [
+              -90.74,
+              30.88
+            ],
+            [
+              -90.63,
+              31.14
+            ],
+            [
+              -90.51,
+              31.14
+            ],
+            [
+              -90.61,
+              30.88
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109190752",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109191400",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "243",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 344.42712694298666,
+        "UPDATED": "202109171311",
+        "HV_NWSLI": "LPOL1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171311",
+        "POLY_END": "202109171425",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -90.61,
+              30.88
+            ],
+            [
+              -90.74,
+              30.88
+            ],
+            [
+              -90.63,
+              31.14
+            ],
+            [
+              -90.51,
+              31.14
+            ],
+            [
+              -90.61,
+              30.88
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LIX",
+        "ISSUED": "",
+        "EXPIRED": "202109190752",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109192100",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "243",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 344.42712694298666,
+        "UPDATED": "202109171425",
+        "HV_NWSLI": "LPOL1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171425",
+        "POLY_END": "202109180042",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.09,
+              30.36
+            ],
+            [
+              -93.03,
+              30.29
+            ],
+            [
+              -93.28,
+              30.14
+            ],
+            [
+              -93.35,
+              30.17
+            ],
+            [
+              -93.32,
+              30.35
+            ],
+            [
+              -93.09,
+              30.36
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202109190000",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109190000",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "228",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 473.4732836419735,
+        "UPDATED": "202109171502",
+        "HV_NWSLI": "LCHL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171502",
+        "POLY_END": "202109180134",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -93.14,
+              30.38
+            ],
+            [
+              -93.03,
+              30.31
+            ],
+            [
+              -93.08,
+              30.25
+            ],
+            [
+              -93.21,
+              30.19
+            ],
+            [
+              -93.29,
+              30.3
+            ],
+            [
+              -93.14,
+              30.38
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202110081502",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110081502",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "231",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 285.6146367401987,
+        "UPDATED": "202109171502",
+        "HV_NWSLI": "CWOL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171502",
+        "POLY_END": "202109180134",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -92.84,
+              30.74
+            ],
+            [
+              -92.87,
+              30.59
+            ],
+            [
+              -92.85,
+              30.49
+            ],
+            [
+              -92.94,
+              30.47
+            ],
+            [
+              -92.99,
+              30.61
+            ],
+            [
+              -92.94,
+              30.75
+            ],
+            [
+              -92.84,
+              30.74
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "202109171300",
+        "EXPIRED": "202109200800",
+        "INIT_ISS": "202109171300",
+        "INIT_EXP": "202109200800",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "236",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 310.1741719396124,
+        "UPDATED": "202109150200",
+        "HV_NWSLI": "MTTL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109150200",
+        "POLY_END": "202109150853",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -92.84,
+              30.74
+            ],
+            [
+              -92.87,
+              30.59
+            ],
+            [
+              -92.85,
+              30.49
+            ],
+            [
+              -92.94,
+              30.47
+            ],
+            [
+              -92.99,
+              30.61
+            ],
+            [
+              -92.94,
+              30.75
+            ],
+            [
+              -92.84,
+              30.74
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "202109171342",
+        "EXPIRED": "202109200800",
+        "INIT_ISS": "202109171342",
+        "INIT_EXP": "202109200800",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "236",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 310.1741719396124,
+        "UPDATED": "202109150853",
+        "HV_NWSLI": "MTTL1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109150853",
+        "POLY_END": "202109151354",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -92.4,
+              30.57
+            ],
+            [
+              -92.35,
+              30.56
+            ],
+            [
+              -92.56,
+              30.19
+            ],
+            [
+              -92.6,
+              30.22
+            ],
+            [
+              -92.57,
+              30.45
+            ],
+            [
+              -92.4,
+              30.57
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "LCH",
+        "ISSUED": "",
+        "EXPIRED": "202109211500",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109211500",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "233",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 405.165153907694,
+        "UPDATED": "202109171502",
+        "HV_NWSLI": "BDCL1",
+        "HV_SEV": "2",
+        "HV_CAUSE": "ER",
+        "HV_REC": "UU",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171502",
+        "POLY_END": "202109180134",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -82.26,
+              27.26
+            ],
+            [
+              -82.34,
+              27.15
+            ],
+            [
+              -82.38,
+              27.15
+            ],
+            [
+              -82.26,
+              27.31
+            ],
+            [
+              -82.26,
+              27.26
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "TBW",
+        "ISSUED": "",
+        "EXPIRED": "202110081426",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110081426",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "27",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 57.24170817414055,
+        "UPDATED": "202109171426",
+        "HV_NWSLI": "MKCF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171426",
+        "POLY_END": "202109172137",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -81.94,
+              27.26
+            ],
+            [
+              -81.98,
+              27.08
+            ],
+            [
+              -82.02,
+              27.08
+            ],
+            [
+              -82.01,
+              27.26
+            ],
+            [
+              -81.94,
+              27.26
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "TBW",
+        "ISSUED": "202109171200",
+        "EXPIRED": "202109181303",
+        "INIT_ISS": "202109171200",
+        "INIT_EXP": "202110080320",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "29",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 108.87309875855217,
+        "UPDATED": "202109170320",
+        "HV_NWSLI": "ARHF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109170320",
+        "POLY_END": "202109171426",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -81.94,
+              27.26
+            ],
+            [
+              -81.98,
+              27.08
+            ],
+            [
+              -82.02,
+              27.08
+            ],
+            [
+              -82.01,
+              27.26
+            ],
+            [
+              -81.94,
+              27.26
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "TBW",
+        "ISSUED": "",
+        "EXPIRED": "202109181303",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110081426",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "29",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 108.87309875855217,
+        "UPDATED": "202109171426",
+        "HV_NWSLI": "ARHF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109171426",
+        "POLY_END": "202109172137",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -81.94,
+              27.26
+            ],
+            [
+              -81.98,
+              27.08
+            ],
+            [
+              -82.02,
+              27.08
+            ],
+            [
+              -82.01,
+              27.26
+            ],
+            [
+              -81.94,
+              27.26
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "TBW",
+        "ISSUED": "202109171200",
+        "EXPIRED": "202109181303",
+        "INIT_ISS": "202109171200",
+        "INIT_EXP": "202110071457",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "29",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 108.87309875855217,
+        "UPDATED": "202109161457",
+        "HV_NWSLI": "ARHF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109161457",
+        "POLY_END": "202109170320",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -81.99,
+              27.03
+            ],
+            [
+              -82.0,
+              27.03
+            ],
+            [
+              -82.06,
+              27.03
+            ],
+            [
+              -82.06,
+              27.060000000000002
+            ],
+            [
+              -82.06,
+              27.12
+            ],
+            [
+              -82.06,
+              27.13
+            ],
+            [
+              -82.06,
+              27.150000000000002
+            ],
+            [
+              -82.06,
+              27.21
+            ],
+            [
+              -82.06,
+              27.25
+            ],
+            [
+              -82.06,
+              27.26
+            ],
+            [
+              -82.06,
+              27.29
+            ],
+            [
+              -82.06,
+              27.34
+            ],
+            [
+              -81.96000000000001,
+              27.34
+            ],
+            [
+              -81.87,
+              27.34
+            ],
+            [
+              -81.86,
+              27.34
+            ],
+            [
+              -81.74,
+              27.34
+            ],
+            [
+              -81.63,
+              27.34
+            ],
+            [
+              -81.62,
+              27.34
+            ],
+            [
+              -81.57000000000001,
+              27.34
+            ],
+            [
+              -81.56,
+              27.34
+            ],
+            [
+              -81.56,
+              27.330000000000002
+            ],
+            [
+              -81.56,
+              27.3
+            ],
+            [
+              -81.56,
+              27.25
+            ],
+            [
+              -81.56,
+              27.19
+            ],
+            [
+              -81.56,
+              27.150000000000002
+            ],
+            [
+              -81.56,
+              27.1
+            ],
+            [
+              -81.56,
+              27.07
+            ],
+            [
+              -81.56,
+              27.060000000000002
+            ],
+            [
+              -81.56,
+              27.03
+            ],
+            [
+              -81.66,
+              27.03
+            ],
+            [
+              -81.73,
+              27.03
+            ],
+            [
+              -81.74,
+              27.03
+            ],
+            [
+              -81.75,
+              27.03
+            ],
+            [
+              -81.81,
+              27.03
+            ],
+            [
+              -81.85000000000001,
+              27.03
+            ],
+            [
+              -81.88,
+              27.03
+            ],
+            [
+              -81.93,
+              27.03
+            ],
+            [
+              -81.96000000000001,
+              27.03
+            ],
+            [
+              -81.98,
+              27.04
+            ],
+            [
+              -81.99,
+              27.04
+            ],
+            [
+              -81.99,
+              27.03
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "TBW",
+        "ISSUED": "202109171200",
+        "EXPIRED": "202109181303",
+        "INIT_ISS": "202109160220",
+        "INIT_EXP": "202110080000",
+        "PHENOM": "FL",
+        "GTYPE": "C",
+        "SIG": "W",
+        "ETN": "29",
+        "STATUS": "CAN",
+        "NWS_UGC": "FLC027",
+        "AREA_KM2": 1659.1502685546875,
+        "UPDATED": "202109181303",
+        "HV_NWSLI": "ARHF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "",
+        "POLY_END": "",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -86.76,
+                30.39
+              ],
+              [
+                -86.76,
+                30.400000000000002
+              ],
+              [
+                -86.77,
+                30.41
+              ],
+              [
+                -86.78,
+                30.41
+              ],
+              [
+                -86.79,
+                30.41
+              ],
+              [
+                -86.8,
+                30.41
+              ],
+              [
+                -86.8,
+                30.42
+              ],
+              [
+                -86.8,
+                30.44
+              ],
+              [
+                -86.8,
+                30.45
+              ],
+              [
+                -86.8,
+                30.47
+              ],
+              [
+                -86.8,
+                30.48
+              ],
+              [
+                -86.8,
+                30.51
+              ],
+              [
+                -86.8,
+                30.53
+              ],
+              [
+                -86.8,
+                30.54
+              ],
+              [
+                -86.8,
+                30.57
+              ],
+              [
+                -86.8,
+                30.580000000000002
+              ],
+              [
+                -86.8,
+                30.59
+              ],
+              [
+                -86.8,
+                30.61
+              ],
+              [
+                -86.8,
+                30.62
+              ],
+              [
+                -86.79,
+                30.63
+              ],
+              [
+                -86.79,
+                30.64
+              ],
+              [
+                -86.79,
+                30.66
+              ],
+              [
+                -86.79,
+                30.71
+              ],
+              [
+                -86.79,
+                30.75
+              ],
+              [
+                -86.79,
+                30.77
+              ],
+              [
+                -86.79,
+                30.78
+              ],
+              [
+                -86.79,
+                30.810000000000002
+              ],
+              [
+                -86.79,
+                30.82
+              ],
+              [
+                -86.79,
+                30.87
+              ],
+              [
+                -86.79,
+                30.88
+              ],
+              [
+                -86.79,
+                30.900000000000002
+              ],
+              [
+                -86.79,
+                30.91
+              ],
+              [
+                -86.79,
+                30.93
+              ],
+              [
+                -86.79,
+                30.94
+              ],
+              [
+                -86.79,
+                31.0
+              ],
+              [
+                -86.76,
+                31.0
+              ],
+              [
+                -86.75,
+                31.0
+              ],
+              [
+                -86.74,
+                31.0
+              ],
+              [
+                -86.73,
+                31.0
+              ],
+              [
+                -86.72,
+                31.0
+              ],
+              [
+                -86.71000000000001,
+                31.0
+              ],
+              [
+                -86.71000000000001,
+                30.990000000000002
+              ],
+              [
+                -86.7,
+                30.990000000000002
+              ],
+              [
+                -86.69,
+                31.0
+              ],
+              [
+                -86.68,
+                30.990000000000002
+              ],
+              [
+                -86.65,
+                30.990000000000002
+              ],
+              [
+                -86.64,
+                30.990000000000002
+              ],
+              [
+                -86.63,
+                30.990000000000002
+              ],
+              [
+                -86.59,
+                30.990000000000002
+              ],
+              [
+                -86.56,
+                31.0
+              ],
+              [
+                -86.55,
+                30.990000000000002
+              ],
+              [
+                -86.52,
+                30.990000000000002
+              ],
+              [
+                -86.51,
+                30.990000000000002
+              ],
+              [
+                -86.5,
+                30.990000000000002
+              ],
+              [
+                -86.48,
+                30.990000000000002
+              ],
+              [
+                -86.47,
+                30.990000000000002
+              ],
+              [
+                -86.46000000000001,
+                30.990000000000002
+              ],
+              [
+                -86.44,
+                30.990000000000002
+              ],
+              [
+                -86.42,
+                30.990000000000002
+              ],
+              [
+                -86.41,
+                30.990000000000002
+              ],
+              [
+                -86.39,
+                30.990000000000002
+              ],
+              [
+                -86.39,
+                30.970000000000002
+              ],
+              [
+                -86.39,
+                30.91
+              ],
+              [
+                -86.39,
+                30.88
+              ],
+              [
+                -86.39,
+                30.87
+              ],
+              [
+                -86.39,
+                30.810000000000002
+              ],
+              [
+                -86.39,
+                30.77
+              ],
+              [
+                -86.39,
+                30.75
+              ],
+              [
+                -86.39,
+                30.72
+              ],
+              [
+                -86.39,
+                30.7
+              ],
+              [
+                -86.39,
+                30.69
+              ],
+              [
+                -86.39,
+                30.68
+              ],
+              [
+                -86.39,
+                30.650000000000002
+              ],
+              [
+                -86.39,
+                30.64
+              ],
+              [
+                -86.39,
+                30.63
+              ],
+              [
+                -86.39,
+                30.62
+              ],
+              [
+                -86.39,
+                30.57
+              ],
+              [
+                -86.39,
+                30.55
+              ],
+              [
+                -86.39,
+                30.53
+              ],
+              [
+                -86.39,
+                30.45
+              ],
+              [
+                -86.4,
+                30.45
+              ],
+              [
+                -86.41,
+                30.46
+              ],
+              [
+                -86.42,
+                30.45
+              ],
+              [
+                -86.43,
+                30.46
+              ],
+              [
+                -86.43,
+                30.47
+              ],
+              [
+                -86.44,
+                30.47
+              ],
+              [
+                -86.44,
+                30.48
+              ],
+              [
+                -86.45,
+                30.490000000000002
+              ],
+              [
+                -86.46000000000001,
+                30.490000000000002
+              ],
+              [
+                -86.47,
+                30.48
+              ],
+              [
+                -86.47,
+                30.490000000000002
+              ],
+              [
+                -86.48,
+                30.490000000000002
+              ],
+              [
+                -86.48,
+                30.48
+              ],
+              [
+                -86.49,
+                30.48
+              ],
+              [
+                -86.49,
+                30.47
+              ],
+              [
+                -86.49,
+                30.46
+              ],
+              [
+                -86.5,
+                30.46
+              ],
+              [
+                -86.51,
+                30.46
+              ],
+              [
+                -86.52,
+                30.46
+              ],
+              [
+                -86.53,
+                30.46
+              ],
+              [
+                -86.54,
+                30.45
+              ],
+              [
+                -86.55,
+                30.44
+              ],
+              [
+                -86.56,
+                30.43
+              ],
+              [
+                -86.57000000000001,
+                30.43
+              ],
+              [
+                -86.58,
+                30.43
+              ],
+              [
+                -86.59,
+                30.43
+              ],
+              [
+                -86.58,
+                30.44
+              ],
+              [
+                -86.59,
+                30.45
+              ],
+              [
+                -86.60000000000001,
+                30.45
+              ],
+              [
+                -86.60000000000001,
+                30.44
+              ],
+              [
+                -86.60000000000001,
+                30.43
+              ],
+              [
+                -86.61,
+                30.43
+              ],
+              [
+                -86.61,
+                30.42
+              ],
+              [
+                -86.60000000000001,
+                30.42
+              ],
+              [
+                -86.59,
+                30.42
+              ],
+              [
+                -86.59,
+                30.41
+              ],
+              [
+                -86.60000000000001,
+                30.400000000000002
+              ],
+              [
+                -86.59,
+                30.400000000000002
+              ],
+              [
+                -86.58,
+                30.400000000000002
+              ],
+              [
+                -86.57000000000001,
+                30.400000000000002
+              ],
+              [
+                -86.56,
+                30.39
+              ],
+              [
+                -86.58,
+                30.39
+              ],
+              [
+                -86.63,
+                30.400000000000002
+              ],
+              [
+                -86.62,
+                30.400000000000002
+              ],
+              [
+                -86.64,
+                30.41
+              ],
+              [
+                -86.65,
+                30.41
+              ],
+              [
+                -86.66,
+                30.41
+              ],
+              [
+                -86.66,
+                30.400000000000002
+              ],
+              [
+                -86.67,
+                30.400000000000002
+              ],
+              [
+                -86.67,
+                30.41
+              ],
+              [
+                -86.68,
+                30.400000000000002
+              ],
+              [
+                -86.69,
+                30.39
+              ],
+              [
+                -86.71000000000001,
+                30.39
+              ],
+              [
+                -86.72,
+                30.39
+              ],
+              [
+                -86.73,
+                30.39
+              ],
+              [
+                -86.74,
+                30.39
+              ],
+              [
+                -86.75,
+                30.39
+              ],
+              [
+                -86.76,
+                30.39
+              ]
+            ],
+            [
+              [
+                -86.45,
+                30.490000000000002
+              ],
+              [
+                -86.44,
+                30.490000000000002
+              ],
+              [
+                -86.44,
+                30.5
+              ],
+              [
+                -86.43,
+                30.5
+              ],
+              [
+                -86.42,
+                30.5
+              ],
+              [
+                -86.42,
+                30.51
+              ],
+              [
+                -86.43,
+                30.51
+              ],
+              [
+                -86.44,
+                30.51
+              ],
+              [
+                -86.45,
+                30.51
+              ],
+              [
+                -86.45,
+                30.5
+              ],
+              [
+                -86.45,
+                30.490000000000002
+              ]
+            ],
+            [
+              [
+                -86.48,
+                30.490000000000002
+              ],
+              [
+                -86.48,
+                30.5
+              ],
+              [
+                -86.48,
+                30.51
+              ],
+              [
+                -86.49,
+                30.5
+              ],
+              [
+                -86.49,
+                30.490000000000002
+              ],
+              [
+                -86.48,
+                30.490000000000002
+              ]
+            ],
+            [
+              [
+                -86.48,
+                30.51
+              ],
+              [
+                -86.49,
+                30.52
+              ],
+              [
+                -86.49,
+                30.51
+              ],
+              [
+                -86.48,
+                30.51
+              ]
+            ],
+            [
+              [
+                -86.59,
+                30.45
+              ],
+              [
+                -86.58,
+                30.45
+              ],
+              [
+                -86.59,
+                30.46
+              ],
+              [
+                -86.59,
+                30.45
+              ]
+            ],
+            [
+              [
+                -86.59,
+                30.46
+              ],
+              [
+                -86.59,
+                30.47
+              ],
+              [
+                -86.60000000000001,
+                30.46
+              ],
+              [
+                -86.59,
+                30.46
+              ]
+            ],
+            [
+              [
+                -86.59,
+                30.47
+              ],
+              [
+                -86.60000000000001,
+                30.48
+              ],
+              [
+                -86.60000000000001,
+                30.47
+              ],
+              [
+                -86.59,
+                30.47
+              ]
+            ],
+            [
+              [
+                -86.61,
+                30.43
+              ],
+              [
+                -86.62,
+                30.44
+              ],
+              [
+                -86.62,
+                30.43
+              ],
+              [
+                -86.61,
+                30.43
+              ]
+            ],
+            [
+              [
+                -86.68,
+                30.400000000000002
+              ],
+              [
+                -86.68,
+                30.41
+              ],
+              [
+                -86.69,
+                30.41
+              ],
+              [
+                -86.7,
+                30.41
+              ],
+              [
+                -86.71000000000001,
+                30.41
+              ],
+              [
+                -86.72,
+                30.41
+              ],
+              [
+                -86.73,
+                30.41
+              ],
+              [
+                -86.74,
+                30.41
+              ],
+              [
+                -86.74,
+                30.400000000000002
+              ],
+              [
+                -86.73,
+                30.400000000000002
+              ],
+              [
+                -86.72,
+                30.400000000000002
+              ],
+              [
+                -86.71000000000001,
+                30.400000000000002
+              ],
+              [
+                -86.7,
+                30.400000000000002
+              ],
+              [
+                -86.69,
+                30.400000000000002
+              ],
+              [
+                -86.68,
+                30.400000000000002
+              ]
+            ],
+            [
+              [
+                -86.74,
+                30.400000000000002
+              ],
+              [
+                -86.75,
+                30.41
+              ],
+              [
+                -86.75,
+                30.400000000000002
+              ],
+              [
+                -86.74,
+                30.400000000000002
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -86.79,
+                30.39
+              ],
+              [
+                -86.78,
+                30.400000000000002
+              ],
+              [
+                -86.78,
+                30.39
+              ],
+              [
+                -86.79,
+                30.39
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -86.56,
+                30.39
+              ],
+              [
+                -86.56,
+                30.400000000000002
+              ],
+              [
+                -86.55,
+                30.400000000000002
+              ],
+              [
+                -86.54,
+                30.39
+              ],
+              [
+                -86.55,
+                30.39
+              ],
+              [
+                -86.56,
+                30.39
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -86.54,
+                30.39
+              ],
+              [
+                -86.54,
+                30.400000000000002
+              ],
+              [
+                -86.53,
+                30.39
+              ],
+              [
+                -86.54,
+                30.39
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -86.51,
+                30.39
+              ],
+              [
+                -86.51,
+                30.400000000000002
+              ],
+              [
+                -86.52,
+                30.400000000000002
+              ],
+              [
+                -86.5,
+                30.41
+              ],
+              [
+                -86.49,
+                30.41
+              ],
+              [
+                -86.49,
+                30.42
+              ],
+              [
+                -86.47,
+                30.41
+              ],
+              [
+                -86.46000000000001,
+                30.41
+              ],
+              [
+                -86.45,
+                30.41
+              ],
+              [
+                -86.44,
+                30.41
+              ],
+              [
+                -86.43,
+                30.41
+              ],
+              [
+                -86.43,
+                30.400000000000002
+              ],
+              [
+                -86.42,
+                30.400000000000002
+              ],
+              [
+                -86.41,
+                30.400000000000002
+              ],
+              [
+                -86.4,
+                30.400000000000002
+              ],
+              [
+                -86.39,
+                30.400000000000002
+              ],
+              [
+                -86.39,
+                30.38
+              ],
+              [
+                -86.4,
+                30.38
+              ],
+              [
+                -86.41,
+                30.38
+              ],
+              [
+                -86.42,
+                30.38
+              ],
+              [
+                -86.43,
+                30.38
+              ],
+              [
+                -86.44,
+                30.38
+              ],
+              [
+                -86.47,
+                30.38
+              ],
+              [
+                -86.51,
+                30.38
+              ],
+              [
+                -86.51,
+                30.39
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "202109171600",
+        "EXPIRED": "202109171548",
+        "INIT_ISS": "202109152012",
+        "INIT_EXP": "202109200600",
+        "PHENOM": "FL",
+        "GTYPE": "C",
+        "SIG": "W",
+        "ETN": "91",
+        "STATUS": "CAN",
+        "NWS_UGC": "FLC091",
+        "AREA_KM2": 2433.115966796875,
+        "UPDATED": "202109171548",
+        "HV_NWSLI": "CRVF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "",
+        "POLY_END": "",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    }
+  ]
+}

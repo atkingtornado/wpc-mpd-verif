@@ -98,7 +98,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181242-KMEG-WGUS74-FFSMEG"
       }
     },
     {
@@ -198,7 +199,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181348-KMEG-WGUS54-FFWMEG"
       }
     },
     {
@@ -254,7 +256,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181755-KBMX-WGUS54-FFWBMX"
       }
     },
     {
@@ -374,7 +377,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181440-KBMX-WGUS54-FFWBMX"
       }
     },
     {
@@ -1204,7 +1208,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181440-KBMX-WGUS54-FFWBMX"
       }
     },
     {
@@ -1972,7 +1977,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181440-KBMX-WGUS54-FFWBMX"
       }
     },
     {
@@ -2580,7 +2586,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109181755-KBMX-WGUS54-FFWBMX"
       }
     }
   ]

@@ -1,0 +1,189 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -82.34,
+              28.19
+            ],
+            [
+              -82.34,
+              28.14
+            ],
+            [
+              -82.4,
+              28.14
+            ],
+            [
+              -82.4,
+              28.19
+            ],
+            [
+              -82.34,
+              28.19
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "TBW",
+        "ISSUED": "202109181800",
+        "EXPIRED": "202110081426",
+        "INIT_ISS": "202109181800",
+        "INIT_EXP": "202110081426",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "31",
+        "STATUS": "NEW",
+        "NWS_UGC": "",
+        "AREA_KM2": 32.70079827378652,
+        "UPDATED": "202109171426",
+        "HV_NWSLI": "WRGF1",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109181800",
+        "POLY_END": "202109180050",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.92,
+              31.16
+            ],
+            [
+              -88.92,
+              31.23
+            ],
+            [
+              -88.77,
+              31.16
+            ],
+            [
+              -88.71,
+              31.0
+            ],
+            [
+              -88.79,
+              30.98
+            ],
+            [
+              -88.84,
+              31.09
+            ],
+            [
+              -88.92,
+              31.16
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "",
+        "EXPIRED": "202109201419",
+        "INIT_ISS": "",
+        "INIT_EXP": "202109211200",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "88",
+        "STATUS": "EXT",
+        "NWS_UGC": "",
+        "AREA_KM2": 244.59052336885483,
+        "UPDATED": "202109181624",
+        "HV_NWSLI": "MCLM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109181624",
+        "POLY_END": "202109190051",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -88.57,
+              31.44
+            ],
+            [
+              -88.46,
+              31.44
+            ],
+            [
+              -88.54,
+              31.08
+            ],
+            [
+              -88.73,
+              30.98
+            ],
+            [
+              -88.75,
+              31.0
+            ],
+            [
+              -88.58,
+              31.1
+            ],
+            [
+              -88.57,
+              31.44
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "WFO": "MOB",
+        "ISSUED": "",
+        "EXPIRED": "202109201421",
+        "INIT_ISS": "",
+        "INIT_EXP": "202110091625",
+        "PHENOM": "FL",
+        "GTYPE": "P",
+        "SIG": "W",
+        "ETN": "90",
+        "STATUS": "CON",
+        "NWS_UGC": "",
+        "AREA_KM2": 351.79218966961656,
+        "UPDATED": "202109181625",
+        "HV_NWSLI": "LEKM6",
+        "HV_SEV": "1",
+        "HV_CAUSE": "ER",
+        "HV_REC": "NO",
+        "EMERGENC": 0,
+        "POLY_BEG": "202109181625",
+        "POLY_END": "202109190052",
+        "WINDTAG": null,
+        "HAILTAG": null,
+        "TORNTAG": "",
+        "DAMAGTAG": ""
+      }
+    }
+  ]
+}

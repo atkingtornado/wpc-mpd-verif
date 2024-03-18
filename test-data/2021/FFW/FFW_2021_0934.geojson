@@ -70,7 +70,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109031021-KTOP-WGUS53-FFWTOP"
       }
     },
     {
@@ -416,7 +417,8 @@
         "WINDTAG": null,
         "HAILTAG": null,
         "TORNTAG": "",
-        "DAMAGTAG": ""
+        "DAMAGTAG": "",
+        "PROD_ID": "202109031021-KTOP-WGUS53-FFWTOP"
       }
     }
   ]
