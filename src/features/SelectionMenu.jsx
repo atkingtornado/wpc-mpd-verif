@@ -28,9 +28,11 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from "react-datepicker";
+import Zoom from 'react-medium-image-zoom';
 
 import layerConf, {staticLayerConf} from './layerConf';
 
+import 'react-medium-image-zoom/dist/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 dayjs.extend(utc)
@@ -216,8 +218,6 @@ const SelectionMenu = (props) => {
           setErrMsg(null)
           setDataIsFetching(false)
 
-          console.log(allErrors.toString())
-
           if(allErrors.length !== 0) {
             setDataLoadErrMsg('Error loading data for: ' + allErrors.toString())
           } else {
@@ -314,7 +314,6 @@ const SelectionMenu = (props) => {
           setErrMsg(null)
           setDataIsFetching(false)
 
-          console.log(allErrors.toString())
           if(allErrors.length !== 0) {
             setDataLoadErrMsg('Error loading data for: ' + allErrors.toString())
           } else {
@@ -436,6 +435,7 @@ const SelectionMenu = (props) => {
                 <>
                     <MetadataDisplay dataIsFetching={dataIsFetching} mpdMetadata={mpdMetadata} incrementMpd={incrementMpd}/>
                     <ShareMenu mpdMetadata={mpdMetadata} />
+                    <ImageDisplay mpdMetadata={mpdMetadata}/>
                 </>
             :
                 null
@@ -450,6 +450,17 @@ const SelectionMenu = (props) => {
             } 
 
         </>
+    )
+}
+
+const ImageDisplay = (props) => {
+
+    return(
+        <div className='fixed bottom-5 left-[200px] max-w-[300px] shadow-md z-10'>
+            <Zoom>
+                <img src={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}/>
+            </Zoom>
+        </div>
     )
 }
 
@@ -470,6 +481,9 @@ const MetadataDisplay = (props) => {
             { props.mpdMetadata !== null ?
                 <div className='h-full'>
                     <p className='text-white text-center text-xl pt-1'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
+
+                    <p><a href={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}>link</a></p>
+
                     <p className='text-white text-center text-sm pb-1'>{'Tag: ' + props.mpdMetadata['TAG'].toUpperCase()}</p>
                     <p className='text-white text-xs'>
                         <span className='underline mr-2 font-bold'>Valid Start:</span> 
@@ -563,6 +577,7 @@ const ShareMenu = (props) => {
             tmpShareURL += '?' + queryString.stringify(tmpQueryStringObj)
 
             setShareURL(tmpShareURL)
+            // window.history.pushState({path:tmpShareURL},'',tmpShareURL);
         }
     }
 
