@@ -456,7 +456,7 @@ const SelectionMenu = (props) => {
 const ImageDisplay = (props) => {
 
     return(
-        <div className='fixed bottom-5 left-[200px] max-w-[300px] shadow-md z-10'>
+        <div className='fixed bottom-5 left-[200px] max-w-[200px] shadow-md z-10'>
             <Zoom>
                 <img src={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}/>
             </Zoom>
@@ -481,9 +481,6 @@ const MetadataDisplay = (props) => {
             { props.mpdMetadata !== null ?
                 <div className='h-full'>
                     <p className='text-white text-center text-xl pt-1'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
-
-                    <p><a href={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}>link</a></p>
-
                     <p className='text-white text-center text-sm pb-1'>{'Tag: ' + props.mpdMetadata['TAG'].toUpperCase()}</p>
                     <p className='text-white text-xs'>
                         <span className='underline mr-2 font-bold'>Valid Start:</span> 
@@ -555,7 +552,7 @@ const ShareMenu = (props) => {
 
     const genShareLink = () => {
         if(props.mpdMetadata !== null) {
-            let tmpShareURL = window.location.origin
+            let tmpShareURL = window.location.origin + window.location.pathname
             let validDate = dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD')
             let activeOverlays = []
             let layerIDs = Object.keys({...staticLayerConf, ...layerConf})
