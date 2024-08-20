@@ -491,6 +491,23 @@ const MetadataDisplay = (props) => {
                         <span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
                     </p>
                     <Divider><p className='text-white font-bold text-sm underline'>Statistics</p></Divider>
+
+                    <p className='text-white text-xs'>
+                        <span className='mr-2 font-bold'>Max Stage IV Accumulated Rainfall:</span> 
+                        <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Accumulation']).toFixed(3)}</span> 
+                    </p>
+                    <p className='text-white text-xs'>
+                        <span className='mr-2 font-bold'>Max Stage IV Rain Rate:</span> 
+                        <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Rate']).toFixed(3)}</span> 
+                    </p>
+                    <p className='text-white text-xs'>
+                        <span className='mr-2 font-bold'>Max Unit Q:</span> 
+                        <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Unit_Q']).toFixed(3)}</span> 
+                    </p>
+                    <p className='text-white text-xs'>
+                        <span className='mr-2 font-bold'>Mean Unit Q:</span> 
+                        <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_Unit_Q']).toFixed(3)}</span> 
+                    </p>
                     <p className='text-white text-xs'>
                         <span className='mr-2 font-bold'>Fr Cov:</span> 
                         <span className='float-right'>{parseFloat(props.mpdMetadata['FCOV']).toFixed(3)}</span> 
