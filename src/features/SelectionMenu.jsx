@@ -69,7 +69,7 @@ const SelectionMenu = (props) => {
     useEffect(() => {
         if(selectedMpd !== null && mpdNumberValue !== null){
             if(mpdNumberValue.value !== selectedMpd.value) {
-                if(searchByNumber) {
+                if(searchByNumber && mpdOptions !== null) {
                     mpdOptions.forEach((mpdOption) => {
                         if(mpdOption.value === mpdNumberValue.value){
                             setSelectedMpd(mpdNumberValue)
@@ -209,6 +209,9 @@ const SelectionMenu = (props) => {
                 }
             } else {
                 allErrors.push(productID)
+                if(productID === "MPD") {
+                    setMpdMetadata(null)
+                }
             }
 
           })
@@ -229,7 +232,7 @@ const SelectionMenu = (props) => {
     
     const genYearsArray = () => {
       const year = new Date().getFullYear();
-      const yearsBack = dayjs().diff('2018-01-01', 'years');
+      const yearsBack = dayjs().diff('2020-01-01', 'years');
       return Array.from({length: yearsBack}, (v, i) => year - yearsBack + i + 1);
     }
 
@@ -303,6 +306,9 @@ const SelectionMenu = (props) => {
                     }
                 }
             } else {
+                if(productID === "MPD") {
+                    setMpdMetadata(null)
+                }
                 allErrors.push(productID)
             }
 
@@ -332,7 +338,7 @@ const SelectionMenu = (props) => {
     const components = {
       DropdownIndicator: null,
     };  
-
+    console.log(yearOptions[0].value)
     return (
         <>
             {dataIsFetching ? 
@@ -456,11 +462,17 @@ const SelectionMenu = (props) => {
 const ImageDisplay = (props) => {
 
     return(
-        <div className='fixed bottom-5 left-[200px] max-w-[200px] shadow-md z-10'>
-            <Zoom>
-                <img src={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}/>
-            </Zoom>
-        </div>
+        <>
+            { props.mpdMetadata !== null ?
+                <div className='fixed bottom-5 left-[200px] max-w-[200px] shadow-md z-10'>
+                    <Zoom>
+                        <img src={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}/>
+                    </Zoom>
+                </div>
+            :
+                null
+            }
+        </>
     )
 }
 
