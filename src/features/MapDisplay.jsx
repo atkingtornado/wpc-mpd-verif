@@ -7,9 +7,29 @@ import layerConf, {staticLayerConf} from './layerConf';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import 'mapboxgl-legend/dist/style.css';
 import '../index.css';
+	
+const layerIDs = Object.keys({...staticLayerConf, ...layerConf})
+let layersObj = {}
+layerIDs.forEach((productID) => {
+	// Default to collapsed in legend
+	if(productID === 'FLW' || productID === 'FFW' || productID === 'StageIV' || Object.keys(staticLayerConf).includes(productID)) {
+		layersObj[productID] = {
+			collapsed: true
+		}
+	} else {
+		layersObj[productID] = true
+	}	
+	
+})
+
+const legend = new LegendControl({
+      layers: layersObj,
+      toggler: true,
+      onToggle: (id, vis) => {console.log(id, vis)}
+  });
 
 const MapDisplay = (props) => {
-	const layerIDs = Object.keys({...staticLayerConf, ...layerConf})
+	
 	const [viewState, setViewState] = useState({
 		longitude: -98.4,
 		latitude: 39.5,
@@ -51,24 +71,7 @@ const MapDisplay = (props) => {
 		}
 	}
 
-	let layersObj = {}
-	layerIDs.forEach((productID) => {
-		// Default to collapsed in legend
-		if(productID === 'FLW' || productID === 'FFW' || productID === 'StageIV' || Object.keys(staticLayerConf).includes(productID)) {
-			layersObj[productID] = {
-				collapsed: true
-			}
-		} else {
-			layersObj[productID] = true
-		}	
-		
-	})
 
-	const legend = new LegendControl({
-        layers: layersObj,
-        toggler: true,
-        onToggle: (id, vis) => {console.log(id, vis)}
-    });
 	return (
 		<div className='fixed top-[160px] bottom-0 left-0 right-0'>
 			<Map
@@ -79,7 +82,11 @@ const MapDisplay = (props) => {
 		      style={{width: '100%', height: '100%'}}
 		      mapStyle="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
 		    >
+		    {props.uIIsHidden ? 
+		    	null
+		    :
 		    	<LegendControlElement legend={legend}/>
+		    }
 
 		    	{props.geojsonData !== null ? 
 			    	<>

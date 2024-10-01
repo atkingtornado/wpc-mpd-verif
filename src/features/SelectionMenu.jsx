@@ -22,6 +22,11 @@ import ShareIcon from '@mui/icons-material/Share';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import Accordion from '@mui/material/Accordion';
+import AccordionActions from '@mui/material/AccordionActions';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
@@ -338,7 +343,7 @@ const SelectionMenu = (props) => {
     const components = {
       DropdownIndicator: null,
     };  
-    console.log(yearOptions[0].value)
+
     return (
         <>
             {dataIsFetching ? 
@@ -502,44 +507,58 @@ const MetadataDisplay = (props) => {
                         <span className='underline mr-2 font-bold'>Valid End:</span> 
                         <span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
                     </p>
-                    <Divider><p className='text-white font-bold text-sm underline'>Statistics</p></Divider>
-
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Max Stage IV Accumulated Rainfall:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Accumulation']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Max Stage IV Rain Rate:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Rate']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Max Unit Q:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Unit_Q']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Mean Unit Q:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_Unit_Q']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Fr Cov:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['FCOV']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>CSI Value:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['CSI']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Interest:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['INTEREST']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>Centroid Distance:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['CENTROID_DIST']).toFixed(3)}</span> 
-                    </p>
-                    <p className='text-white text-xs'>
-                        <span className='mr-2 font-bold'>GSS:</span> 
-                        <span className='float-right'>{parseFloat(props.mpdMetadata['GSS']).toFixed(3)}</span> 
-                    </p>
+                    <div className='mb-2 pt-1'>
+                        <Accordion
+                            sx={{backgroundColor:'transparent', boxShadow:'none', outline:'1px solid #0f172a99'}}
+                            defaultExpanded={true}
+                        >
+                            <AccordionSummary
+                              expandIcon={<ExpandMoreIcon sx={{color:'white'}} />}
+                              aria-controls="panel1-content"
+                              id="panel1-header"
+                            >
+                                <Divider><p className='text-white font-bold text-sm underline'>Statistics</p></Divider>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{paddingTop:'0px', paddingBottom:'10px'}}>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Max Stage IV Accumulated Rainfall:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Accumulation']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Max Stage IV Rain Rate:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Rate']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Max Unit Q:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Unit_Q']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Mean Unit Q:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_Unit_Q']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Fr Cov:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['FCOV']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>CSI Value:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['CSI']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Interest:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['INTEREST']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Centroid Distance:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['CENTROID_DIST']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>GSS:</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['GSS']).toFixed(3)}</span> 
+                                </p>
+                            </AccordionDetails>
+                        </Accordion>
+                    </div>
                 </div>
             :
                 null
