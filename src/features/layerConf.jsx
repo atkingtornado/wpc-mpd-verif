@@ -126,6 +126,18 @@ const layerConf = {
             'circle-opacity': 0.5
         }
     },
+    'MPING': {
+        id: 'MPING',
+        type: 'circle',
+        layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+        },
+        paint: {
+            'circle-color': '#6495ed',
+            'circle-opacity': 0.5
+        }
+    },
     'USGS': {
     	id: 'USGS',
         type: 'circle',

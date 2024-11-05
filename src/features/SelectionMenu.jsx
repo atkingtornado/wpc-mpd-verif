@@ -166,7 +166,10 @@ const SelectionMenu = (props) => {
         } else {
             if(productID === 'FLW' ||productID === 'FFW' || productID === 'StageIV'){
                 jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
-            } else {
+            } else if(productID === "MPING") {
+                jsonFile = productID + '_fullday_' + yrStr + '_' + mpdNum + '.geojson'
+            }
+            else {
                 jsonFile = productID + '_20km_' + yrStr + '_' + mpdNum + '.geojson'
             }
             
