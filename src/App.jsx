@@ -23,7 +23,7 @@ function App() {
   const [uIIsHidden, setUIIsHidden] = useState(false);
 
   useEffect(() => {
-    const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" : "https://origin.wpc.ncep.noaa.gov/verification/mpd_verif/"
+    const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" :  window.location.origin + "/verification/mpd_verif/"
     // const tmpDataUrl = "https://origin.wpc.ncep.noaa.gov/verification/mpd/"
     setDataURL(tmpDataUrl)
     setQueryStringObj(queryString.parse(location.search))
