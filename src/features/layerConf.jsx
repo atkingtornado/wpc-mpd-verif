@@ -168,9 +168,23 @@ const layerConf = {
             'circle-opacity': 0.5
         }
     },
-    
     /**
-     * US Geological Survey Stream Gauge data layer
+     * mPing reports layer
+     */
+    'MPING': {
+        id: 'MPING',
+        type: 'circle',
+        layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+        },
+        paint: {
+            'circle-color': '#6495ed',
+            'circle-opacity': 0.5
+        }
+    },
+     /**
+     * USGS Stream Gauge reports layer
      */
     'USGS': {
         id: 'USGS',
