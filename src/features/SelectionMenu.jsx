@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Selection menu component for MPD Verification tool
+ * This file provides the UI for selecting and loading MPD data by year/number or date
+ */
+
 import { useState, useEffect } from 'react'
 
 // import moment from 'moment';
@@ -40,28 +45,99 @@ import layerConf, {staticLayerConf} from './layerConf';
 import 'react-medium-image-zoom/dist/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 
+// Extend dayjs with plugins
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+/**
+ * Selection menu component for choosing MPD data
+ * Provides two methods of selection: by year/number or by date
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object|null} props.geojsonData - Current GeoJSON data displayed on the map
+ * @param {Function} props.handleMapDataChange - Function to update map data
+ * @param {string} props.dataURL - Base URL for data sources
+ * @param {Object} props.queryStringObj - Query string parameters parsed as an object
+ * @param {Function} props.setQueryStringObj - Function to update query string object
+ * @param {boolean} props.loadFromQueryString - Flag to indicate if data should be loaded from query string
+ * @param {Function} props.setLoadFromQueryString - Function to update loadFromQueryString state
+ * @returns {JSX.Element} Rendered component
+ */
 const SelectionMenu = (props) => {
 
+    /**
+     * State to track which search method is active (by number or by date)
+     * @type {[boolean, Function]}
+     */
     const [searchByNumber, setSearchByNumber] = useState(true);
+    
+    /**
+     * State for selected year in the year dropdown
+     * @type {[Object|null, Function]}
+     */
     const [yearSelection, setYearSelection] = useState(null);
+    
+    /**
+     * State for MPD number input field
+     * @type {[string, Function]}
+     */
     const [mpdNumberInput, setMpdNumberInput] = useState('');
+    
+    /**
+     * State for selected MPD number value
+     * @type {[Object|null, Function]}
+     */
     const [mpdNumberValue, setMpdNumberValue] = useState(null);
+    
+    /**
+     * State for selected MPD date
+     * @type {[Date|null, Function]}
+     */
     const [mpdDate, setMpdDate] = useState(null);
+    
+    /**
+     * State for available MPD options for the selected date
+     * @type {[Array|null, Function]}
+     */
     const [mpdOptions, setMpdOptions] = useState(null);
+    
+    /**
+     * State for selected MPD from the dropdown
+     * @type {[Object|null, Function]}
+     */
     const [selectedMpd, setSelectedMpd] = useState(null);
-    const [mpdMetadata, setMpdMetadata] = useState(null)
+    
+    /**
+     * State for MPD metadata
+     * @type {[Object|null, Function]}
+     */
+    const [mpdMetadata, setMpdMetadata] = useState(null);
+    
+    /**
+     * State for error messages
+     * @type {[string|null, Function]}
+     */
     const [errMsg, setErrMsg] = useState(null);
+    
+    /**
+     * State for data loading error messages
+     * @type {[string|null, Function]}
+     */
     const [dataLoadErrMsg, setDataLoadErrMsg] = useState(null);
+    
+    /**
+     * State to track if data is currently being fetched
+     * @type {[boolean, Function]}
+     */
     const [dataIsFetching, setDataIsFetching] = useState(false);
-    // const [loadFromQueryString, setLoadFromQueryString] = useState(false);
 
     const { map } = useMap();
 
-    // Update date selection menu every time new MPD metadata is loaded 
-    // (mainly for when the user is incrementing/decrementing MPDs)
+    /**
+     * Update date selection menu when new MPD metadata is loaded
+     * Mainly for when the user is incrementing/decrementing MPDs
+     */
     useEffect(() => {
         if(mpdMetadata !== null){
             let validDate = dayjs(mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD')
@@ -71,6 +147,9 @@ const SelectionMenu = (props) => {
         }
     }, [mpdMetadata])
 
+    /**
+     * Synchronize mpdNumberValue and selectedMpd when either changes
+     */
     useEffect(() => {
         if(selectedMpd !== null && mpdNumberValue !== null){
             if(mpdNumberValue.value !== selectedMpd.value) {
@@ -85,17 +164,20 @@ const SelectionMenu = (props) => {
                 }
             }
         }
-
     }, [mpdNumberValue, selectedMpd])
 
-    // Refresh dropdown menu with new MPD options when the date changes
+    /**
+     * Refresh dropdown menu with new MPD options when the date changes
+     */
     useEffect(() => {
         if(mpdDate !== null) {
             fetchAvailableMPDs()
         }
     },[mpdDate])
 
-    // Load data from query string, if available
+    /**
+     * Load data from query string, if available
+     */
     useEffect(() => {
         if(Object.keys(props.queryStringObj).length > 0 && "date" in props.queryStringObj && "mpd" in props.queryStringObj) {
             props.setLoadFromQueryString(true)
@@ -105,14 +187,18 @@ const SelectionMenu = (props) => {
         }
     },[props.queryStringObj])
 
+    /**
+     * Submit the form when selectedMpd changes if loading from query string
+     */
     useEffect(() => {
         if(props.loadFromQueryString){
             handleSubmit()
         }
     },[selectedMpd])
 
-
-
+    /**
+     * Fetch available MPDs for the selected date
+     */
     const fetchAvailableMPDs = () => {
         setDataIsFetching(true)
 
@@ -157,6 +243,14 @@ const SelectionMenu = (props) => {
         });
     }
 
+    /**
+     * Fetch GeoJSON data for a specific product, year, and MPD number
+     * 
+     * @param {string} productID - ID of the product to fetch
+     * @param {string} yrStr - Year string
+     * @param {string} mpdNum - MPD number
+     * @returns {Promise} Promise that resolves to the axios response
+     */
     const fetchGeojsonData = async (productID, yrStr, mpdNum) => {
         let jsonFile = ''
         let tmpProductID = productID
@@ -175,6 +269,9 @@ const SelectionMenu = (props) => {
         return axios.get(props.dataURL + yrStr + '/' + tmpProductID + '/' + jsonFile)
     }
 
+    /**
+     * Handle form submission to load MPD data
+     */
     const handleSubmit = () => {
         setDataIsFetching(true)
 
@@ -218,7 +315,6 @@ const SelectionMenu = (props) => {
                     setMpdMetadata(null)
                 }
             }
-
           })
 
           props.handleMapDataChange(tmpGeojsonData)
@@ -231,21 +327,36 @@ const SelectionMenu = (props) => {
           } else {
             setDataLoadErrMsg(null)
           }
-
         });
     }
     
+    /**
+     * Generate an array of years from 2020 to current year
+     * 
+     * @returns {number[]} Array of years
+     */
     const genYearsArray = () => {
       const year = new Date().getFullYear();
       const yearsBack = dayjs().diff('2020-01-01', 'years');
       return Array.from({length: yearsBack}, (v, i) => year - yearsBack + i + 1);
     }
 
+    /**
+     * Create a select option object from a label
+     * 
+     * @param {string|number} label - Option label and value
+     * @returns {Object} Option object with label and value properties
+     */
     const createOption = (label) => ({
       label,
       value: label,
     });
 
+    /**
+     * Handle key down events in the MPD number input
+     * 
+     * @param {Event} event - Key down event
+     */
     const handleKeyDown = (event) => {
         if (!setMpdNumberValue) return;
         if (event.key ==='Enter' || event.key === 'Tab') {
@@ -254,6 +365,9 @@ const SelectionMenu = (props) => {
         }
     }
 
+    /**
+     * Handle blur events in the MPD number input
+     */
     const handleBlur = () => {
         if(mpdNumberInput !== '') {
             setMpdNumberValue(createOption(mpdNumberInput))
@@ -261,11 +375,24 @@ const SelectionMenu = (props) => {
         }
     }
 
+    /**
+     * Pad an MPD number with leading zeros to the specified size
+     * 
+     * @param {number|string} num - Number to pad
+     * @param {number} size - Desired length of the padded string
+     * @returns {string} Padded number string
+     */
     const padMpdNum = (num, size) => {
         num = num.toString();
         while (num.length < size) num = "0" + num;
         return num;
     }
+    
+    /**
+     * Increment or decrement the current MPD number and load the data
+     * 
+     * @param {number} increment - Amount to increment the MPD number by
+     */
     const incrementMpd = (increment) => {
         setDataIsFetching(true)
 
@@ -288,7 +415,6 @@ const SelectionMenu = (props) => {
         setYearSelection(createOption(yrStr))
         setMpdNumberValue(createOption(mpdNum))
         setSearchByNumber(true)
-
 
         let tmpGeojsonData = {}
         let allErrors = []
@@ -316,9 +442,7 @@ const SelectionMenu = (props) => {
                 }
                 allErrors.push(productID)
             }
-
           })
-
 
           props.handleMapDataChange(tmpGeojsonData)
           setDataLoadErrMsg(null)
@@ -330,10 +454,14 @@ const SelectionMenu = (props) => {
           } else {
             setDataLoadErrMsg(null)
           }
-
         });
     }
 
+    /**
+     * Handle date change in the date picker
+     * 
+     * @param {Date} newDate - New date selected
+     */
     const handleDateChange = (newDate) => {
         setMpdDate(newDate)
         setYearSelection(createOption(dayjs(newDate).year()))
@@ -440,8 +568,6 @@ const SelectionMenu = (props) => {
                 }
             </div>
 
-            
-
             {props.geojsonData !== null ?
                 <>
                     <MetadataDisplay dataIsFetching={dataIsFetching} mpdMetadata={mpdMetadata} incrementMpd={incrementMpd}/>
@@ -459,13 +585,19 @@ const SelectionMenu = (props) => {
             :
                 null
             } 
-
         </>
     )
 }
 
+/**
+ * Component to display the MPD image
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object|null} props.mpdMetadata - Metadata for the current MPD
+ * @returns {JSX.Element} Rendered component
+ */
 const ImageDisplay = (props) => {
-
     return(
         <>
             { props.mpdMetadata !== null ?
@@ -481,8 +613,17 @@ const ImageDisplay = (props) => {
     )
 }
 
+/**
+ * Component to display MPD metadata and navigation controls
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {boolean} props.dataIsFetching - Flag indicating if data is being fetched
+ * @param {Object|null} props.mpdMetadata - Metadata for the current MPD
+ * @param {Function} props.incrementMpd - Function to increment or decrement the MPD number
+ * @returns {JSX.Element} Rendered component
+ */
 const MetadataDisplay = (props) => {
-
     return (
         <div className='fixed flex top-[181px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
             <Tooltip 
@@ -578,26 +719,54 @@ const MetadataDisplay = (props) => {
     )
 }
 
+/**
+ * Component to generate and share a link to the current MPD view
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object|null} props.mpdMetadata - Metadata for the current MPD
+ * @returns {JSX.Element} Rendered component
+ */
 const ShareMenu = (props) => {
+    /**
+     * State for dialog open status
+     * @type {[boolean, Function]}
+     */
     const [open, setOpen] = useState(false);
-    const [shareURL, setShareURL] = useState(null)
-    const [hasCopied, setHasCopied] = useState(false)
+    
+    /**
+     * State for share URL
+     * @type {[string|null, Function]}
+     */
+    const [shareURL, setShareURL] = useState(null);
+    
+    /**
+     * State to track if URL has been copied
+     * @type {[boolean, Function]}
+     */
+    const [hasCopied, setHasCopied] = useState(false);
+    
     const { map } = useMap();
 
-    // useEffect(() => {
-    //     genShareLink()
-    // },[props.mpdMetadata])
-
+    /**
+     * Close the share dialog
+     */
     const handleClose = () => {
         setOpen(false);
         setHasCopied(false)
     };
 
+    /**
+     * Open the share dialog and generate share link
+     */
     const handleOpen = () => {
         genShareLink()
         setOpen(true)
     }
 
+    /**
+     * Generate a shareable link to the current MPD view
+     */
     const genShareLink = () => {
         if(props.mpdMetadata !== null) {
             let tmpShareURL = window.location.origin + window.location.pathname
@@ -605,7 +774,7 @@ const ShareMenu = (props) => {
             let activeOverlays = []
             let layerIDs = Object.keys({...staticLayerConf, ...layerConf})
 
-            // Detemine which overlays are visible and add to query string object
+            // Determine which overlays are visible and add to query string object
             layerIDs.forEach((overlayID) => {
                 if (overlayID !== 'MPD' && map.getLayer(overlayID)) {
                     if(map.getLayoutProperty(overlayID, 'visibility') === 'visible'){
@@ -626,6 +795,9 @@ const ShareMenu = (props) => {
         }
     }
 
+    /**
+     * Copy the share URL to clipboard
+     */
     const copyToClipboard = () => {
         copy(shareURL);
         setHasCopied(true)
@@ -667,7 +839,6 @@ const ShareMenu = (props) => {
                 </DialogContent>
             </Dialog>
         </>
-
     )
 }
 

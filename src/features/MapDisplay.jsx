@@ -7,8 +7,17 @@ import layerConf, {staticLayerConf} from './layerConf';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import 'mapboxgl-legend/dist/style.css';
 import '../index.css';
-	
+
+/**
+ * Extract all layer IDs for both static and dynamic layers
+ * @type {string[]}
+ */
 const layerIDs = Object.keys({...staticLayerConf, ...layerConf})
+
+/**
+ * Configuration object for the map legend
+ * @type {Object.<string, boolean|{collapsed: boolean}>}
+ */
 let layersObj = {}
 layerIDs.forEach((productID) => {
 	// Default to collapsed in legend
@@ -19,17 +28,36 @@ layerIDs.forEach((productID) => {
 	} else {
 		layersObj[productID] = true
 	}	
-	
 })
 
+/**
+ * Legend control instance for the map
+ * @type {LegendControl}
+ */
 const legend = new LegendControl({
       layers: layersObj,
       toggler: true,
       onToggle: (id, vis) => {console.log(id, vis)}
   });
 
+/**
+ * MapDisplay component that renders the interactive map with various data layers
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.dataURL - Base URL for data sources
+ * @param {Object|null} props.geojsonData - GeoJSON data for various layers
+ * @param {Object} props.queryStringObj - Query string parameters parsed as an object
+ * @param {boolean} props.loadFromQueryString - Flag to indicate if map should load settings from query string
+ * @param {Function} props.setLoadFromQueryString - Function to update loadFromQueryString state
+ * @param {boolean} props.uIIsHidden - Flag to indicate if UI elements should be hidden
+ * @returns {JSX.Element} Rendered component
+ */
 const MapDisplay = (props) => {
 	
+	/**
+	 * State for map view (longitude, latitude, zoom)
+	 */
 	const [viewState, setViewState] = useState({
 		longitude: -98.4,
 		latitude: 39.5,
@@ -38,6 +66,9 @@ const MapDisplay = (props) => {
 
 	const { map } = useMap();
 
+	/**
+	 * Effect to center the map on MPD coordinates when geojsonData changes
+	 */
 	useEffect(() => {
 		if(props.geojsonData !==  null) {
 			try{
@@ -54,6 +85,11 @@ const MapDisplay = (props) => {
 		}
 	},[props.geojsonData])
 
+	/**
+	 * Handle map initialization and apply settings from query string if needed
+	 * 
+	 * @param {Object} e - Map load event
+	 */
 	const handleMapUpdate = (e) => {
 		if(props.loadFromQueryString) {
 			if ('overlay' in props.queryStringObj) {
@@ -125,6 +161,14 @@ const MapDisplay = (props) => {
 	)
 }
 
+/**
+ * Component that adds a legend control to the map
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {LegendControl} props.legend - Legend control instance to add to the map
+ * @returns {null} This component doesn't render any visible elements
+ */
 const LegendControlElement = (props) => {
 
     useControl(() => props.legend, {
