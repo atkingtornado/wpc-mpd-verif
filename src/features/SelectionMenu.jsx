@@ -35,6 +35,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from "react-datepicker";
@@ -484,9 +487,15 @@ const SelectionMenu = (props) => {
             :
                 null
             }
-            <div className='flex relative ml-auto mr-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[220px] p-3 shadow-md'>
-                <div className='mb-2 text-center'>
+            <div className='flex relative ml-auto mr-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[250px] p-3 shadow-md'>
+                <div className='mb-2 text-center flex flex-row justify-center items-center'>
                     <p className='text-white text-2xl font-bold'>MPD Verification</p>
+                    <Tooltip title="About this product">
+                        <FontAwesomeIcon className="text-white rounded-full ml-[10px] text-[24px] cursor-pointer animate-[anim-glow_1.8s_ease_infinite]" icon={faCircleQuestion} onClick={()=>{props.setHelpMenuOpen(true)}} />
+                    </Tooltip>
+                </div>
+                <div className="mb-4">
+                    <Button onClick={()=>{props.setDisplayType("plot")}} variant="contained" size="small" fullWidth >Historical Statistics</Button>
                 </div>
                 <Divider/>
 
@@ -674,11 +683,23 @@ const MetadataDisplay = (props) => {
                                 </p>
                                 <p className='text-white text-xs'>
                                     <span className='mr-2 font-bold'>Max Unit Q:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Unit_Q']).toFixed(3)}</span> 
+                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_top_p1_Unit_Q']).toFixed(3)}</span> 
                                 </p>
                                 <p className='text-white text-xs'>
                                     <span className='mr-2 font-bold'>Mean Unit Q:</span> 
                                     <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_Unit_Q']).toFixed(3)}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Max 1-hr ARI:</span> 
+                                    <span className='float-right'>{parseInt(props.mpdMetadata['Max_Hourly_ARI'])}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Max ARI Year:</span> 
+                                    <span className='float-right'>{parseInt(props.mpdMetadata['Max_ARI_Year'])}</span> 
+                                </p>
+                                <p className='text-white text-xs'>
+                                    <span className='mr-2 font-bold'>Max ARI Year Duration:</span> 
+                                    <span className='float-right'>{parseInt(props.mpdMetadata['Max_ARI_Dur'])}</span> 
                                 </p>
                                 <p className='text-white text-xs'>
                                     <span className='mr-2 font-bold'>Fr Cov:</span> 

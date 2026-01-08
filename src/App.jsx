@@ -16,6 +16,8 @@ import { NavBar } from "@atkingtornado/wpc-navbar-reactjs";
 
 import MapDisplay from "./features/MapDisplay"
 import SelectionMenu from "./features/SelectionMenu"
+import ImageDisplay from "./features/ImageDisplay"
+import AboutModal from "./features/AboutModal"
 
 import './App.css'
 
@@ -29,48 +31,68 @@ import './App.css'
 function App() {
 
   /**
-   * State for GeoJSON data to be displayed on the map
-   * @type {[Object|null, Function]} State and setter for GeoJSON data
-   */
+  * State for GeoJSON data to be displayed on the map
+  * @type {[Object|null, Function]} State and setter for GeoJSON data
+  */
   const [geojsonData, setGeojsonData] = useState(null)
   
   /**
-   * State for the base data URL
-   * @type {[string, Function]} State and setter for data URL
-   */
+  * State for the base data URL
+  * @type {[string, Function]} State and setter for data URL
+  */
   const [dataURL, setDataURL] = useState('')
   
   /**
-   * State for parsed query string parameters
-   * @type {[Object, Function]} State and setter for query string object
-   */
+  * State for parsed query string parameters
+  * @type {[Object, Function]} State and setter for query string object
+  */
   const [queryStringObj, setQueryStringObj] = useState({})
   
   /**
-   * State to track if data should be loaded from query string
-   * @type {[boolean, Function]} State and setter for loading from query string flag
-   */
+  * State to track if data should be loaded from query string
+  * @type {[boolean, Function]} State and setter for loading from query string flag
+  */
   const [loadFromQueryString, setLoadFromQueryString] = useState(false);
   
   /**
-   * State to track if UI elements should be hidden
-   * @type {[boolean, Function]} State and setter for UI visibility
-   */
+  * State to track if UI elements should be hidden
+  * @type {["interactive"|"plot", Function]} State and setter for display type (interactive or static plots)
+  */
+  const [displayType, setDisplayType] = useState("interactive");
+
+  /**
+  * State to track if UI elements should be hidden
+  * @type {[boolean, Function]} State and setter for UI visibility
+  */
   const [uIIsHidden, setUIIsHidden] = useState(false);
 
   /**
-   * Effect to initialize data URL and parse query string on component mount
-   */
+  * State to track if help menu is open
+  * @type {[boolean, Function]}
+  */
+  const [helpMenuOpen, setHelpMenuOpen] = useState(false);
+
+  /**
+  * Effect to initialize data URL and parse query string on component mount
+  */
   useEffect(() => {
     const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" :  window.location.origin + "/verification/mpd_verif/"
-    // const tmpDataUrl = "https://origin.wpc.ncep.noaa.gov/verification/mpd/"
     setDataURL(tmpDataUrl)
     setQueryStringObj(queryString.parse(location.search))
   },[])
 
   /**
-   * Toggle visibility of UI elements
-   */
+  * Effect to clear geojson data when display type changes
+  */
+  useEffect(() => {
+    if(displayType === "plot") {
+      setGeojsonData(null)
+    }
+  },[displayType])
+
+  /**
+  * Toggle visibility of UI elements
+  */
   const toggleUIVisibility = () => {
     setUIIsHidden(!uIIsHidden)
   }
@@ -93,42 +115,59 @@ function App() {
               <NavBar/>
             </div>
             <Alert className="z-20 relative flex justify-center" severity="error">****THIS IS A PROTOTYPE WEBSITE****</Alert>
-            <div className="z-20 fixed top-[170px] left-[10px]">
-              <Tooltip 
-                placement="right"
-                title="Toggle UI Visibility"
-              >
-                <IconButton onClick={toggleUIVisibility} aria-label="delete">
-                  { uIIsHidden ?
-                    <VisibilityOffIcon />
-                  :
-                    <VisibilityIcon />
-                  }
-                </IconButton>
-              </Tooltip>
-            </div>
-            <div className={ uIIsHidden ? 'hidden' : null}>
-              <SelectionMenu 
-                geojsonData={geojsonData} 
-                handleMapDataChange={handleMapDataChange} 
-                dataURL={dataURL}
-                queryStringObj={queryStringObj}
-                setQueryStringObj={setQueryStringObj}
-                loadFromQueryString={loadFromQueryString}
-                setLoadFromQueryString={setLoadFromQueryString}
-              />
-            </div>
-            <MapDisplay
-              dataURL={dataURL}
-              geojsonData={geojsonData}
-              queryStringObj={queryStringObj}
-              loadFromQueryString={loadFromQueryString}
-              setLoadFromQueryString={setLoadFromQueryString}
-              uIIsHidden={uIIsHidden}
-            />
+            {displayType === "interactive" ?
+              <div>
+                <div className="z-20 fixed top-[170px] left-[10px]">
+                  <Tooltip 
+                    placement="right"
+                    title="Toggle UI Visibility"
+                  >
+                    <IconButton onClick={toggleUIVisibility} aria-label="delete">
+                      { uIIsHidden ?
+                        <VisibilityOffIcon />
+                      :
+                        <VisibilityIcon />
+                      }
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                <div className={ uIIsHidden ? 'hidden' : null}>
+                  <SelectionMenu 
+                    geojsonData={geojsonData} 
+                    handleMapDataChange={handleMapDataChange} 
+                    dataURL={dataURL}
+                    queryStringObj={queryStringObj}
+                    setQueryStringObj={setQueryStringObj}
+                    loadFromQueryString={loadFromQueryString}
+                    setLoadFromQueryString={setLoadFromQueryString}
+                    setDisplayType={setDisplayType}
+                    setHelpMenuOpen={setHelpMenuOpen}
+                  />
+                </div>
+                <MapDisplay
+                  dataURL={dataURL}
+                  geojsonData={geojsonData}
+                  queryStringObj={queryStringObj}
+                  loadFromQueryString={loadFromQueryString}
+                  setLoadFromQueryString={setLoadFromQueryString}
+                  uIIsHidden={uIIsHidden}
+                />
+              </div>
+            : displayType === "plot" ?
+              <div>
+                <ImageDisplay
+                  setDisplayType={setDisplayType}
+                  setHelpMenuOpen={setHelpMenuOpen}
+                />
+              </div>
+            :
+              null
+            }
+
           </div>
         </div>
       </MapProvider>
+      <AboutModal onClose={()=>{setHelpMenuOpen(false)}} open={helpMenuOpen} displayType={displayType}/> 
     </>
   )
 }
