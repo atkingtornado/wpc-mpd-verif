@@ -73,13 +73,24 @@ function App() {
   const [helpMenuOpen, setHelpMenuOpen] = useState(false);
 
   /**
-  * Effect to initialize data URL and parse query string on component mount
-  */
+   * Effect to initialize data URL and parse query string on component mount
+   */
   useEffect(() => {
-    const tmpDataUrl = window.location.href.indexOf("localhost") != -1 ? "http://localhost:3001/" :  window.location.origin + "/verification/mpd_verif/"
-    setDataURL(tmpDataUrl)
-    setQueryStringObj(queryString.parse(location.search))
-  },[])
+    const href = window.location.href;
+
+    let tmpDataUrl;
+
+    if (!href.includes("test_scripts")) {
+      tmpDataUrl = window.location.origin + "/verification/mpd_verif/dev/";
+    } else if (href.includes("localhost")) {
+      tmpDataUrl = "http://localhost:3001/";
+    } else {
+      tmpDataUrl = window.location.origin + "/verification/mpd_verif/";
+    }
+
+    setDataURL(tmpDataUrl);
+    setQueryStringObj(queryString.parse(location.search));
+  }, []);
 
   /**
   * Effect to clear geojson data when display type changes
