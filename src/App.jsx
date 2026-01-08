@@ -21,6 +21,9 @@ import AboutModal from "./features/AboutModal"
 
 import './App.css'
 
+const href = window.location.href;
+const isTestSite = href.includes("test_scripts")
+
 /**
  * Main application component
  * Manages the application state and renders the primary UI components
@@ -76,11 +79,11 @@ function App() {
    * Effect to initialize data URL and parse query string on component mount
    */
   useEffect(() => {
-    const href = window.location.href;
+
 
     let tmpDataUrl;
 
-    if (!href.includes("test_scripts")) {
+    if (isTestSite) {
       tmpDataUrl = window.location.origin + "/verification/mpd_verif/dev/";
     } else if (href.includes("localhost")) {
       tmpDataUrl = "http://localhost:3001/";
@@ -126,6 +129,9 @@ function App() {
               <NavBar/>
             </div>
             <Alert className="z-20 relative flex justify-center" severity="error">****THIS IS A PROTOTYPE WEBSITE****</Alert>
+            { isTestSite &&
+              <Alert className="z-20 relative flex justify-center" severity="warning">This is the develpment version of the MPD Verification site. Please see <a href="https://www.wpc.ncep.noaa.gov/mpd-verification/">https://www.wpc.ncep.noaa.gov/mpd-verification/</a> for live data.</Alert>
+            }
             {displayType === "interactive" ?
               <div>
                 <div className="z-20 fixed top-[170px] left-[10px]">
