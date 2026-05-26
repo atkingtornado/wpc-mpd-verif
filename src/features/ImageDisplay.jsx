@@ -27,6 +27,8 @@ import "react-medium-image-zoom/dist/styles.css"
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+const isTestSite = window.location.href.includes("test_scripts")
+
 /**
  * Generate an array of years from 2020 to current year
  * 
@@ -233,7 +235,9 @@ const ImageDisplay = (props) => {
 	/**
 	* Function to generate image URL based on menu selections
 	*/
-	const baseURL = "https://www.wpc.ncep.noaa.gov/verification/mpd_verif/Images"
+	const baseURL = isTestSite
+		? "https://www.wpc.ncep.noaa.gov/verification/mpd_verif/dev/Images"
+		: "https://www.wpc.ncep.noaa.gov/verification/mpd_verif/Images"
 	const genPlotURL = () => {
 		let tmpURL = ""
 
