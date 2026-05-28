@@ -59,11 +59,11 @@ const monthlyPlotOptions = [
 	{label: "Frac. Cov. - All MPDs (YTD)", value: "barchart_no_WA_OR_20km_FRC_ALL_YTD"},
 	{label: "False Alarm MPDs (YTD)", value: "barchart_no_WA_OR_20km_FAR_ALL_YTD"},
 	{label: "Percentage of MPDs with No Obs (YTD)", value: "barchart_no_WA_OR_20km_FAR_PCT_ALL_YTD"},
-	{label: "CSI - All MPDs (All Years)", value: "barchart_20km_no_WA_OR_CSI_ALL_YEARS"},
-	{label: "Bias - All MPDs (All Years)", value: "barchart_20km_no_WA_OR_FRB_ALL_YEARS"},
-	{label: "Frac. Cov. - All MPDs (All Years)", value: "barchart_20km_no_WA_OR_FRC_ALL_YEARS"},
-	{label: "False Alarm MPDs (All Years)", value: "barchart_20km_no_WA_OR_FAR_ALL_YEARS"},
-	{label: "Percentage of MPDs with No Obs (All Years)", value: "barchart_20km_no_WA_OR_FAR_PCT_ALL_YEARS"},
+	{label: "CSI - All MPDs (All Years)", value: "barchart_no_WA_OR_20km_CSI_ALL_YEARS"},
+	{label: "Bias - All MPDs (All Years)", value: "barchart_no_WA_OR_20km_FRB_ALL_YEARS"},
+	{label: "Frac. Cov. - All MPDs (All Years)", value: "barchart_no_WA_OR_20km_FRC_ALL_YEARS"},
+	{label: "False Alarm MPDs (All Years)", value: "barchart_no_WA_OR_20km_FAR_ALL_YEARS"},
+	{label: "Percentage of MPDs with No Obs (All Years)", value: "barchart_no_WA_OR_20km_FAR_PCT_ALL_YEARS"},
 ]
 
 const seasonalPlotOptions = [
