@@ -1,14 +1,21 @@
 /**
- * @fileoverview Selection menu component for MPD Verification tool
- * This file provides the UI for selecting and loading MPD data by year/number or date
+ * @fileoverview Selection menu for the FFaIR IRW Verification tool.
+ *
+ * Selection flow: valid date -> forecaster (username) -> IRW (by valid time).
+ *
+ * The set of forecasters for a given date comes from the per-day Usernames JSON.
+ * The set of IRWs (valid-time windows) for a forecaster is derived by parsing the
+ * flat `2026/MPD_contour/` directory listing once into an in-memory index — see
+ * loadIrwIndex(). That single function is the only place that knows how IRWs are
+ * enumerated, so it can be swapped for a JSON index later with minimal change.
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-// import moment from 'moment';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useMap } from 'react-map-gl/maplibre';
 import axios from 'axios';
 import queryString from 'query-string';
@@ -28,34 +35,68 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
-
 import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import DatePicker from "react-datepicker";
-import Zoom from 'react-medium-image-zoom';
 
-import layerConf, {staticLayerConf} from './layerConf';
+import layerConf, { staticLayerConf } from './layerConf';
 
-import 'react-medium-image-zoom/dist/styles.css';
 import "react-datepicker/dist/react-datepicker.css";
 
-// Extend dayjs with plugins
+// Extend dayjs with plugins (customParseFormat is required to parse the
+// YYYYMMDDHH valid-time stamps embedded in the IRW file names)
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(customParseFormat)
+
+/** Year folder the FFaIR experiment data lives under. */
+const YEAR = '2026'
+
+/** Earliest selectable valid date (start of the experiment window). */
+const MIN_DATE = dayjs(`${YEAR}-06-01`, 'YYYY-MM-DD').toDate()
 
 /**
- * Selection menu component for choosing MPD data
- * Provides two methods of selection: by year/number or by date
- * 
+ * Parse a YYYYMMDDHH valid-time stamp into a UTC dayjs object.
+ *
+ * @param {string} t - 10-character YYYYMMDDHH string
+ * @returns {dayjs.Dayjs}
+ */
+const parseIrwTime = (t) => dayjs.utc(t, 'YYYYMMDDHH')
+
+/**
+ * Build a human-readable label for an IRW valid window,
+ * e.g. "18Z Jun 12 → 00Z Jun 13".
+ *
+ * @param {string} begin - YYYYMMDDHH start
+ * @param {string} end - YYYYMMDDHH end
+ * @returns {string}
+ */
+const formatIrwWindow = (begin, end) => {
+    const b = parseIrwTime(begin)
+    const e = parseIrwTime(end)
+    return `${b.format('HH')}Z ${b.format('MMM D')} → ${e.format('HH')}Z ${e.format('MMM D')}`
+}
+
+/**
+ * Create a react-select option object.
+ *
+ * @param {string|number} label - Option label
+ * @param {string|number} [value] - Option value (defaults to label)
+ * @returns {{label: (string|number), value: (string|number)}}
+ */
+const createOption = (label, value) => ({
+    label,
+    value: value === undefined ? label : value,
+});
+
+/**
+ * Selection menu component for choosing an IRW by date, forecaster, and valid time.
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Object|null} props.geojsonData - Current GeoJSON data displayed on the map
@@ -69,418 +110,335 @@ dayjs.extend(timezone)
  */
 const SelectionMenu = (props) => {
 
-    /**
-     * State to track which search method is active (by number or by date)
-     * @type {[boolean, Function]}
-     */
-    const [searchByNumber, setSearchByNumber] = useState(true);
-    
-    /**
-     * State for selected year in the year dropdown
-     * @type {[Object|null, Function]}
-     */
-    const [yearSelection, setYearSelection] = useState(null);
-    
-    /**
-     * State for MPD number input field
-     * @type {[string, Function]}
-     */
-    const [mpdNumberInput, setMpdNumberInput] = useState('');
-    
-    /**
-     * State for selected MPD number value
-     * @type {[Object|null, Function]}
-     */
-    const [mpdNumberValue, setMpdNumberValue] = useState(null);
-    
-    /**
-     * State for selected MPD date
-     * @type {[Date|null, Function]}
-     */
-    const [mpdDate, setMpdDate] = useState(null);
-    
-    /**
-     * State for available MPD options for the selected date
-     * @type {[Array|null, Function]}
-     */
-    const [mpdOptions, setMpdOptions] = useState(null);
-    
-    /**
-     * State for selected MPD from the dropdown
-     * @type {[Object|null, Function]}
-     */
-    const [selectedMpd, setSelectedMpd] = useState(null);
-    
-    /**
-     * State for MPD metadata
-     * @type {[Object|null, Function]}
-     */
-    const [mpdMetadata, setMpdMetadata] = useState(null);
-    
-    /**
-     * State for error messages
-     * @type {[string|null, Function]}
-     */
+    /** Selected valid date. @type {[Date|null, Function]} */
+    const [irwDate, setIrwDate] = useState(null);
+
+    /** Forecaster options for the selected date. @type {[Array|null, Function]} */
+    const [usernameOptions, setUsernameOptions] = useState(null);
+
+    /** Selected forecaster. @type {[Object|null, Function]} */
+    const [selectedUsername, setSelectedUsername] = useState(null);
+
+    /** IRW options for the selected forecaster + date. @type {[Array|null, Function]} */
+    const [irwOptions, setIrwOptions] = useState(null);
+
+    /** Selected IRW (carries username/begin/end). @type {[Object|null, Function]} */
+    const [selectedIrw, setSelectedIrw] = useState(null);
+
+    /** Metadata from the loaded IRW contour file. @type {[Object|null, Function]} */
+    const [irwMetadata, setIrwMetadata] = useState(null);
+
+    /** Selection-level error message. @type {[string|null, Function]} */
     const [errMsg, setErrMsg] = useState(null);
-    
-    /**
-     * State for data loading error messages
-     * @type {[string|null, Function]}
-     */
+
+    /** Data-load error message. @type {[string|null, Function]} */
     const [dataLoadErrMsg, setDataLoadErrMsg] = useState(null);
-    
-    /**
-     * State to track if data is currently being fetched
-     * @type {[boolean, Function]}
-     */
+
+    /** Whether data is currently being fetched. @type {[boolean, Function]} */
     const [dataIsFetching, setDataIsFetching] = useState(false);
+
+    /**
+     * Full index of every IRW in the experiment, parsed once from the
+     * MPD_contour directory listing: { username: [ {begin, end}, ... ] }
+     * (each list sorted ascending by begin time). Held in a ref since it never
+     * needs to trigger a re-render on its own.
+     * @type {React.MutableRefObject<Object|null>}
+     */
+    const irwIndex = useRef(null);
 
     const { map } = useMap();
 
     /**
-     * Update date selection menu when new MPD metadata is loaded
-     * Mainly for when the user is incrementing/decrementing MPDs
+     * Load the IRW index (directory listing) once on mount.
      */
     useEffect(() => {
-        if(mpdMetadata !== null){
-            let validDate = dayjs(mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD')
-            if(!dayjs(mpdDate).isSame(validDate)) {
-                setMpdDate(validDate.toDate())
-            }
-        }
-    }, [mpdMetadata])
+        loadIrwIndex()
+    }, [])
 
     /**
-     * Synchronize mpdNumberValue and selectedMpd when either changes
+     * When the date changes, fetch that day's forecaster roster.
      */
     useEffect(() => {
-        if(selectedMpd !== null && mpdNumberValue !== null){
-            if(mpdNumberValue.value !== selectedMpd.value) {
-                if(searchByNumber && mpdOptions !== null) {
-                    mpdOptions.forEach((mpdOption) => {
-                        if(mpdOption.value === mpdNumberValue.value){
-                            setSelectedMpd(mpdNumberValue)
-                        }
-                    })
-                } else {
-                    setMpdNumberValue(selectedMpd)
-                }
-            }
+        if (irwDate !== null) {
+            fetchUsernamesForDate()
         }
-    }, [mpdNumberValue, selectedMpd])
+    }, [irwDate])
 
     /**
-     * Refresh dropdown menu with new MPD options when the date changes
+     * When the forecaster (or date) changes, recompute the IRW dropdown.
      */
     useEffect(() => {
-        if(mpdDate !== null) {
-            fetchAvailableMPDs()
+        if (selectedUsername !== null && irwDate !== null) {
+            refreshIrwOptions(selectedUsername.value)
         }
-    },[mpdDate])
+    }, [selectedUsername])
 
     /**
-     * Load data from query string, if available
+     * Load data from a share link query string, if present.
      */
     useEffect(() => {
-        if(Object.keys(props.queryStringObj).length > 0 && "date" in props.queryStringObj && "mpd" in props.queryStringObj) {
+        const qs = props.queryStringObj
+        if (qs && 'date' in qs && 'user' in qs && 'begin' in qs && 'end' in qs) {
             props.setLoadFromQueryString(true)
-            setMpdDate(dayjs(props.queryStringObj['date']).toDate())
-            setYearSelection(createOption(dayjs(props.queryStringObj['date']).year()))
-            setMpdNumberValue(createOption(props.queryStringObj['mpd']))
+            setIrwDate(dayjs(qs['date'], 'YYYYMMDD').toDate())
         }
-    },[props.queryStringObj])
+    }, [props.queryStringObj])
 
     /**
-     * Submit the form when selectedMpd changes if loading from query string
+     * While loading from a share link, submit once the IRW has been resolved.
      */
     useEffect(() => {
-        if(props.loadFromQueryString){
+        if (props.loadFromQueryString && selectedIrw !== null) {
             handleSubmit()
         }
-    },[selectedMpd])
+    }, [selectedIrw])
 
     /**
-     * Fetch available MPDs for the selected date
+     * Fetch and parse the flat MPD_contour directory listing into an in-memory
+     * index of every IRW. This is the single source of IRW enumeration.
      */
-    const fetchAvailableMPDs = () => {
+    const loadIrwIndex = async () => {
+        try {
+            const resp = await axios.get(`${props.dataURL}${YEAR}/MPD_contour/`)
+            const html = typeof resp.data === 'string' ? resp.data : ''
+            const re = /MPD_contour_2026_(.+?)_(\d{10})_(\d{10})\.geojson/g
+            const index = {}
+            const seen = new Set()
+            let m
+            while ((m = re.exec(html)) !== null) {
+                const [, username, begin, end] = m
+                const key = `${username}_${begin}_${end}`
+                if (seen.has(key)) continue
+                seen.add(key)
+                if (!index[username]) index[username] = []
+                index[username].push({ begin, end })
+            }
+            Object.values(index).forEach((list) => list.sort((a, b) => a.begin.localeCompare(b.begin)))
+            irwIndex.current = index
+
+            // If a forecaster was already selected (e.g. share link resolved the
+            // username before the index finished loading), refresh now.
+            if (selectedUsername !== null && irwDate !== null) {
+                refreshIrwOptions(selectedUsername.value)
+            }
+        } catch (err) {
+            console.log(err)
+            irwIndex.current = {}
+        }
+    }
+
+    /**
+     * Fetch the forecaster roster for the selected valid date.
+     */
+    const fetchUsernamesForDate = () => {
+        setDataIsFetching(true)
+        const dateStr = dayjs(irwDate).format('YYYYMMDD')
+
+        axios.get(`${props.dataURL}Usernames/FFaIR_usernames_${dateStr}.json`)
+            .then((response) => {
+                const tmp = (response.data['usernames'] || []).map((u) => createOption(u))
+                setUsernameOptions(tmp)
+                setErrMsg(null)
+                setDataIsFetching(false)
+
+                // If loading from a share link, select the requested forecaster.
+                if (props.loadFromQueryString) {
+                    setSelectedUsername(createOption(props.queryStringObj['user']))
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                if (error.response && error.response.status === 404) {
+                    setErrMsg('No forecasters found for ' + dateStr)
+                } else {
+                    setErrMsg('Error fetching forecasters')
+                }
+                setUsernameOptions(null)
+                setDataIsFetching(false)
+            })
+    }
+
+    /**
+     * Recompute the IRW dropdown for a forecaster on the selected date.
+     *
+     * @param {string} username - Selected forecaster username
+     */
+    const refreshIrwOptions = (username) => {
+        const index = irwIndex.current || {}
+        const dateStr = dayjs(irwDate).format('YYYYMMDD')
+        const list = (index[username] || []).filter((irw) => irw.begin.substring(0, 8) === dateStr)
+        const opts = list.map((irw) => ({
+            label: formatIrwWindow(irw.begin, irw.end),
+            value: `${username}_${irw.begin}_${irw.end}`,
+            username,
+            begin: irw.begin,
+            end: irw.end,
+        }))
+        setIrwOptions(opts)
+
+        // If loading from a share link, select the requested IRW window.
+        if (props.loadFromQueryString) {
+            const qs = props.queryStringObj
+            const match = opts.find((o) => o.begin === qs['begin'] && o.end === qs['end'])
+            if (match) {
+                setSelectedIrw(match)
+            }
+        }
+    }
+
+    /**
+     * Fetch a single layer's GeoJSON for a given IRW.
+     *
+     * File naming (under {dataURL}2026/{folder}/):
+     *   - IRW outline: MPD_contour/MPD_contour_2026_{key}.geojson
+     *   - StageIV/FFW/FLW: {OBS}_2026_{key}.geojson           (no _20km_)
+     *   - MPING: MPING_fullday_2026_{key}.geojson
+     *   - everything else: {OBS}_20km_2026_{key}.geojson
+     * where {key} = "{username}_{begin}_{end}".
+     *
+     * @param {string} productID - Layer key from layerConf
+     * @param {string} irwKey - "{username}_{begin}_{end}"
+     * @returns {Promise} Axios response promise
+     */
+    const fetchGeojsonData = (productID, irwKey) => {
+        let folder = productID
+        let file
+
+        if (productID === 'IRW') {
+            folder = 'MPD_contour'
+            file = `MPD_contour_${YEAR}_${irwKey}.geojson`
+        } else if (productID === 'FLW' || productID === 'FFW' || productID === 'StageIV') {
+            file = `${productID}_${YEAR}_${irwKey}.geojson`
+        } else if (productID === 'MPING') {
+            file = `MPING_fullday_${YEAR}_${irwKey}.geojson`
+        } else {
+            file = `${productID}_20km_${YEAR}_${irwKey}.geojson`
+        }
+
+        return axios.get(`${props.dataURL}${YEAR}/${folder}/${file}`)
+    }
+
+    /**
+     * Load all layer GeoJSON for a specific IRW and push it to the map. Also keeps
+     * the menu selections (date / forecaster / IRW) in sync — used both by the
+     * Submit button and the prev/next navigation.
+     *
+     * @param {string} username - Forecaster username
+     * @param {string} begin - YYYYMMDDHH start
+     * @param {string} end - YYYYMMDDHH end
+     */
+    const loadIrw = (username, begin, end) => {
         setDataIsFetching(true)
 
-        let dateStr = mpdDate.toISOString().substring(0, 10)
-        dateStr = dateStr.replaceAll('-','')
-        let yrStr = dateStr.substring(0, 4)
+        const irwKey = `${username}_${begin}_${end}`
+        const productIDs = Object.keys(layerConf)
+        const allPromises = productIDs.map((productID) => fetchGeojsonData(productID, irwKey))
 
-        axios.get(props.dataURL + yrStr + '/' + 'MPD_nums_valid_' + dateStr + '.json')
-        .then(response => {
-            const tmpOptions = response.data['mpd_nums'].map((mpdNum) => {
-                return createOption(mpdNum)
+        Promise.allSettled(allPromises).then((results) => {
+            const tmpGeojsonData = {}
+            const allErrors = []
+
+            results.forEach((result, i) => {
+                const productID = productIDs[i]
+                if (result.status === 'fulfilled') {
+                    tmpGeojsonData[productID] = result.value.data
+                    if (productID === 'IRW') {
+                        setIrwMetadata(result.value.data && result.value.data['metadata'] ? result.value.data['metadata'] : null)
+                    }
+                } else {
+                    // A 404 just means this IRW has no obs of that type — normal for
+                    // sparse FFaIR data, so don't surface it as an error. Only flag
+                    // genuine failures (5xx, network, etc.).
+                    const status = result.reason && result.reason.response ? result.reason.response.status : null
+                    if (status !== 404) {
+                        allErrors.push(productID)
+                    }
+                    if (productID === 'IRW') {
+                        setIrwMetadata(null)
+                    }
+                }
             })
 
-            setMpdOptions(tmpOptions)
-
-            // If date has been changed by the user incrementing/decrementing, set the 
-            if(selectedMpd !== null && mpdNumberValue !== null){
-                if(mpdNumberValue.value !== selectedMpd.value) {
-                    if(searchByNumber && response.data['mpd_nums'].includes(mpdNumberValue.value)) {
-                        setSelectedMpd(mpdNumberValue)
-                    } 
-                }
-            }
-
-            //If loading from a query string
-            if(props.loadFromQueryString) {
-                setSelectedMpd({'value':props.queryStringObj['mpd'], 'label':props.queryStringObj['mpd'] })
-            }
-
+            props.handleMapDataChange(tmpGeojsonData)
             setErrMsg(null)
             setDataIsFetching(false)
+            setDataLoadErrMsg(allErrors.length !== 0 ? 'Error loading data for: ' + allErrors.toString() : null)
+
+            if (props.loadFromQueryString) {
+                props.setLoadFromQueryString(false)
+            }
+
+            // Keep menu selections in sync (e.g. after prev/next navigation).
+            // Guard with same-value checks so we don't re-trigger effects/loops.
+            setSelectedUsername((prev) => (prev && prev.value === username) ? prev : createOption(username))
+            setSelectedIrw((prev) => (prev && prev.value === irwKey)
+                ? prev
+                : { label: formatIrwWindow(begin, end), value: irwKey, username, begin, end })
+            if (!irwDate || dayjs(irwDate).format('YYYYMMDD') !== begin.substring(0, 8)) {
+                setIrwDate(parseIrwTime(begin).toDate())
+            }
         })
-        .catch(error => {
-            console.log(error)
-            if(error.response.status === 404) {
-                setErrMsg("No MPD data for " + dateStr)
-            } else {
-                setErrMsg("Error fetching available MPDs")
-            }
-            setMpdOptions(null)
-            setDataIsFetching(false)
-        });
     }
 
     /**
-     * Fetch GeoJSON data for a specific product, year, and MPD number
-     * 
-     * @param {string} productID - ID of the product to fetch
-     * @param {string} yrStr - Year string
-     * @param {string} mpdNum - MPD number
-     * @returns {Promise} Promise that resolves to the axios response
-     */
-    const fetchGeojsonData = async (productID, yrStr, mpdNum) => {
-        let jsonFile = ''
-        let tmpProductID = productID
-        if(productID === 'MPD'){
-            jsonFile = 'MPD_contour_' + yrStr + '_' + mpdNum + '.geojson'
-            tmpProductID = 'MPD_contour'
-        } else {
-            if(productID === 'FLW' ||productID === 'FFW' || productID === 'StageIV'){
-                jsonFile = productID + '_' + yrStr + '_' + mpdNum + '.geojson'
-            } else if(productID === "MPING") {
-                jsonFile = productID + '_fullday_' + yrStr + '_' + mpdNum + '.geojson'
-            }
-            else {
-                jsonFile = productID + '_20km_' + yrStr + '_' + mpdNum + '.geojson'
-            }
-            
-        }
-
-        return axios.get(props.dataURL + yrStr + '/' + tmpProductID + '/' + jsonFile)
-    }
-
-    /**
-     * Handle form submission to load MPD data
+     * Handle form submission to load the selected IRW.
      */
     const handleSubmit = () => {
-        setDataIsFetching(true)
-
-        let yrStr = null
-        let mpdNum = null
-
-        if (searchByNumber) {
-            yrStr = yearSelection['value']
-            mpdNum = mpdNumberValue['value']
-        } else {
-            let dateStr = mpdDate.toISOString().substring(0, 10)
-            dateStr = dateStr.replaceAll('-','')
-            yrStr = dateStr.substring(0, 4)
-
-            mpdNum = selectedMpd['value']
-        }
-
-        let tmpGeojsonData = {}
-        let allErrors = []
-        let allPromises = []
-        Object.keys(layerConf).forEach((productID) => {
-            allPromises.push(fetchGeojsonData(productID, yrStr, mpdNum))
-        })
-
-        Promise.allSettled(allPromises).then((results) => {
-          results.forEach((result, i) => {
-            let productID = Object.keys(layerConf)[i]
-
-            if(result.status === 'fulfilled'){
-                tmpGeojsonData[productID] = result.value.data
-                if(productID === "MPD"){
-                    if('metadata' in result.value.data){
-                        setMpdMetadata(result.value.data['metadata'])
-                    } else {
-                        setMpdMetadata(null)
-                    }
-                }
-            } else {
-                allErrors.push(productID)
-                if(productID === "MPD") {
-                    setMpdMetadata(null)
-                }
-            }
-          })
-
-          props.handleMapDataChange(tmpGeojsonData)
-          setDataLoadErrMsg(null)
-          setErrMsg(null)
-          setDataIsFetching(false)
-
-          if(allErrors.length !== 0) {
-            setDataLoadErrMsg('Error loading data for: ' + allErrors.toString())
-          } else {
-            setDataLoadErrMsg(null)
-          }
-        });
-    }
-    
-    /**
-     * Generate an array of years from 2020 to current year
-     * 
-     * @returns {number[]} Array of years
-     */
-    const genYearsArray = () => {
-      const year = new Date().getFullYear();
-      const yearsBack = dayjs().diff('2020-01-01', 'years');
-      return Array.from({length: yearsBack}, (v, i) => year - yearsBack + i + 1);
+        if (selectedIrw === null) return
+        loadIrw(selectedIrw.username, selectedIrw.begin, selectedIrw.end)
     }
 
     /**
-     * Create a select option object from a label
-     * 
-     * @param {string|number} label - Option label and value
-     * @returns {Object} Option object with label and value properties
+     * Navigate to the previous/next IRW for the current forecaster, ordered by
+     * valid time (crossing dates as needed).
+     *
+     * @param {number} step - -1 for previous, +1 for next
      */
-    const createOption = (label) => ({
-      label,
-      value: label,
-    });
-
-    /**
-     * Handle key down events in the MPD number input
-     * 
-     * @param {Event} event - Key down event
-     */
-    const handleKeyDown = (event) => {
-        if (!setMpdNumberValue) return;
-        if (event.key ==='Enter' || event.key === 'Tab') {
-            setMpdNumberValue(createOption(mpdNumberInput))
-            event.preventDefault();
-        }
+    const navigateIrw = (step) => {
+        if (selectedIrw === null) return
+        const list = (irwIndex.current || {})[selectedIrw.username] || []
+        const idx = list.findIndex((x) => x.begin === selectedIrw.begin && x.end === selectedIrw.end)
+        if (idx === -1) return
+        const target = list[idx + step]
+        if (!target) return
+        loadIrw(selectedIrw.username, target.begin, target.end)
     }
 
     /**
-     * Handle blur events in the MPD number input
-     */
-    const handleBlur = () => {
-        if(mpdNumberInput !== '') {
-            setMpdNumberValue(createOption(mpdNumberInput))
-            console.log('setting:' + mpdNumberInput)
-        }
-    }
-
-    /**
-     * Pad an MPD number with leading zeros to the specified size
-     * 
-     * @param {number|string} num - Number to pad
-     * @param {number} size - Desired length of the padded string
-     * @returns {string} Padded number string
-     */
-    const padMpdNum = (num, size) => {
-        num = num.toString();
-        while (num.length < size) num = "0" + num;
-        return num;
-    }
-    
-    /**
-     * Increment or decrement the current MPD number and load the data
-     * 
-     * @param {number} increment - Amount to increment the MPD number by
-     */
-    const incrementMpd = (increment) => {
-        setDataIsFetching(true)
-
-        let yrStr = null
-        let mpdNum = null
-
-        if (searchByNumber) {
-            yrStr = yearSelection['value']
-            mpdNum = mpdNumberValue['value']
-        } else {
-            let dateStr = mpdDate.toISOString().substring(0, 10)
-            dateStr = dateStr.replaceAll('-','')
-            yrStr = dateStr.substring(0, 4)
-
-            mpdNum = selectedMpd['value']
-        }
-
-        mpdNum = padMpdNum(Math.abs(parseInt(mpdNum) + increment), 4)
-
-        setYearSelection(createOption(yrStr))
-        setMpdNumberValue(createOption(mpdNum))
-        setSearchByNumber(true)
-
-        let tmpGeojsonData = {}
-        let allErrors = []
-        let allPromises = []
-        Object.keys(layerConf).forEach((productID) => {
-            allPromises.push(fetchGeojsonData(productID, yrStr, mpdNum))
-        })
-
-        Promise.allSettled(allPromises).then((results) => {
-          results.forEach((result, i) => {
-            let productID = Object.keys(layerConf)[i]
-
-            if(result.status === 'fulfilled'){
-                tmpGeojsonData[productID] = result.value.data
-                if(productID === "MPD"){
-                    if('metadata' in result.value.data){
-                        setMpdMetadata(result.value.data['metadata'])
-                    } else {
-                        setMpdMetadata(null)
-                    }
-                }
-            } else {
-                if(productID === "MPD") {
-                    setMpdMetadata(null)
-                }
-                allErrors.push(productID)
-            }
-          })
-
-          props.handleMapDataChange(tmpGeojsonData)
-          setDataLoadErrMsg(null)
-          setErrMsg(null)
-          setDataIsFetching(false)
-
-          if(allErrors.length !== 0) {
-            setDataLoadErrMsg('Error loading data for: ' + allErrors.toString())
-          } else {
-            setDataLoadErrMsg(null)
-          }
-        });
-    }
-
-    /**
-     * Handle date change in the date picker
-     * 
-     * @param {Date} newDate - New date selected
+     * Handle date change in the date picker (resets downstream selections).
+     *
+     * @param {Date} newDate - Newly selected date
      */
     const handleDateChange = (newDate) => {
-        setMpdDate(newDate)
-        setYearSelection(createOption(dayjs(newDate).year()))
+        setIrwDate(newDate)
+        setSelectedUsername(null)
+        setSelectedIrw(null)
+        setIrwOptions(null)
     }
 
-    const yearOptions = genYearsArray().map((yr) => ({label:yr, value:yr}))
-    const components = {
-      DropdownIndicator: null,
-    };  
+    /**
+     * Handle forecaster change (resets the IRW selection).
+     *
+     * @param {Object} newValue - Newly selected forecaster option
+     */
+    const handleUsernameChange = (newValue) => {
+        setSelectedUsername(newValue)
+        setSelectedIrw(null)
+    }
+
+    // Determine whether prev/next navigation is available for the current IRW.
+    let hasPrev = false
+    let hasNext = false
+    if (selectedIrw && irwIndex.current) {
+        const list = irwIndex.current[selectedIrw.username] || []
+        const idx = list.findIndex((x) => x.begin === selectedIrw.begin && x.end === selectedIrw.end)
+        hasPrev = idx > 0
+        hasNext = idx > -1 && idx < list.length - 1
+    }
 
     return (
         <>
-            {dataIsFetching ? 
+            {dataIsFetching ?
                 <div className='fixed flex top-1/2 left-1/2 z-10 transform -translate-y-[-40px] z-20' >
                     <CircularProgress />
                 </div>
@@ -489,82 +447,61 @@ const SelectionMenu = (props) => {
             }
             <div className='flex relative ml-auto mr-5 mt-5 z-10 flex-col rounded bg-slate-900/60 w-[250px] p-3 shadow-md'>
                 <div className='mb-2 text-center flex flex-row justify-center items-center'>
-                    <p className='text-white text-2xl font-bold'>MPD Verification</p>
-                    <Tooltip title="About this product">
-                        <FontAwesomeIcon className="text-white rounded-full ml-[10px] text-[24px] cursor-pointer animate-[anim-glow_1.8s_ease_infinite]" icon={faCircleQuestion} onClick={()=>{props.setHelpMenuOpen(true)}} />
-                    </Tooltip>
-                </div>
-                <div className="mb-4">
-                    <Button onClick={()=>{props.setDisplayType("plot")}} variant="contained" size="small" fullWidth >Historical Statistics</Button>
+                    <p className='text-white text-2xl font-bold'>IRW Verification</p>
                 </div>
                 <Divider/>
 
-                <div className={searchByNumber ? 'mb-2 mt-2 rounded outline outline-blue-500' : 'mb-2 mt-2'}>
-                    <div className='mt-2 mb-2 ml-2 mr-2'>
+                {/* Step 1: valid date */}
+                <div className='mt-3 mb-2 ml-2 mr-2'>
+                    <DatePicker
+                        wrapperClassName='w-full'
+                        className='w-full rounded pl-2 pr-2 pt-2 pb-2 placeholder-[#808080]'
+                        placeholderText="IRW Valid Date"
+                        selected={irwDate}
+                        onChange={(date) => handleDateChange(date)}
+                        minDate={MIN_DATE}
+                        maxDate={dayjs().toDate()}
+                    />
+                </div>
+
+                {/* Step 2: forecaster */}
+                {irwDate !== null && usernameOptions !== null ?
+                    <div className='mb-2 ml-2 mr-2'>
                         <Select
-                            placeholder="MPD Year"
-                            options={yearOptions}
-                            value={yearSelection}
-                            onChange={(val)=>{setYearSelection(val)}}
-                            onFocus={() => {setSearchByNumber(true)}}
-                         />
+                            placeholder="Forecaster"
+                            options={usernameOptions}
+                            value={selectedUsername}
+                            onChange={handleUsernameChange}
+                        />
                     </div>
-                    { yearSelection !== null ?
+                :
+                    null
+                }
+
+                {/* Step 3: IRW (by valid time) */}
+                {selectedUsername !== null && irwOptions !== null ?
+                    irwOptions.length > 0 ?
                         <div className='mb-2 ml-2 mr-2'>
-                            <CreatableSelect
-                                components={components}
-                                inputValue={mpdNumberInput}
-                                isClearable
-                                menuIsOpen={false}
-                                onChange={(newValue) => setMpdNumberValue(newValue)}
-                                onInputChange={(newValue) => setMpdNumberInput(newValue)}
-                                onBlur={handleBlur}
-                                onFocus={() => {setSearchByNumber(true)}}
-                                onKeyDown={handleKeyDown}
-                                placeholder="MPD Number"
-                                value={mpdNumberValue}
+                            <Select
+                                placeholder="IRW (valid time)"
+                                options={irwOptions}
+                                value={selectedIrw}
+                                onChange={(newValue) => setSelectedIrw(newValue)}
                             />
                         </div>
                     :
-                        null
-                    }
-                </div>
-
-                <Divider><p className='text-white'>OR</p></Divider>
-
-                <div className={!searchByNumber ? 'mt-2 rounded outline outline-blue-500' : 'mt-2'}>
-                    <div className='mb-2 ml-2 mr-2 mt-2'>
-                        {/*<p className='text-white text-md'>MPD Valid Date:</p>*/}
-                        <DatePicker 
-                            wrapperClassName='w-full'
-                            className='w-full rounded pl-2 pr-2 pt-2 pb-2 placeholder-[#808080]'
-                            placeholderText="MPD Valid Date"
-                            selected={mpdDate} 
-                            onChange={(date) => handleDateChange(date)}
-                            onFocus={() => {setSearchByNumber(false)}}
-                            minDate={dayjs(yearOptions[0].value.toString(), "YYYY").toDate()}
-                            maxDate={dayjs().toDate()}
-                        />
-                    </div>
-                    {mpdDate !== null && mpdOptions !== null?
                         <div className='mb-2 ml-2 mr-2'>
-                            <Select
-                                options={mpdOptions}
-                                value={selectedMpd}
-                                onChange={(newValue) => setSelectedMpd(newValue)}
-                                onFocus={() => {setSearchByNumber(false)}}
-                             />
+                            <Alert severity="info">No IRWs for this forecaster on the selected date.</Alert>
                         </div>
-                    :
-                        null
-                    }
-                </div>
+                :
+                    null
+                }
 
                 <div className='mt-4 w-full'>
-                    <Button 
+                    <Button
                         onClick={handleSubmit}
-                        disabled={dataIsFetching || (mpdNumberValue === null && searchByNumber === true) || (selectedMpd === null && searchByNumber === false)} 
-                        className='w-full' 
+                        disabled={dataIsFetching || selectedIrw === null}
+                        className='w-full'
                         variant="contained"
                     >
                         Submit
@@ -582,9 +519,15 @@ const SelectionMenu = (props) => {
 
             {props.geojsonData !== null ?
                 <>
-                    <MetadataDisplay dataIsFetching={dataIsFetching} mpdMetadata={mpdMetadata} incrementMpd={incrementMpd}/>
-                    <ShareMenu mpdMetadata={mpdMetadata} />
-                    <ImageDisplay mpdMetadata={mpdMetadata}/>
+                    <MetadataDisplay
+                        dataIsFetching={dataIsFetching}
+                        irwMetadata={irwMetadata}
+                        selectedIrw={selectedIrw}
+                        navigateIrw={navigateIrw}
+                        hasPrev={hasPrev}
+                        hasNext={hasNext}
+                    />
+                    <ShareMenu selectedIrw={selectedIrw} />
                 </>
             :
                 null
@@ -596,69 +539,80 @@ const SelectionMenu = (props) => {
                 </div>
             :
                 null
-            } 
-        </>
-    )
-}
-
-/**
- * Component to display the MPD image
- * 
- * @component
- * @param {Object} props - Component props
- * @param {Object|null} props.mpdMetadata - Metadata for the current MPD
- * @returns {JSX.Element} Rendered component
- */
-const ImageDisplay = (props) => {
-    return(
-        <>
-            { props.mpdMetadata !== null ?
-                <div className='fixed bottom-5 left-[200px] max-w-[200px] shadow-md z-10'>
-                    <Zoom>
-                        <img src={'https://www.wpc.ncep.noaa.gov/archives/metwatch/' + dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD').year() + '/images/mcd' + props.mpdMetadata['MPD_number'] + '.gif'}/>
-                    </Zoom>
-                </div>
-            :
-                null
             }
         </>
     )
 }
 
 /**
- * Component to display MPD metadata and navigation controls
- * 
+ * Safely format a numeric metadata value to a fixed number of decimals.
+ *
+ * @param {*} val - Raw value (number or numeric string)
+ * @param {number} [digits=3] - Decimal places
+ * @returns {string} Formatted value or an em dash if not a number
+ */
+const fmtNum = (val, digits = 3) => {
+    const n = parseFloat(val)
+    return Number.isFinite(n) ? n.toFixed(digits) : '—'
+}
+
+/**
+ * Safely format an integer metadata value.
+ *
+ * @param {*} val - Raw value (number or numeric string)
+ * @returns {string} Formatted integer or an em dash if not a number
+ */
+const fmtInt = (val) => {
+    const n = parseInt(val)
+    return Number.isFinite(n) ? String(n) : '—'
+}
+
+/**
+ * Clean up the valid-time strings produced by the pipeline (e.g. "06::00Z").
+ *
+ * @param {string} val - Raw valid-time string
+ * @returns {string}
+ */
+const cleanValidTime = (val) => (typeof val === 'string' ? val.replace('::', ':') : val)
+
+/**
+ * Component to display IRW metadata and prev/next navigation controls.
+ *
  * @component
  * @param {Object} props - Component props
  * @param {boolean} props.dataIsFetching - Flag indicating if data is being fetched
- * @param {Object|null} props.mpdMetadata - Metadata for the current MPD
- * @param {Function} props.incrementMpd - Function to increment or decrement the MPD number
+ * @param {Object|null} props.irwMetadata - Metadata for the current IRW
+ * @param {Object|null} props.selectedIrw - Currently selected IRW (username/begin/end)
+ * @param {Function} props.navigateIrw - Function to move to the prev/next IRW
+ * @param {boolean} props.hasPrev - Whether a previous IRW exists
+ * @param {boolean} props.hasNext - Whether a next IRW exists
  * @returns {JSX.Element} Rendered component
  */
 const MetadataDisplay = (props) => {
+    const forecaster = props.selectedIrw ? props.selectedIrw.username : (props.irwMetadata ? props.irwMetadata['MPD_number'] : '')
+
     return (
         <div className='fixed flex top-[181px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
-            <Tooltip 
+            <Tooltip
                 placement="left"
-                title="Previous MPD"
+                title="Previous IRW"
             >
                 <div className='cursor-pointer self-center text-white h-full'>
-                    <Button onClick={()=>{props.incrementMpd(-1)}} disabled={props.dataIsFetching} style={{color: 'white'}}>
+                    <Button onClick={()=>{props.navigateIrw(-1)}} disabled={props.dataIsFetching || !props.hasPrev} style={{color: 'white'}}>
                         <ChevronLeftIcon fontSize="large"/>
                     </Button>
                 </div>
             </Tooltip>
-            { props.mpdMetadata !== null ?
+            { props.irwMetadata !== null ?
                 <div className='h-full'>
-                    <p className='text-white text-center text-xl pt-1'><b>{'MPD ' + props.mpdMetadata['MPD_number']}</b></p>
-                    <p className='text-white text-center text-sm pb-1'>{'Tag: ' + props.mpdMetadata['TAG'].toUpperCase()}</p>
+                    <p className='text-white text-center text-sm pt-1 pb-1'>{'Forecaster: ' + forecaster}</p>
                     <p className='text-white text-xs'>
-                        <span className='underline mr-2 font-bold'>Valid Start:</span> 
-                        <span className='float-right'>{props.mpdMetadata['valid_start']}</span> 
+                        <span className='underline mr-2 font-bold'>Valid Start:</span>
+                        <span className='float-right'>{cleanValidTime(props.irwMetadata['valid_start'])}</span>
                     </p>
                     <p className='text-white text-xs mb-2'>
-                        <span className='underline mr-2 font-bold'>Valid End:</span> 
-                        <span className='float-right'>{props.mpdMetadata['valid_end']}</span> 
+                        <span className='underline mr-2 font-bold'>Valid End:</span>
+                        <span className='float-right'>{cleanValidTime(props.irwMetadata['valid_end'])}</span>
                     </p>
                     <div className='mb-2 pt-1'>
                         <Accordion
@@ -674,52 +628,32 @@ const MetadataDisplay = (props) => {
                             </AccordionSummary>
                             <AccordionDetails sx={{paddingTop:'0px', paddingBottom:'10px'}}>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Max Stage IV Accumulated Rainfall:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Accumulation']).toFixed(3)}</span> 
+                                    <span className='mr-2 font-bold'>Max Stage IV Accumulated Rainfall:</span>
+                                    <span className='float-right'>{fmtNum(props.irwMetadata['Max_Rain_Accumulation'])}</span>
                                 </p>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Max Stage IV Rain Rate:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Max_Rain_Rate']).toFixed(3)}</span> 
+                                    <span className='mr-2 font-bold'>Max Stage IV Rain Rate:</span>
+                                    <span className='float-right'>{fmtNum(props.irwMetadata['Max_Rain_Rate'])}</span>
                                 </p>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Max Unit Q:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_top_p1_Unit_Q']).toFixed(3)}</span> 
+                                    <span className='mr-2 font-bold'>Max Unit Q:</span>
+                                    <span className='float-right'>{fmtNum(props.irwMetadata['Max_Unit_Q'])}</span>
                                 </p>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Mean Unit Q:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['Mean_Unit_Q']).toFixed(3)}</span> 
+                                    <span className='mr-2 font-bold'>Mean Unit Q:</span>
+                                    <span className='float-right'>{fmtNum(props.irwMetadata['Mean_Unit_Q'])}</span>
                                 </p>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Max 1-hr ARI:</span> 
-                                    <span className='float-right'>{parseInt(props.mpdMetadata['Max_Hourly_ARI'])}</span> 
+                                    <span className='mr-2 font-bold'>Max 1-hr ARI:</span>
+                                    <span className='float-right'>{fmtInt(props.irwMetadata['Max_Hourly_ARI'])}</span>
                                 </p>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Max ARI Year:</span> 
-                                    <span className='float-right'>{parseInt(props.mpdMetadata['Max_ARI_Year'])}</span> 
+                                    <span className='mr-2 font-bold'>Max ARI Year:</span>
+                                    <span className='float-right'>{fmtInt(props.irwMetadata['Max_ARI_Year'])}</span>
                                 </p>
                                 <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Max ARI Year Duration:</span> 
-                                    <span className='float-right'>{parseInt(props.mpdMetadata['Max_ARI_Dur'])}</span> 
-                                </p>
-                                <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Fr Cov:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['FCOV']).toFixed(3)}</span> 
-                                </p>
-                                <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>CSI Value:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['CSI']).toFixed(3)}</span> 
-                                </p>
-                                <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Interest:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['INTEREST']).toFixed(3)}</span> 
-                                </p>
-                                <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>Centroid Distance:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['CENTROID_DIST']).toFixed(3)}</span> 
-                                </p>
-                                <p className='text-white text-xs'>
-                                    <span className='mr-2 font-bold'>GSS:</span> 
-                                    <span className='float-right'>{parseFloat(props.mpdMetadata['GSS']).toFixed(3)}</span> 
+                                    <span className='mr-2 font-bold'>Max ARI Year Duration:</span>
+                                    <span className='float-right'>{fmtInt(props.irwMetadata['Max_ARI_Dur'])}</span>
                                 </p>
                             </AccordionDetails>
                         </Accordion>
@@ -729,12 +663,12 @@ const MetadataDisplay = (props) => {
                 null
             }
 
-            <Tooltip 
+            <Tooltip
                 placement="right"
-                title="Next MPD"
+                title="Next IRW"
             >
                 <div className='cursor-pointer self-center text-white h-full'>
-                    <Button onClick={()=>{props.incrementMpd(1)}} disabled={props.dataIsFetching} style={{color: 'white'}}>
+                    <Button onClick={()=>{props.navigateIrw(1)}} disabled={props.dataIsFetching || !props.hasNext} style={{color: 'white'}}>
                         <ChevronRightIcon fontSize="large"/>
                     </Button>
                 </div>
@@ -744,84 +678,67 @@ const MetadataDisplay = (props) => {
 }
 
 /**
- * Component to generate and share a link to the current MPD view
- * 
+ * Component to generate and share a link to the current IRW view.
+ *
  * @component
  * @param {Object} props - Component props
- * @param {Object|null} props.mpdMetadata - Metadata for the current MPD
+ * @param {Object|null} props.selectedIrw - Currently selected IRW (username/begin/end)
  * @returns {JSX.Element} Rendered component
  */
 const ShareMenu = (props) => {
-    /**
-     * State for dialog open status
-     * @type {[boolean, Function]}
-     */
+    /** Dialog open state. @type {[boolean, Function]} */
     const [open, setOpen] = useState(false);
-    
-    /**
-     * State for share URL
-     * @type {[string|null, Function]}
-     */
+
+    /** Generated share URL. @type {[string|null, Function]} */
     const [shareURL, setShareURL] = useState(null);
-    
-    /**
-     * State to track if URL has been copied
-     * @type {[boolean, Function]}
-     */
+
+    /** Whether the URL has been copied. @type {[boolean, Function]} */
     const [hasCopied, setHasCopied] = useState(false);
-    
+
     const { map } = useMap();
 
-    /**
-     * Close the share dialog
-     */
+    /** Close the share dialog. */
     const handleClose = () => {
         setOpen(false);
         setHasCopied(false)
     };
 
-    /**
-     * Open the share dialog and generate share link
-     */
+    /** Open the share dialog and generate the share link. */
     const handleOpen = () => {
         genShareLink()
         setOpen(true)
     }
 
-    /**
-     * Generate a shareable link to the current MPD view
-     */
+    /** Generate a shareable link to the current IRW view. */
     const genShareLink = () => {
-        if(props.mpdMetadata !== null) {
+        if (props.selectedIrw !== null) {
             let tmpShareURL = window.location.origin + window.location.pathname
-            let validDate = dayjs(props.mpdMetadata['valid_date'].split(' ')[0], 'YYYY-MM-DD')
-            let activeOverlays = []
-            let layerIDs = Object.keys({...staticLayerConf, ...layerConf})
+            const activeOverlays = []
+            const layerIDs = Object.keys({ ...staticLayerConf, ...layerConf })
 
-            // Determine which overlays are visible and add to query string object
+            // Determine which overlays are visible and add them to the query string.
             layerIDs.forEach((overlayID) => {
-                if (overlayID !== 'MPD' && map.getLayer(overlayID)) {
-                    if(map.getLayoutProperty(overlayID, 'visibility') === 'visible'){
+                if (overlayID !== 'IRW' && map.getLayer(overlayID)) {
+                    if (map.getLayoutProperty(overlayID, 'visibility') === 'visible') {
                         activeOverlays.push(overlayID)
                     }
                 }
             })
 
-            let tmpQueryStringObj = {
-                'date': validDate.format('YYYYMMDD'),
-                'mpd': props.mpdMetadata['MPD_number'],
+            const tmpQueryStringObj = {
+                'date': props.selectedIrw.begin.substring(0, 8),
+                'user': props.selectedIrw.username,
+                'begin': props.selectedIrw.begin,
+                'end': props.selectedIrw.end,
                 'overlay': activeOverlays
             }
             tmpShareURL += '?' + queryString.stringify(tmpQueryStringObj)
 
             setShareURL(tmpShareURL)
-            // window.history.pushState({path:tmpShareURL},'',tmpShareURL);
         }
     }
 
-    /**
-     * Copy the share URL to clipboard
-     */
+    /** Copy the share URL to clipboard. */
     const copyToClipboard = () => {
         copy(shareURL);
         setHasCopied(true)
@@ -838,9 +755,9 @@ const ShareMenu = (props) => {
                 <DialogTitle>Share Link</DialogTitle>
                 <DialogContent>
                     <div className='flex'>
-                        <TextField 
+                        <TextField
                             fullWidth
-                            type='text' 
+                            type='text'
                             value={shareURL}
                             variant='outlined'
                             inputProps={
@@ -853,7 +770,7 @@ const ShareMenu = (props) => {
                             </IconButton>
                         </div>
                     </div>
-                    {hasCopied ? 
+                    {hasCopied ?
                         <div className='mt-2'>
                             <Alert severity="success">Link copied to clipboard.</Alert>
                         </div>

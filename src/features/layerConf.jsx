@@ -199,10 +199,11 @@ const layerConf = {
     },
     
     /**
-     * Mesoscale Precipitation Discussion (MPD) layer
+     * Impactful Rainfall Watch (IRW) outline layer
+     * (forecaster-drawn area; analogous to the MPD outline on the MPD site)
      */
-    'MPD': {
-        id: 'MPD',
+    'IRW': {
+        id: 'IRW',
         type: 'line',
         paint: {
             'line-color': 'green',

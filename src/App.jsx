@@ -1,10 +1,11 @@
 /**
- * @fileoverview Main application component for the MPD Verification tool
- * This file sets up the main application structure and state management
+ * @fileoverview Main application component for the FFaIR IRW Verification tool.
+ * Sets up the overall layout and shared state. Unlike the MPD verification site,
+ * this spin-off is interactive-map only (no historical/aggregate statistics view).
  */
 
 import { useState, useEffect } from 'react'
-import {MapProvider, Map, useMap} from 'react-map-gl/maplibre';
+import { MapProvider } from 'react-map-gl/maplibre';
 import Alert from '@mui/material/Alert';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
@@ -16,18 +17,28 @@ import { NavBar } from "@atkingtornado/wpc-navbar-reactjs";
 
 import MapDisplay from "./features/MapDisplay"
 import SelectionMenu from "./features/SelectionMenu"
-import ImageDisplay from "./features/ImageDisplay"
-import AboutModal from "./features/AboutModal"
 
 import './App.css'
 
-const href = window.location.href;
-const isTestSite = href.includes("test_scripts")
+/**
+ * Base URL for the FFaIR IRW verification GeoJSON + Usernames data.
+ * Origin-relative so it works both in production (the app is served same-origin
+ * as the data) and in local dev (Vite proxies /verification to the WPC mirror —
+ * see vite.config.js).
+ * @type {string}
+ */
+const DATA_URL = "/verification/FFaIR_MPD/"
 
 /**
- * Main application component
- * Manages the application state and renders the primary UI components
- * 
+ * Base URL for the shared boundary overlay vector tiles (CWA/county/RFC/FEMA).
+ * These live with the MPD verification site; FFaIR_MPD has no overlays/ folder.
+ * @type {string}
+ */
+const OVERLAY_URL = "/verification/mpd_verif/"
+
+/**
+ * Main application component.
+ *
  * @component
  * @returns {JSX.Element} Rendered application
  */
@@ -35,74 +46,34 @@ function App() {
 
   /**
   * State for GeoJSON data to be displayed on the map
-  * @type {[Object|null, Function]} State and setter for GeoJSON data
+  * @type {[Object|null, Function]}
   */
   const [geojsonData, setGeojsonData] = useState(null)
-  
-  /**
-  * State for the base data URL
-  * @type {[string, Function]} State and setter for data URL
-  */
-  const [dataURL, setDataURL] = useState('')
-  
+
   /**
   * State for parsed query string parameters
-  * @type {[Object, Function]} State and setter for query string object
+  * @type {[Object, Function]}
   */
   const [queryStringObj, setQueryStringObj] = useState({})
-  
+
   /**
   * State to track if data should be loaded from query string
-  * @type {[boolean, Function]} State and setter for loading from query string flag
+  * @type {[boolean, Function]}
   */
   const [loadFromQueryString, setLoadFromQueryString] = useState(false);
-  
-  /**
-  * State to track if UI elements should be hidden
-  * @type {["interactive"|"plot", Function]} State and setter for display type (interactive or static plots)
-  */
-  const [displayType, setDisplayType] = useState("interactive");
 
   /**
   * State to track if UI elements should be hidden
-  * @type {[boolean, Function]} State and setter for UI visibility
+  * @type {[boolean, Function]}
   */
   const [uIIsHidden, setUIIsHidden] = useState(false);
 
   /**
-  * State to track if help menu is open
-  * @type {[boolean, Function]}
-  */
-  const [helpMenuOpen, setHelpMenuOpen] = useState(false);
-
-  /**
-   * Effect to initialize data URL and parse query string on component mount
+   * Effect to parse the query string on component mount
    */
   useEffect(() => {
-
-
-    let tmpDataUrl;
-
-    if (isTestSite) {
-      tmpDataUrl = window.location.origin + "/verification/mpd_verif/dev/";
-    } else if (href.includes("localhost")) {
-      tmpDataUrl = "http://localhost:3001/";
-    } else {
-      tmpDataUrl = window.location.origin + "/verification/mpd_verif/";
-    }
-
-    setDataURL(tmpDataUrl);
     setQueryStringObj(queryString.parse(location.search));
   }, []);
-
-  /**
-  * Effect to clear geojson data when display type changes
-  */
-  useEffect(() => {
-    if(displayType === "plot") {
-      setGeojsonData(null)
-    }
-  },[displayType])
 
   /**
   * Toggle visibility of UI elements
@@ -113,7 +84,7 @@ function App() {
 
   /**
    * Update the GeoJSON data for the map
-   * 
+   *
    * @param {Object} newData - New GeoJSON data to display on the map
    */
   const handleMapDataChange = (newData) => {
@@ -129,62 +100,45 @@ function App() {
               <NavBar/>
             </div>
             <Alert className="z-20 relative flex justify-center" severity="error">****THIS IS A PROTOTYPE WEBSITE****</Alert>
-            { isTestSite &&
-              <Alert className="z-20 relative flex justify-center" severity="warning">This is the develpment version of the MPD Verification site. Please see <a href="https://www.wpc.ncep.noaa.gov/mpd-verification/">https://www.wpc.ncep.noaa.gov/mpd-verification/</a> for live data.</Alert>
-            }
-            {displayType === "interactive" ?
-              <div>
-                <div className="z-20 fixed top-[170px] left-[10px]">
-                  <Tooltip 
-                    placement="right"
-                    title="Toggle UI Visibility"
-                  >
-                    <IconButton onClick={toggleUIVisibility} aria-label="delete">
-                      { uIIsHidden ?
-                        <VisibilityOffIcon />
-                      :
-                        <VisibilityIcon />
-                      }
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                <div className={ uIIsHidden ? 'hidden' : null}>
-                  <SelectionMenu 
-                    geojsonData={geojsonData} 
-                    handleMapDataChange={handleMapDataChange} 
-                    dataURL={dataURL}
-                    queryStringObj={queryStringObj}
-                    setQueryStringObj={setQueryStringObj}
-                    loadFromQueryString={loadFromQueryString}
-                    setLoadFromQueryString={setLoadFromQueryString}
-                    setDisplayType={setDisplayType}
-                    setHelpMenuOpen={setHelpMenuOpen}
-                  />
-                </div>
-                <MapDisplay
-                  dataURL={dataURL}
+            <div>
+              <div className="z-20 fixed top-[170px] left-[10px]">
+                <Tooltip
+                  placement="right"
+                  title="Toggle UI Visibility"
+                >
+                  <IconButton onClick={toggleUIVisibility} aria-label="toggle ui visibility">
+                    { uIIsHidden ?
+                      <VisibilityOffIcon />
+                    :
+                      <VisibilityIcon />
+                    }
+                  </IconButton>
+                </Tooltip>
+              </div>
+              <div className={ uIIsHidden ? 'hidden' : null}>
+                <SelectionMenu
                   geojsonData={geojsonData}
+                  handleMapDataChange={handleMapDataChange}
+                  dataURL={DATA_URL}
                   queryStringObj={queryStringObj}
+                  setQueryStringObj={setQueryStringObj}
                   loadFromQueryString={loadFromQueryString}
                   setLoadFromQueryString={setLoadFromQueryString}
-                  uIIsHidden={uIIsHidden}
                 />
               </div>
-            : displayType === "plot" ?
-              <div>
-                <ImageDisplay
-                  setDisplayType={setDisplayType}
-                  setHelpMenuOpen={setHelpMenuOpen}
-                />
-              </div>
-            :
-              null
-            }
-
+              <MapDisplay
+                dataURL={DATA_URL}
+                overlayURL={OVERLAY_URL}
+                geojsonData={geojsonData}
+                queryStringObj={queryStringObj}
+                loadFromQueryString={loadFromQueryString}
+                setLoadFromQueryString={setLoadFromQueryString}
+                uIIsHidden={uIIsHidden}
+              />
+            </div>
           </div>
         </div>
       </MapProvider>
-      <AboutModal onClose={()=>{setHelpMenuOpen(false)}} open={helpMenuOpen} displayType={displayType}/> 
     </>
   )
 }

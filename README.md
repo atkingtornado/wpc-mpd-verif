@@ -1,111 +1,60 @@
-# MPD Verification Website
+# FFaIR IRW Verification Website
 
-This is the official codebase for the [MPD Verification tool](https://www.wpc.ncep.noaa.gov/mpd-verification/), developed using [React](https://reactjs.org/) and [Vite](https://vitejs.dev/). The application visualizes Mesoscale Precipitation Discussion (MPD) verification statistics produced by the Weather Prediction Center (WPC).
+This is the codebase for the **FFaIR IRW Verification tool**, developed using [React](https://reactjs.org/) and [Vite](https://vitejs.dev/). It is a spin-off of the WPC [MPD Verification tool](https://www.wpc.ncep.noaa.gov/mpd-verification/), adapted to visualize verification information for **Impactful Rainfall Watches (IRWs)** — MPD-like products issued by forecasters during the WPC Flash Flood and Intense Rainfall (FFaIR) Experiment.
+
+Compared with the MPD site, this version:
+
+- Selects products by **forecaster (username) → valid date → IRW (by valid time)** rather than by MPD number/year.
+- Has **no historical/aggregate statistics** view (interactive map only).
+- Has **no product "tag"** and **no product image**.
 
 ## Features
 
-- **Dual MPD Selection Modes**:
-  - Select by MPD number & year: Select an MPD by manually specifying the MPD number and issuance year.
-  - Select by Date: Select an MPD from a list of MPDs issued for a given date.
+- **IRW Selection**: Choose a valid date, then a forecaster on duty that day, then a specific IRW organized by valid time.
+- **IRW Info & Statistics**: View per-IRW metadata (forecaster, valid start/end) and available statistics (rain accumulation/rate, Unit Q, ARI).
+- **Map Overlays**: Overlay relevant data layers such as LSRs, Stage IV, mPING, USGS, ST4&gt;ARI, ST4&gt;FFG, FFW/FLW.
+- **Navigation**: Step through a forecaster's IRWs (by valid time) with the prev/next arrows.
+- **Share Link**: Generate a link to share a specific IRW view.
 
-- **MPD Info & Statistics Display**:
-  - View various MPD verification statistics and metadata in a central display window.
+## Data
 
-- **Map Overlys**:
-  - Overlay various relevant data layers such as LSRs, StageIV, etc.
+The app reads from the WPC verification mirror at `https://www.wpc.ncep.noaa.gov/verification/FFaIR_MPD/`:
 
-- **Share Link**:
-  - Generate a link to share a specific view with others.
+- `Usernames/FFaIR_usernames_YYYYMMDD.json` — the forecaster roster for each day.
+- `2026/<LAYER>/` — one folder per data layer (`MPD_contour`, `LSRFLASH`, `LSRREG`, `FFW`, `FLW`, `StageIV`, `ST4gARI`, `ST4gFFG`, `MPING`, `USGS`).
+- File naming: `OBSTYPE_20km_2026_USERNAME_BEGIN_END.geojson` (with exceptions: `StageIV`/`FFW`/`FLW` omit `_20km_`, `MPING` uses `_fullday_`, and the IRW outline is `MPD_contour_2026_USERNAME_BEGIN_END.geojson`). `BEGIN`/`END` are `YYYYMMDDHH`.
 
-
+The list of IRWs for a forecaster/date is enumerated by parsing the flat `2026/MPD_contour/` directory listing once (see `loadIrwIndex()` in [`SelectionMenu.jsx`](src/features/SelectionMenu.jsx)). Boundary overlay vector tiles (CWA/county/RFC/FEMA) are shared with the MPD verification site under `/verification/mpd_verif/overlays/`.
 
 ## Prerequisites
 
 - Node.js (v14.0.0 or higher)
-- npm 
-
-## Tech Stack
-
-- [React](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
+- npm
 
 ## Getting Started
 
-Follow the steps below to run the project locally.
-
-### 1. Clone the Repository
-
-```bash
-git clone git@gitlab-ssh.nws.noaa.gov:wpc-operations/wpc-web/wpc-mpd-verif.git
-cd wpc-mpd-verif
-```
-
-### 2. Install dependencies:
-
 ```bash
 npm install
-```
-
-## Development
-
-This project uses Vite as its build tool and development server. Vite provides fast hot module replacement (HMR) and optimized builds.
-
-### Start Development Server
-
-```bash
 npm run dev
 ```
 
-This will start the development server at `http://localhost:5173`.
-
-### Development Features
-
-  - **Hot Module Replacement (HMR)**: Changes to your code will be reflected immediately without a full page reload
-  - **Error Overlay**: Errors will be displayed in the browser
-  - **ESLint Integration**: Code quality issues will be highlighted during development
+This starts the dev server at `http://localhost:5173`. During development, Vite proxies `/verification/*` to the live WPC mirror (see [`vite.config.js`](vite.config.js)) so the app can fetch data and the `MPD_contour` directory listing without CORS issues.
 
 ## Building for Production
-
-To create a production build:
 
 ```bash
 npm run build
 ```
 
-This will generate optimized files in the `dist` directory.
+This generates optimized files in the `dist` directory. In production the app is expected to be served same-origin as the data (under `www.wpc.ncep.noaa.gov`), so no proxy is needed.
 
+## Tech Stack
 
-## Dependencies
-
-- **React:** UI library
+- [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
 - **react-map-gl** & **maplibre-gl**: Map rendering and interaction
-- **react-select**: Enhanced dropdown selection
-- **react-datepicker**: Date selection component
-- **react-medium-image-zoom**: Image zoom functionality
-- **@mui/material**: UI components (buttons, alerts, etc.)
-- **@fortawesome/react-fontawesome**: Icon components
-- **axios**: HTTP client for data fetching
+- **react-select**: Dropdown selection
+- **react-datepicker**: Date selection
+- **@mui/material**: UI components
+- **axios**: HTTP client
 - **dayjs**: Date manipulation
 - **copy-to-clipboard**: Clipboard copy
-
-## Usage
-
-### Basic Use
-
-- Use either method of MPD selection to load verification statistics and map data for a given MPD.
-- Increment forward or backward in MPD number using the arrows within the statistics display window.
-- Click on the MPD image in the bottom left of the screen to enlarge it
-- Toggle the UI using the "eye" icon in the top left of the page
-
-### Interactive Map View
-
-- Use standard map controls for navigation:
-    - Pan: Click and drag
-    - Zoom: Scroll wheel
-    - Rotate/Tilt: Right-click and drag
-- Toggle layer visibility using the legend in the bottom-left corner of the page
-
-
-## Customizing Vite Configuration
-
-If you need to customize the Vite configuration, you can modify the `vite.config.js` file.

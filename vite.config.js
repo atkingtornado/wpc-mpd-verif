@@ -13,4 +13,20 @@ export default defineConfig({
   legacy: {
     inconsistentCjsInterop: true,
   },
+  // During local dev, proxy the verification data (and the shared boundary
+  // overlays) to the live WPC mirror. This lets the app fetch the FFaIR_MPD
+  // GeoJSON, the per-day Usernames files, and — crucially — the MPD_contour
+  // directory listing (used to enumerate IRWs) without hitting CORS. In
+  // production the app is served same-origin as the data, so no proxy is needed.
+  server: {
+    // Honor a harness/CI-assigned port if provided, otherwise Vite's default.
+    port: process.env.PORT ? Number(process.env.PORT) : 5173,
+    proxy: {
+      '/verification': {
+        target: 'https://www.wpc.ncep.noaa.gov',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
 })

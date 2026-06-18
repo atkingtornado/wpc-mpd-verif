@@ -72,7 +72,7 @@ const MapDisplay = (props) => {
 	useEffect(() => {
 		if(props.geojsonData !==  null) {
 			try{
-				let coordsArr = props.geojsonData['MPD'].features[0].geometry.coordinates
+				let coordsArr = props.geojsonData['IRW'].features[0].geometry.coordinates
 				let coordMean = coordsArr.reduce((acc, cur) => {
 				    cur.forEach((e, i) => acc[i] = acc[i] ? acc[i] + e : e);
 				    return acc;
@@ -126,19 +126,19 @@ const MapDisplay = (props) => {
 
 		    	{props.geojsonData !== null ? 
 			    	<>
-			    		<Source id="cwa_bounds" type="vector" tiles={[props.dataURL + "overlays/cwa_bounds/{z}/{x}/{y}.pbf"]}>
+			    		<Source id="cwa_bounds" type="vector" tiles={[props.overlayURL + "overlays/cwa_bounds/{z}/{x}/{y}.pbf"]}>
                 <Layer {...staticLayerConf["cwa_bounds"]} metadata={{name: "CWA Boundries", labels:{other:false}}}/>
               </Source>
 
-             	<Source id="rfc_bounds" type="vector" tiles={[props.dataURL + "overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
+             	<Source id="rfc_bounds" type="vector" tiles={[props.overlayURL + "overlays/rfc_bounds/{z}/{x}/{y}.pbf"]}>
                 <Layer {...staticLayerConf["rfc_bounds"]} metadata={{name: "RFC Boundries", labels:{other:false}}}/>
               </Source>
 
-              <Source id="county_bounds" type="vector" tiles={[props.dataURL + "overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
+              <Source id="county_bounds" type="vector" tiles={[props.overlayURL + "overlays/county_bounds/{z}/{x}/{y}.pbf"]}>
                 <Layer {...staticLayerConf["county_bounds"]} metadata={{name: "County Boundries", labels:{other:false}}}/>
               </Source>
 
-              <Source id="FEMA_regions" type="vector" tiles={[props.dataURL + "overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
+              <Source id="FEMA_regions" type="vector" tiles={[props.overlayURL + "overlays/FEMA_regions/{z}/{x}/{y}.pbf"]}>
                 <Layer {...staticLayerConf["FEMA_regions"]} metadata={{name: "FEMA Regions", labels:{other:false}}}/>
               </Source>
 
