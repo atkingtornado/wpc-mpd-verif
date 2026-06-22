@@ -7,10 +7,10 @@
  * For each issuance date there is a JSON at
  *   Usernames/FFaIR_usernames_and_validtimes_YYYYMMDD.json
  * whose top-level keys are usernames and whose values are arrays of filename
- * substrings of the form "day{N}_st{YYYYMMDDHH}_et{YYYYMMDDHH}" (one per IRW that
- * forecaster issued that day). A substring is combined with the username to build
- * the GeoJSON file names, e.g.
- *   MPD_contour_2026_MDsucks_day1_st2026061518_et2026061600.geojson
+ * substrings of the form "day{N}_{START}_{END}" (START/END are YYYYMMDDHH; one
+ * per IRW that forecaster issued that day). A substring is combined with the
+ * username to build the GeoJSON file names, e.g.
+ *   MPD_contour_2026_MDsucks_day1_2026061518_2026061600.geojson
  * The Day 1/2/3 toggle filters a forecaster's IRWs by the "day{N}" prefix.
  */
 
@@ -74,24 +74,26 @@ const DAY_OPTIONS = [
 ]
 
 /**
- * Parse an IRW filename substring of the form
- * "day{N}_st{YYYYMMDDHH}_et{YYYYMMDDHH}".
+ * Parse an IRW filename substring of the form "day{N}_{START}_{END}"
+ * (START/END are YYYYMMDDHH). Also tolerates the older "day{N}_st{START}_et{END}"
+ * form for backwards compatibility.
  *
  * @param {string} s - The substring
  * @returns {{day: string, start: string, end: string}|null} Parsed parts, or null if malformed
  */
 const parseSubstring = (s) => {
-    const m = /^(day\d+)_st(\d{10})_et(\d{10})$/.exec(s || '')
+    const m = /^(day\d+)_(?:st)?(\d{10})_(?:et)?(\d{10})$/.exec(s || '')
     if (!m) return null
     return { day: m[1], start: m[2], end: m[3] }
 }
 
 /**
- * Convert an IRW substring ("day{N}_st{START}_et{END}") into the form used in
- * the GeoJSON file names, which drops the "st"/"et" markers
- * ("day{N}_{START}_{END}"). Falls back to the raw substring if it can't parse.
+ * Normalize an IRW substring into the form used in the GeoJSON file names,
+ * "day{N}_{START}_{END}". Current files already use this form; older files used
+ * "day{N}_st{START}_et{END}", whose "st"/"et" markers are dropped here.
+ * Falls back to the raw substring if it can't parse.
  *
- * @param {string} substring - The "day{N}_st..._et..." substring
+ * @param {string} substring - The IRW substring
  * @returns {string}
  */
 const substringToFileKey = (substring) => {

@@ -26,15 +26,6 @@ export default defineConfig({
         target: 'https://www.wpc.ncep.noaa.gov',
         changeOrigin: true,
         secure: true,
-        // DEV-ONLY FIXTURE: the new usernames+validtimes JSONs are not on the
-        // live server yet. Serve the local sample for the 2026-06-13 issuance
-        // date so the IRW selection flow is testable in dev. Remove once the
-        // real files are published. (No effect on the production build.)
-        bypass: (req) => {
-          if (req.url.endsWith('/Usernames/FFaIR_usernames_and_validtimes_20260613.json')) {
-            return '/test-data/FFaIR_usernames_and_validtimes_20260613.json'
-          }
-        },
       },
     },
   },
