@@ -22,19 +22,28 @@ import './App.css'
 
 /**
  * Base URL for the FFaIR IRW verification GeoJSON + Usernames data.
- * Origin-relative so it works both in production (the app is served same-origin
- * as the data) and in local dev (Vite proxies /verification to the WPC mirror —
- * see vite.config.js).
+ *
+ * Built from window.location.origin so it is an ABSOLUTE URL. This works in
+ * production (the app is served same-origin as the data) and in local dev (Vite
+ * proxies /verification to the WPC mirror — see vite.config.js). Absolute is
+ * required for OVERLAY_URL below — see that note — and we keep DATA_URL absolute
+ * for consistency.
  * @type {string}
  */
-const DATA_URL = "/verification/FFaIR_MPD/"
+const DATA_URL = window.location.origin + "/verification/FFaIR_MPD/"
 
 /**
  * Base URL for the shared boundary overlay vector tiles (CWA/county/RFC/FEMA).
  * These live with the MPD verification site; FFaIR_MPD has no overlays/ folder.
+ *
+ * This MUST be an absolute URL: MapLibre fetches vector tiles inside a Web
+ * Worker, which has no document base URL, so a root-relative path like
+ * "/verification/..." fails with "Failed to construct 'Request': Failed to parse
+ * URL". window.location.origin yields the page origin (proxied to the WPC mirror
+ * in dev; same-origin as the data in production).
  * @type {string}
  */
-const OVERLAY_URL = "/verification/mpd_verif/"
+const OVERLAY_URL = window.location.origin + "/verification/mpd_verif/"
 
 /**
  * Main application component.
