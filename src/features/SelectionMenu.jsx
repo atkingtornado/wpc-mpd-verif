@@ -434,6 +434,17 @@ const SelectionMenu = (props) => {
     }
 
     /**
+     * Clear the currently displayed IRW (map data + metadata) so the stats panel
+     * is hidden. Called whenever the selection context changes away from the
+     * loaded IRW (date/forecaster/day), so stale data is never shown — e.g. when
+     * flipping to a forecast day that has no IRWs for the forecaster.
+     */
+    const clearLoadedIrw = () => {
+        props.handleMapDataChange(null)
+        setIrwMetadata(null)
+    }
+
+    /**
      * Handle issuance-date change (resets downstream selections).
      *
      * @param {Date} newDate - Newly selected date
@@ -443,6 +454,7 @@ const SelectionMenu = (props) => {
         setSelectedUsername(null)
         setSelectedIrw(null)
         setIrwOptions(null)
+        clearLoadedIrw()
     }
 
     /**
@@ -453,6 +465,7 @@ const SelectionMenu = (props) => {
     const handleUsernameChange = (newValue) => {
         setSelectedUsername(newValue)
         setSelectedIrw(null)
+        clearLoadedIrw()
     }
 
     /**
@@ -465,6 +478,7 @@ const SelectionMenu = (props) => {
         if (newDay !== null) {
             setDaySelection(newDay)
             setSelectedIrw(null)
+            clearLoadedIrw()
         }
     }
 
@@ -510,7 +524,7 @@ const SelectionMenu = (props) => {
                 {issuanceDate !== null && usernameOptions !== null ?
                     <div className='mb-2 ml-2 mr-2'>
                         <Select
-                            placeholder="Forecaster"
+                            placeholder="User"
                             options={usernameOptions}
                             value={selectedUsername}
                             onChange={handleUsernameChange}
@@ -557,7 +571,7 @@ const SelectionMenu = (props) => {
                         </div>
                     :
                         <div className='mb-2 ml-2 mr-2'>
-                            <Alert severity="info">No IRWs for this forecaster on the selected day.</Alert>
+                            <Alert severity="info">No IRWs for this user on the selected day.</Alert>
                         </div>
                 :
                     null
@@ -655,7 +669,7 @@ const cleanValidTime = (val) => (typeof val === 'string' ? val.replace('::', ':'
  * @returns {JSX.Element} Rendered component
  */
 const MetadataDisplay = (props) => {
-    const forecaster = props.selectedIrw ? props.selectedIrw.username : (props.irwMetadata ? props.irwMetadata['MPD_number'] : '')
+    const forecaster = props.selectedIrw ? props.selectedIrw.username : ''
 
     return (
         <div className='fixed flex top-[181px] rounded bg-slate-900/60 p-1 shadow-md left-1/2 transform -translate-x-1/2 z-10'>
@@ -671,7 +685,7 @@ const MetadataDisplay = (props) => {
             </Tooltip>
             { props.irwMetadata !== null ?
                 <div className='h-full'>
-                    <p className='text-white text-center text-sm pt-1 pb-1'>{'Forecaster: ' + forecaster}</p>
+                    <p className='text-white text-center text-sm pt-1 pb-1'>{'User: ' + forecaster}</p>
                     <p className='text-white text-xs'>
                         <span className='underline mr-2 font-bold'>Valid Start:</span>
                         <span className='float-right'>{cleanValidTime(props.irwMetadata['valid_start'])}</span>
