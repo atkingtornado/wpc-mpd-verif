@@ -1,16 +1,20 @@
 /**
  * @fileoverview Selection menu for the FFaIR IRW Verification tool.
  *
- * Selection flow: valid date -> forecaster (username) -> IRW (by valid time).
+ * Selection flow: issuance date -> forecaster (username) -> forecast day (toggle)
+ * -> IRW (by valid time).
  *
- * The set of forecasters for a given date comes from the per-day Usernames JSON.
- * The set of IRWs (valid-time windows) for a forecaster is derived by parsing the
- * flat `2026/MPD_contour/` directory listing once into an in-memory index — see
- * loadIrwIndex(). That single function is the only place that knows how IRWs are
- * enumerated, so it can be swapped for a JSON index later with minimal change.
+ * For each issuance date there is a JSON at
+ *   Usernames/FFaIR_usernames_and_validtimes_YYYYMMDD.json
+ * whose top-level keys are usernames and whose values are arrays of filename
+ * substrings of the form "day{N}_st{YYYYMMDDHH}_et{YYYYMMDDHH}" (one per IRW that
+ * forecaster issued that day). A substring is combined with the username to build
+ * the GeoJSON file names, e.g.
+ *   MPD_contour_2026_MDsucks_day1_st2026061518_et2026061600.geojson
+ * The Day 1/2/3 toggle filters a forecaster's IRWs by the "day{N}" prefix.
  */
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -24,6 +28,8 @@ import copy from 'copy-to-clipboard';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Alert from '@mui/material/Alert';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -49,7 +55,7 @@ import layerConf, { staticLayerConf } from './layerConf';
 import "react-datepicker/dist/react-datepicker.css";
 
 // Extend dayjs with plugins (customParseFormat is required to parse the
-// YYYYMMDDHH valid-time stamps embedded in the IRW file names)
+// YYYYMMDDHH valid-time stamps embedded in the IRW substrings)
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(customParseFormat)
@@ -57,8 +63,41 @@ dayjs.extend(customParseFormat)
 /** Year folder the FFaIR experiment data lives under. */
 const YEAR = '2026'
 
-/** Earliest selectable valid date (start of the experiment window). */
+/** Earliest selectable issuance date (start of the experiment window). */
 const MIN_DATE = dayjs(`${YEAR}-06-01`, 'YYYY-MM-DD').toDate()
+
+/** Forecast-day toggle options. */
+const DAY_OPTIONS = [
+    { value: 'day1', label: 'Day 1' },
+    { value: 'day2', label: 'Day 2' },
+    { value: 'day3', label: 'Day 3' },
+]
+
+/**
+ * Parse an IRW filename substring of the form
+ * "day{N}_st{YYYYMMDDHH}_et{YYYYMMDDHH}".
+ *
+ * @param {string} s - The substring
+ * @returns {{day: string, start: string, end: string}|null} Parsed parts, or null if malformed
+ */
+const parseSubstring = (s) => {
+    const m = /^(day\d+)_st(\d{10})_et(\d{10})$/.exec(s || '')
+    if (!m) return null
+    return { day: m[1], start: m[2], end: m[3] }
+}
+
+/**
+ * Convert an IRW substring ("day{N}_st{START}_et{END}") into the form used in
+ * the GeoJSON file names, which drops the "st"/"et" markers
+ * ("day{N}_{START}_{END}"). Falls back to the raw substring if it can't parse.
+ *
+ * @param {string} substring - The "day{N}_st..._et..." substring
+ * @returns {string}
+ */
+const substringToFileKey = (substring) => {
+    const p = parseSubstring(substring)
+    return p ? `${p.day}_${p.start}_${p.end}` : substring
+}
 
 /**
  * Parse a YYYYMMDDHH valid-time stamp into a UTC dayjs object.
@@ -70,32 +109,50 @@ const parseIrwTime = (t) => dayjs.utc(t, 'YYYYMMDDHH')
 
 /**
  * Build a human-readable label for an IRW valid window,
- * e.g. "18Z Jun 12 → 00Z Jun 13".
+ * e.g. "18Z Jun 15 → 00Z Jun 16".
  *
- * @param {string} begin - YYYYMMDDHH start
+ * @param {string} start - YYYYMMDDHH start
  * @param {string} end - YYYYMMDDHH end
  * @returns {string}
  */
-const formatIrwWindow = (begin, end) => {
-    const b = parseIrwTime(begin)
+const formatIrwWindow = (start, end) => {
+    const b = parseIrwTime(start)
     const e = parseIrwTime(end)
     return `${b.format('HH')}Z ${b.format('MMM D')} → ${e.format('HH')}Z ${e.format('MMM D')}`
 }
 
 /**
- * Create a react-select option object.
+ * Build a react-select option object for an IRW substring.
  *
- * @param {string|number} label - Option label
- * @param {string|number} [value] - Option value (defaults to label)
- * @returns {{label: (string|number), value: (string|number)}}
+ * @param {string} username - Forecaster username
+ * @param {string} substring - "day{N}_st..._et..." substring
+ * @returns {Object|null} Option object, or null if the substring is malformed
  */
-const createOption = (label, value) => ({
-    label,
-    value: value === undefined ? label : value,
-});
+const makeIrwOption = (username, substring) => {
+    const p = parseSubstring(substring)
+    if (!p) return null
+    return {
+        label: formatIrwWindow(p.start, p.end),
+        value: substring,
+        username,
+        substring,
+        day: p.day,
+        begin: p.start,
+        end: p.end,
+    }
+}
 
 /**
- * Selection menu component for choosing an IRW by date, forecaster, and valid time.
+ * Create a simple react-select option object.
+ *
+ * @param {string|number} label - Option label (also used as value)
+ * @returns {{label: (string|number), value: (string|number)}}
+ */
+const createOption = (label) => ({ label, value: label });
+
+/**
+ * Selection menu component for choosing an IRW by issuance date, forecaster,
+ * forecast day, and valid time.
  *
  * @component
  * @param {Object} props - Component props
@@ -110,8 +167,17 @@ const createOption = (label, value) => ({
  */
 const SelectionMenu = (props) => {
 
-    /** Selected valid date. @type {[Date|null, Function]} */
-    const [irwDate, setIrwDate] = useState(null);
+    /** Selected issuance date. @type {[Date|null, Function]} */
+    const [issuanceDate, setIssuanceDate] = useState(null);
+
+    /** Selected forecast day (day1/day2/day3). @type {[string, Function]} */
+    const [daySelection, setDaySelection] = useState('day1');
+
+    /**
+     * Parsed contents of the issuance-date JSON: { username: [substring, ...] }.
+     * @type {[Object|null, Function]}
+     */
+    const [usernameData, setUsernameData] = useState(null);
 
     /** Forecaster options for the selected date. @type {[Array|null, Function]} */
     const [usernameOptions, setUsernameOptions] = useState(null);
@@ -119,10 +185,10 @@ const SelectionMenu = (props) => {
     /** Selected forecaster. @type {[Object|null, Function]} */
     const [selectedUsername, setSelectedUsername] = useState(null);
 
-    /** IRW options for the selected forecaster + date. @type {[Array|null, Function]} */
+    /** IRW options for the selected forecaster + day. @type {[Array|null, Function]} */
     const [irwOptions, setIrwOptions] = useState(null);
 
-    /** Selected IRW (carries username/begin/end). @type {[Object|null, Function]} */
+    /** Selected IRW (carries username/substring/day/begin/end). @type {[Object|null, Function]} */
     const [selectedIrw, setSelectedIrw] = useState(null);
 
     /** Metadata from the loaded IRW contour file. @type {[Object|null, Function]} */
@@ -137,50 +203,38 @@ const SelectionMenu = (props) => {
     /** Whether data is currently being fetched. @type {[boolean, Function]} */
     const [dataIsFetching, setDataIsFetching] = useState(false);
 
-    /**
-     * Full index of every IRW in the experiment, parsed once from the
-     * MPD_contour directory listing: { username: [ {begin, end}, ... ] }
-     * (each list sorted ascending by begin time). Held in a ref since it never
-     * needs to trigger a re-render on its own.
-     * @type {React.MutableRefObject<Object|null>}
-     */
-    const irwIndex = useRef(null);
-
     const { map } = useMap();
 
     /**
-     * Load the IRW index (directory listing) once on mount.
+     * When the issuance date changes, fetch that day's usernames + valid times.
      */
     useEffect(() => {
-        loadIrwIndex()
-    }, [])
-
-    /**
-     * When the date changes, fetch that day's forecaster roster.
-     */
-    useEffect(() => {
-        if (irwDate !== null) {
+        if (issuanceDate !== null) {
             fetchUsernamesForDate()
         }
-    }, [irwDate])
+    }, [issuanceDate])
 
     /**
-     * When the forecaster (or date) changes, recompute the IRW dropdown.
+     * When the forecaster or forecast day changes, recompute the IRW dropdown.
      */
     useEffect(() => {
-        if (selectedUsername !== null && irwDate !== null) {
-            refreshIrwOptions(selectedUsername.value)
+        if (selectedUsername !== null) {
+            refreshIrwOptions(selectedUsername.value, daySelection)
         }
-    }, [selectedUsername])
+    }, [selectedUsername, daySelection])
 
     /**
      * Load data from a share link query string, if present.
      */
     useEffect(() => {
         const qs = props.queryStringObj
-        if (qs && 'date' in qs && 'user' in qs && 'begin' in qs && 'end' in qs) {
+        if (qs && 'date' in qs && 'user' in qs && 'irw' in qs) {
             props.setLoadFromQueryString(true)
-            setIrwDate(dayjs(qs['date'], 'YYYYMMDD').toDate())
+            const parsed = parseSubstring(qs['irw'])
+            if (parsed) {
+                setDaySelection(parsed.day)
+            }
+            setIssuanceDate(dayjs(qs['date'], 'YYYYMMDD').toDate())
         }
     }, [props.queryStringObj])
 
@@ -194,50 +248,17 @@ const SelectionMenu = (props) => {
     }, [selectedIrw])
 
     /**
-     * Fetch and parse the flat MPD_contour directory listing into an in-memory
-     * index of every IRW. This is the single source of IRW enumeration.
-     */
-    const loadIrwIndex = async () => {
-        try {
-            const resp = await axios.get(`${props.dataURL}${YEAR}/MPD_contour/`)
-            const html = typeof resp.data === 'string' ? resp.data : ''
-            const re = /MPD_contour_2026_(.+?)_(\d{10})_(\d{10})\.geojson/g
-            const index = {}
-            const seen = new Set()
-            let m
-            while ((m = re.exec(html)) !== null) {
-                const [, username, begin, end] = m
-                const key = `${username}_${begin}_${end}`
-                if (seen.has(key)) continue
-                seen.add(key)
-                if (!index[username]) index[username] = []
-                index[username].push({ begin, end })
-            }
-            Object.values(index).forEach((list) => list.sort((a, b) => a.begin.localeCompare(b.begin)))
-            irwIndex.current = index
-
-            // If a forecaster was already selected (e.g. share link resolved the
-            // username before the index finished loading), refresh now.
-            if (selectedUsername !== null && irwDate !== null) {
-                refreshIrwOptions(selectedUsername.value)
-            }
-        } catch (err) {
-            console.log(err)
-            irwIndex.current = {}
-        }
-    }
-
-    /**
-     * Fetch the forecaster roster for the selected valid date.
+     * Fetch the usernames + valid times JSON for the selected issuance date.
      */
     const fetchUsernamesForDate = () => {
         setDataIsFetching(true)
-        const dateStr = dayjs(irwDate).format('YYYYMMDD')
+        const dateStr = dayjs(issuanceDate).format('YYYYMMDD')
 
-        axios.get(`${props.dataURL}Usernames/FFaIR_usernames_${dateStr}.json`)
+        axios.get(`${props.dataURL}Usernames/FFaIR_usernames_and_validtimes_${dateStr}.json`)
             .then((response) => {
-                const tmp = (response.data['usernames'] || []).map((u) => createOption(u))
-                setUsernameOptions(tmp)
+                const data = response.data || {}
+                setUsernameData(data)
+                setUsernameOptions(Object.keys(data).map((u) => createOption(u)))
                 setErrMsg(null)
                 setDataIsFetching(false)
 
@@ -249,37 +270,33 @@ const SelectionMenu = (props) => {
             .catch((error) => {
                 console.log(error)
                 if (error.response && error.response.status === 404) {
-                    setErrMsg('No forecasters found for ' + dateStr)
+                    setErrMsg('No IRWs issued on ' + dateStr)
                 } else {
-                    setErrMsg('Error fetching forecasters')
+                    setErrMsg('Error fetching IRWs')
                 }
+                setUsernameData(null)
                 setUsernameOptions(null)
                 setDataIsFetching(false)
             })
     }
 
     /**
-     * Recompute the IRW dropdown for a forecaster on the selected date.
+     * Recompute the IRW dropdown for a forecaster + forecast day.
      *
      * @param {string} username - Selected forecaster username
+     * @param {string} day - Selected forecast day (day1/day2/day3)
      */
-    const refreshIrwOptions = (username) => {
-        const index = irwIndex.current || {}
-        const dateStr = dayjs(irwDate).format('YYYYMMDD')
-        const list = (index[username] || []).filter((irw) => irw.begin.substring(0, 8) === dateStr)
-        const opts = list.map((irw) => ({
-            label: formatIrwWindow(irw.begin, irw.end),
-            value: `${username}_${irw.begin}_${irw.end}`,
-            username,
-            begin: irw.begin,
-            end: irw.end,
-        }))
+    const refreshIrwOptions = (username, day) => {
+        const entries = (usernameData && usernameData[username]) || []
+        const opts = entries
+            .map((s) => makeIrwOption(username, s))
+            .filter((o) => o && o.day === day)
+            .sort((a, b) => a.begin.localeCompare(b.begin))
         setIrwOptions(opts)
 
-        // If loading from a share link, select the requested IRW window.
+        // If loading from a share link, select the requested IRW.
         if (props.loadFromQueryString) {
-            const qs = props.queryStringObj
-            const match = opts.find((o) => o.begin === qs['begin'] && o.end === qs['end'])
+            const match = opts.find((o) => o.substring === props.queryStringObj['irw'])
             if (match) {
                 setSelectedIrw(match)
             }
@@ -294,10 +311,11 @@ const SelectionMenu = (props) => {
      *   - StageIV/FFW/FLW: {OBS}_2026_{key}.geojson           (no _20km_)
      *   - MPING: MPING_fullday_2026_{key}.geojson
      *   - everything else: {OBS}_20km_2026_{key}.geojson
-     * where {key} = "{username}_{begin}_{end}".
+     * where {key} = "{username}_day{N}_{START}_{END}" (the "st"/"et" markers from
+     * the substring are dropped — see substringToFileKey).
      *
      * @param {string} productID - Layer key from layerConf
-     * @param {string} irwKey - "{username}_{begin}_{end}"
+     * @param {string} irwKey - "{username}_day{N}_{START}_{END}"
      * @returns {Promise} Axios response promise
      */
     const fetchGeojsonData = (productID, irwKey) => {
@@ -320,17 +338,15 @@ const SelectionMenu = (props) => {
 
     /**
      * Load all layer GeoJSON for a specific IRW and push it to the map. Also keeps
-     * the menu selections (date / forecaster / IRW) in sync — used both by the
-     * Submit button and the prev/next navigation.
+     * the menu selections in sync — used by the Submit button and prev/next nav.
      *
      * @param {string} username - Forecaster username
-     * @param {string} begin - YYYYMMDDHH start
-     * @param {string} end - YYYYMMDDHH end
+     * @param {string} substring - "day{N}_st..._et..." substring
      */
-    const loadIrw = (username, begin, end) => {
+    const loadIrw = (username, substring) => {
         setDataIsFetching(true)
 
-        const irwKey = `${username}_${begin}_${end}`
+        const irwKey = `${username}_${substringToFileKey(substring)}`
         const productIDs = Object.keys(layerConf)
         const allPromises = productIDs.map((productID) => fetchGeojsonData(productID, irwKey))
 
@@ -371,12 +387,9 @@ const SelectionMenu = (props) => {
             // Keep menu selections in sync (e.g. after prev/next navigation).
             // Guard with same-value checks so we don't re-trigger effects/loops.
             setSelectedUsername((prev) => (prev && prev.value === username) ? prev : createOption(username))
-            setSelectedIrw((prev) => (prev && prev.value === irwKey)
+            setSelectedIrw((prev) => (prev && prev.value === substring && prev.username === username)
                 ? prev
-                : { label: formatIrwWindow(begin, end), value: irwKey, username, begin, end })
-            if (!irwDate || dayjs(irwDate).format('YYYYMMDD') !== begin.substring(0, 8)) {
-                setIrwDate(parseIrwTime(begin).toDate())
-            }
+                : makeIrwOption(username, substring))
         })
     }
 
@@ -385,32 +398,46 @@ const SelectionMenu = (props) => {
      */
     const handleSubmit = () => {
         if (selectedIrw === null) return
-        loadIrw(selectedIrw.username, selectedIrw.begin, selectedIrw.end)
+        loadIrw(selectedIrw.username, selectedIrw.substring)
     }
 
     /**
-     * Navigate to the previous/next IRW for the current forecaster, ordered by
-     * valid time (crossing dates as needed).
+     * Build the current forecaster + day IRW list (substrings, sorted by valid time).
+     *
+     * @returns {string[]} Ordered list of substrings
+     */
+    const currentIrwList = () => {
+        if (selectedIrw === null) return []
+        return ((usernameData && usernameData[selectedIrw.username]) || [])
+            .map((s) => makeIrwOption(selectedIrw.username, s))
+            .filter((o) => o && o.day === selectedIrw.day)
+            .sort((a, b) => a.begin.localeCompare(b.begin))
+            .map((o) => o.substring)
+    }
+
+    /**
+     * Navigate to the previous/next IRW for the current forecaster + forecast day,
+     * ordered by valid time.
      *
      * @param {number} step - -1 for previous, +1 for next
      */
     const navigateIrw = (step) => {
         if (selectedIrw === null) return
-        const list = (irwIndex.current || {})[selectedIrw.username] || []
-        const idx = list.findIndex((x) => x.begin === selectedIrw.begin && x.end === selectedIrw.end)
+        const list = currentIrwList()
+        const idx = list.indexOf(selectedIrw.substring)
         if (idx === -1) return
         const target = list[idx + step]
         if (!target) return
-        loadIrw(selectedIrw.username, target.begin, target.end)
+        loadIrw(selectedIrw.username, target)
     }
 
     /**
-     * Handle date change in the date picker (resets downstream selections).
+     * Handle issuance-date change (resets downstream selections).
      *
      * @param {Date} newDate - Newly selected date
      */
     const handleDateChange = (newDate) => {
-        setIrwDate(newDate)
+        setIssuanceDate(newDate)
         setSelectedUsername(null)
         setSelectedIrw(null)
         setIrwOptions(null)
@@ -426,12 +453,25 @@ const SelectionMenu = (props) => {
         setSelectedIrw(null)
     }
 
+    /**
+     * Handle forecast-day toggle change (resets the IRW selection).
+     *
+     * @param {Object} event - Toggle change event
+     * @param {string|null} newDay - Newly selected day, or null if unchanged
+     */
+    const handleDayChange = (event, newDay) => {
+        if (newDay !== null) {
+            setDaySelection(newDay)
+            setSelectedIrw(null)
+        }
+    }
+
     // Determine whether prev/next navigation is available for the current IRW.
     let hasPrev = false
     let hasNext = false
-    if (selectedIrw && irwIndex.current) {
-        const list = irwIndex.current[selectedIrw.username] || []
-        const idx = list.findIndex((x) => x.begin === selectedIrw.begin && x.end === selectedIrw.end)
+    if (selectedIrw) {
+        const list = currentIrwList()
+        const idx = list.indexOf(selectedIrw.substring)
         hasPrev = idx > 0
         hasNext = idx > -1 && idx < list.length - 1
     }
@@ -451,13 +491,13 @@ const SelectionMenu = (props) => {
                 </div>
                 <Divider/>
 
-                {/* Step 1: valid date */}
+                {/* Step 1: issuance date */}
                 <div className='mt-3 mb-2 ml-2 mr-2'>
                     <DatePicker
                         wrapperClassName='w-full'
                         className='w-full rounded pl-2 pr-2 pt-2 pb-2 placeholder-[#808080]'
-                        placeholderText="IRW Valid Date"
-                        selected={irwDate}
+                        placeholderText="IRW Issuance Date"
+                        selected={issuanceDate}
                         onChange={(date) => handleDateChange(date)}
                         minDate={MIN_DATE}
                         maxDate={dayjs().toDate()}
@@ -465,7 +505,7 @@ const SelectionMenu = (props) => {
                 </div>
 
                 {/* Step 2: forecaster */}
-                {irwDate !== null && usernameOptions !== null ?
+                {issuanceDate !== null && usernameOptions !== null ?
                     <div className='mb-2 ml-2 mr-2'>
                         <Select
                             placeholder="Forecaster"
@@ -478,7 +518,31 @@ const SelectionMenu = (props) => {
                     null
                 }
 
-                {/* Step 3: IRW (by valid time) */}
+                {/* Step 3: forecast day */}
+                {issuanceDate !== null && usernameOptions !== null ?
+                    <div className='mb-2 ml-2 mr-2 flex justify-center'>
+                        <ToggleButtonGroup
+                            value={daySelection}
+                            exclusive
+                            onChange={handleDayChange}
+                            size="small"
+                            fullWidth
+                            sx={{
+                                '& .MuiToggleButton-root': { color: 'white', borderColor: 'rgba(255,255,255,0.4)' },
+                                '& .MuiToggleButton-root.Mui-selected': { color: 'white', backgroundColor: 'rgba(59,130,246,0.6)' },
+                                '& .MuiToggleButton-root.Mui-selected:hover': { backgroundColor: 'rgba(59,130,246,0.7)' },
+                            }}
+                        >
+                            {DAY_OPTIONS.map((d) => (
+                                <ToggleButton key={d.value} value={d.value}><b>{d.label}</b></ToggleButton>
+                            ))}
+                        </ToggleButtonGroup>
+                    </div>
+                :
+                    null
+                }
+
+                {/* Step 4: IRW (by valid time) */}
                 {selectedUsername !== null && irwOptions !== null ?
                     irwOptions.length > 0 ?
                         <div className='mb-2 ml-2 mr-2'>
@@ -491,7 +555,7 @@ const SelectionMenu = (props) => {
                         </div>
                     :
                         <div className='mb-2 ml-2 mr-2'>
-                            <Alert severity="info">No IRWs for this forecaster on the selected date.</Alert>
+                            <Alert severity="info">No IRWs for this forecaster on the selected day.</Alert>
                         </div>
                 :
                     null
@@ -527,7 +591,7 @@ const SelectionMenu = (props) => {
                         hasPrev={hasPrev}
                         hasNext={hasNext}
                     />
-                    <ShareMenu selectedIrw={selectedIrw} />
+                    <ShareMenu selectedIrw={selectedIrw} issuanceDate={issuanceDate} />
                 </>
             :
                 null
@@ -582,7 +646,7 @@ const cleanValidTime = (val) => (typeof val === 'string' ? val.replace('::', ':'
  * @param {Object} props - Component props
  * @param {boolean} props.dataIsFetching - Flag indicating if data is being fetched
  * @param {Object|null} props.irwMetadata - Metadata for the current IRW
- * @param {Object|null} props.selectedIrw - Currently selected IRW (username/begin/end)
+ * @param {Object|null} props.selectedIrw - Currently selected IRW (username/substring/...)
  * @param {Function} props.navigateIrw - Function to move to the prev/next IRW
  * @param {boolean} props.hasPrev - Whether a previous IRW exists
  * @param {boolean} props.hasNext - Whether a next IRW exists
@@ -682,7 +746,8 @@ const MetadataDisplay = (props) => {
  *
  * @component
  * @param {Object} props - Component props
- * @param {Object|null} props.selectedIrw - Currently selected IRW (username/begin/end)
+ * @param {Object|null} props.selectedIrw - Currently selected IRW (username/substring/...)
+ * @param {Date|null} props.issuanceDate - Currently selected issuance date
  * @returns {JSX.Element} Rendered component
  */
 const ShareMenu = (props) => {
@@ -711,7 +776,7 @@ const ShareMenu = (props) => {
 
     /** Generate a shareable link to the current IRW view. */
     const genShareLink = () => {
-        if (props.selectedIrw !== null) {
+        if (props.selectedIrw !== null && props.issuanceDate !== null) {
             let tmpShareURL = window.location.origin + window.location.pathname
             const activeOverlays = []
             const layerIDs = Object.keys({ ...staticLayerConf, ...layerConf })
@@ -726,10 +791,9 @@ const ShareMenu = (props) => {
             })
 
             const tmpQueryStringObj = {
-                'date': props.selectedIrw.begin.substring(0, 8),
+                'date': dayjs(props.issuanceDate).format('YYYYMMDD'),
                 'user': props.selectedIrw.username,
-                'begin': props.selectedIrw.begin,
-                'end': props.selectedIrw.end,
+                'irw': props.selectedIrw.substring,
                 'overlay': activeOverlays
             }
             tmpShareURL += '?' + queryString.stringify(tmpQueryStringObj)
