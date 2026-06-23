@@ -76,43 +76,39 @@ const annualPlotOptions = [
 	{label: "Skill Scores", value: "barchart_no_WA_OR_skill_scores_year"},
 	{label: "Heat Map - All MPDs", value: "heat_map_all_MPD_year"},
 	{label: "Heat Map - False Alarm MPDs", value: "heat_map_FAR_MPDs_year"},
-	{label: "Heat Map - DJF MPDs", value: "heat_map_DJF_MPD"},
-	{label: "Heat Map - MAM MPDs", value: "heat_map_MAM_MPD"},
-	{label: "Heat Map - JJA MPDs", value: "heat_map_JJA_MPD"},
-	{label: "Heat Map - SON MPDs", value: "heat_map_SON_MPD"},
 	{label: "MPD/UFVS Centroid and Directional Displacement", value: "rose_cen_disp_mpd_year"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (DJF)", value: "rose_cen_disp_mpd_year_DJF"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (MAM)", value: "rose_cen_disp_mpd_year_MAM"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (JJA)", value: "rose_cen_disp_mpd_year_JJA"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (SON)", value: "rose_cen_disp_mpd_year_SON"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (WC)", value: "rose_cen_disp_mpd_year_WC"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (SW)", value: "rose_cen_disp_mpd_year_SW"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (NP)", value: "rose_cen_disp_mpd_year_NP"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (SP)", value: "rose_cen_disp_mpd_year_SP"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (SE)", value: "rose_cen_disp_mpd_year_SE"},
-	{label: "MPD/UFVS Centroid and Directional Displacement (NE)", value: "rose_cen_disp_mpd_year_NE"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (DJF)", value: "rose_cen_disp_mpd_DJF_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (MAM)", value: "rose_cen_disp_mpd_MAM_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (JJA)", value: "rose_cen_disp_mpd_JJA_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (SON)", value: "rose_cen_disp_mpd_SON_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (WC)", value: "rose_cen_disp_mpd_WC_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (SW)", value: "rose_cen_disp_mpd_SW_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (NP)", value: "rose_cen_disp_mpd_NP_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (SP)", value: "rose_cen_disp_mpd_SP_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (SE)", value: "rose_cen_disp_mpd_SE_year"},
+	{label: "MPD/UFVS Centroid and Directional Displacement (NE)", value: "rose_cen_disp_mpd_NE_year"},
 ]
 
 const multiyearPlotOptions = [
 	{label: "Heat Map - All MPDs", value: "heat_map_all_MPD_GnBu_2018"},
-	{label: "CSI", value: "barchart_no_WA_OR_CSI_MPD_yrs_2018"},
-	{label: "Frequency Bias", value: "barchart_no_WA_OR_BIAS_MPD_yrs_2018"},
-	{label: "Frac. Cov.", value: "barchart_no_WA_OR_FR_COV_MPD_yrs_2018"},
-	{label: "Number of MPDs", value: "barchart_no_WA_OR_NUM_MPD_yrs_2018"},
-	{label: "False Alarm MPDs", value: "barchart_no_WA_OR_FAR_CT_MPD_yrs_2018"},
-	{label: "False Alarm %", value: "barchart_no_WA_OR_FAR_PERCENT_MPD_yrs_2018"},
-	{label: "CSI (By Region)", value: "barchart_no_WA_OR_CSI_MPD_REGION_yrs_2018"},
-	{label: "Frequency Bias (By Region)", value: "barchart_no_WA_OR_BIAS_MPD_REGION_yrs_2018"},
-	{label: "Frac. Cov. (By Region)", value: "barchart_no_WA_OR_FR_COV_MPD_REGION_yrs_2018"},
-	{label: "Number of MPDs (By Region)", value: "barchart_no_WA_OR_NUM_MPD_REGION_yrs_2018"},
-	{label: "False Alarm MPDs (By Region)", value: "barchart_no_WA_OR_FAR_CT_MPD_REGION_yrs_2018"},
-	{label: "False Alarm % (By Region)", value: "barchart_no_WA_OR_FAR_PERCENT_MPD_REGION_yrs_2018"},
-	{label: "CSI (By Season)", value: "barchart_no_WA_OR_CSI_MPD_SEASON_yrs_2018"},
-	{label: "Frequency Bias (By Season)", value: "barchart_no_WA_OR_FR_BIAS_MPD_SEASON_yrs_2018"},
-	{label: "Frac. Cov. (By Season)", value: "barchart_no_WA_OR_FR_COV_MPD_SEASON_yrs_2018"},
-	{label: "Number of MPDs (By Season)", value: "barchart_no_WA_OR_NUM_MPD_SEASON_yrs_2018"},
-	{label: "False Alarm MPDs (By Season)", value: "barchart_no_WA_OR_FAR_CT_MPD_SEASON_yrs_2018"},
-	{label: "False Alarm % (By Season)", value: "barchart_no_WA_OR_FAR_PERCENT_MPD_SEASON_yrs_2018"},
+	{label: "CSI", value: "barchart_20km_CSI_MPD_yrs_2018"},
+	{label: "Frequency Bias", value: "barchart_20km_BIAS_MPD_yrs_2018"},
+	{label: "Frac. Cov.", value: "barchart_20km_FR_COV_MPD_yrs_2018"},
+	{label: "Number of MPDs", value: "barchart_20km_NUM_MPD_yrs_2018"},
+	{label: "False Alarm MPDs", value: "barchart_20km_FAR_CT_MPD_yrs_2018"},
+	{label: "False Alarm %", value: "barchart_20km_FAR_PERCENT_MPD_yrs_2018"},
+	{label: "CSI (By Region)", value: "barchart_20km_CSI_MPD_REGION_yrs_2018"},
+	{label: "Frequency Bias (By Region)", value: "barchart_20km_BIAS_MPD_REGION_yrs_2018"},
+	{label: "Frac. Cov. (By Region)", value: "barchart_20km_FR_COV_MPD_REGION_yrs_2018"},
+	{label: "Number of MPDs (By Region)", value: "barchart_20km_NUM_MPD_REGION_yrs_2018"},
+	{label: "False Alarm MPDs (By Region)", value: "barchart_20km_FAR_CT_MPD_REGION_yrs_2018"},
+	{label: "False Alarm % (By Region)", value: "barchart_20km_FAR_PERCENT_MPD_REGION_yrs_2018"},
+	{label: "CSI (By Season)", value: "barchart_20km_CSI_MPD_SEASON_yrs_2018"},
+	{label: "Frequency Bias (By Season)", value: "barchart_20km_FR_BIAS_MPD_SEASON_yrs_2018"},
+	{label: "Frac. Cov. (By Season)", value: "barchart_20km_FR_COV_MPD_SEASON_yrs_2018"},
+	{label: "Number of MPDs (By Season)", value: "barchart_20km_NUM_MPD_SEASON_yrs_2018"},
+	{label: "False Alarm MPDs (By Season)", value: "barchart_20km_FAR_CT_MPD_SEASON_yrs_2018"},
+	{label: "False Alarm % (By Season)", value: "barchart_20km_FAR_PERCENT_MPD_SEASON_yrs_2018"},
 	{label: "CSI (By Event Type)", value: "barchart_20km_CSI_MPD_EVENT_yrs_2018"},
 	{label: "Frequency Bias (By Event Type)", value: "barchart_20km_BIAS_MPD_EVENT_yrs_2018"},
 	{label: "Frac. Cov. (By Event Type)", value: "barchart_20km_FCOV_MPD_EVENT_yrs_2018"},
@@ -121,6 +117,7 @@ const multiyearPlotOptions = [
 	{label: "MPD Size", value: "line_plot_mpd_size_2018"},
 	{label: "MPD Size (By region)", value: "line_plot_mpd_size_region_2018"},
 	{label: "MPD Size (By season)", value: "line_plot_mpd_size_season_2018"},
+	{label: "MPD Size (By Event Type)", value: "line_plot_mpd_size_EVENT_2018"},
 ]
 
 /**
@@ -253,10 +250,10 @@ const ImageDisplay = (props) => {
 		} else if (timePeriod === "annual") {
 			tmpURL = `${baseURL}/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
 		} else if (timePeriod === "multiyear") {
-			if (plotSelection.value.includes("EVENT")){
-				tmpURL = `${baseURL}/Event/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
-			} else if (plotSelection.value.includes("mpd_size")) {
+			if (plotSelection.value.includes("mpd_size")) {
 				tmpURL = `${baseURL}/All_Yrs/${plotSelection.value}-${yearSelection.value}.png`
+			} else if (plotSelection.value.includes("EVENT")){
+				tmpURL = `${baseURL}/Event/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
 			} else {
 				tmpURL = `${baseURL}/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
 			}
