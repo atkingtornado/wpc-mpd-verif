@@ -7,10 +7,10 @@
  * For each issuance date there is a JSON at
  *   Usernames/FFaIR_usernames_and_validtimes_YYYYMMDD.json
  * whose top-level keys are usernames and whose values are arrays of filename
- * substrings of the form "day{N}_{START}_{END}" (START/END are YYYYMMDDHH; one
- * per IRW that forecaster issued that day). A substring is combined with the
+ * substrings of the form "day{N}_id{N}_{START}_{END}" (START/END are YYYYMMDDHH;
+ * one per IRW that forecaster issued that day). A substring is combined with the
  * username to build the GeoJSON file names, e.g.
- *   MPD_contour_2026_MDsucks_day1_2026061518_2026061600.geojson
+ *   MPD_contour_2026_DRJ_day2_id1_2026062217_2026062223.geojson
  * The Day 1/2/3 toggle filters a forecaster's IRWs by the "day{N}" prefix.
  */
 
@@ -74,31 +74,33 @@ const DAY_OPTIONS = [
 ]
 
 /**
- * Parse an IRW filename substring of the form "day{N}_{START}_{END}"
- * (START/END are YYYYMMDDHH). Also tolerates the older "day{N}_st{START}_et{END}"
- * form for backwards compatibility.
+ * Parse an IRW filename substring of the form "day{N}_id{N}_{START}_{END}"
+ * (START/END are YYYYMMDDHH). The "id{N}" token is optional so the older
+ * "day{N}_{START}_{END}" and "day{N}_st{START}_et{END}" forms still parse for
+ * backwards compatibility.
  *
  * @param {string} s - The substring
- * @returns {{day: string, start: string, end: string}|null} Parsed parts, or null if malformed
+ * @returns {{day: string, id: string|null, start: string, end: string}|null} Parsed parts, or null if malformed
  */
 const parseSubstring = (s) => {
-    const m = /^(day\d+)_(?:st)?(\d{10})_(?:et)?(\d{10})$/.exec(s || '')
+    const m = /^(day\d+)_(?:(id\d+)_)?(?:st)?(\d{10})_(?:et)?(\d{10})$/.exec(s || '')
     if (!m) return null
-    return { day: m[1], start: m[2], end: m[3] }
+    return { day: m[1], id: m[2] || null, start: m[3], end: m[4] }
 }
 
 /**
  * Normalize an IRW substring into the form used in the GeoJSON file names,
- * "day{N}_{START}_{END}". Current files already use this form; older files used
- * "day{N}_st{START}_et{END}", whose "st"/"et" markers are dropped here.
- * Falls back to the raw substring if it can't parse.
+ * "day{N}_id{N}_{START}_{END}". Current files include the "id{N}" token; older
+ * files omitted it (and the oldest used "st"/"et" markers, which are dropped
+ * here). Falls back to the raw substring if it can't parse.
  *
  * @param {string} substring - The IRW substring
  * @returns {string}
  */
 const substringToFileKey = (substring) => {
     const p = parseSubstring(substring)
-    return p ? `${p.day}_${p.start}_${p.end}` : substring
+    if (!p) return substring
+    return p.id ? `${p.day}_${p.id}_${p.start}_${p.end}` : `${p.day}_${p.start}_${p.end}`
 }
 
 /**
@@ -124,21 +126,25 @@ const formatIrwWindow = (start, end) => {
 }
 
 /**
- * Build a react-select option object for an IRW substring.
+ * Build a react-select option object for an IRW substring. When the substring
+ * carries an "id{N}" token, the id number is appended to the label so multiple
+ * IRWs sharing the same valid window remain distinguishable in the dropdown.
  *
  * @param {string} username - Forecaster username
- * @param {string} substring - "day{N}_st..._et..." substring
+ * @param {string} substring - "day{N}_id{N}_{START}_{END}" substring
  * @returns {Object|null} Option object, or null if the substring is malformed
  */
 const makeIrwOption = (username, substring) => {
     const p = parseSubstring(substring)
     if (!p) return null
+    const window = formatIrwWindow(p.start, p.end)
     return {
-        label: formatIrwWindow(p.start, p.end),
+        label: p.id ? `${window} (ID ${p.id.replace('id', '')})` : window,
         value: substring,
         username,
         substring,
         day: p.day,
+        id: p.id,
         begin: p.start,
         end: p.end,
     }
@@ -293,7 +299,7 @@ const SelectionMenu = (props) => {
         const opts = entries
             .map((s) => makeIrwOption(username, s))
             .filter((o) => o && o.day === day)
-            .sort((a, b) => a.begin.localeCompare(b.begin))
+            .sort((a, b) => a.begin.localeCompare(b.begin) || a.substring.localeCompare(b.substring))
         setIrwOptions(opts)
 
         // If loading from a share link, select the requested IRW.
@@ -313,11 +319,11 @@ const SelectionMenu = (props) => {
      *   - StageIV/FFW/FLW: {OBS}_2026_{key}.geojson           (no _20km_)
      *   - MPING: MPING_fullday_2026_{key}.geojson
      *   - everything else: {OBS}_20km_2026_{key}.geojson
-     * where {key} = "{username}_day{N}_{START}_{END}" (the "st"/"et" markers from
-     * the substring are dropped — see substringToFileKey).
+     * where {key} = "{username}_day{N}_id{N}_{START}_{END}" (the "st"/"et" markers
+     * from the older substring form are dropped — see substringToFileKey).
      *
      * @param {string} productID - Layer key from layerConf
-     * @param {string} irwKey - "{username}_day{N}_{START}_{END}"
+     * @param {string} irwKey - "{username}_day{N}_id{N}_{START}_{END}"
      * @returns {Promise} Axios response promise
      */
     const fetchGeojsonData = (productID, irwKey) => {
@@ -343,7 +349,7 @@ const SelectionMenu = (props) => {
      * the menu selections in sync — used by the Submit button and prev/next nav.
      *
      * @param {string} username - Forecaster username
-     * @param {string} substring - "day{N}_st..._et..." substring
+     * @param {string} substring - "day{N}_id{N}_{START}_{END}" substring
      */
     const loadIrw = (username, substring) => {
         setDataIsFetching(true)
@@ -413,7 +419,7 @@ const SelectionMenu = (props) => {
         return ((usernameData && usernameData[selectedIrw.username]) || [])
             .map((s) => makeIrwOption(selectedIrw.username, s))
             .filter((o) => o && o.day === selectedIrw.day)
-            .sort((a, b) => a.begin.localeCompare(b.begin))
+            .sort((a, b) => a.begin.localeCompare(b.begin) || a.substring.localeCompare(b.substring))
             .map((o) => o.substring)
     }
 
