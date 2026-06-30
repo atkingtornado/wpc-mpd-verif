@@ -253,7 +253,7 @@ const ImageDisplay = (props) => {
 			if (plotSelection.value.includes("mpd_size")) {
 				tmpURL = `${baseURL}/All_Yrs/${plotSelection.value}-${yearSelection.value}.png`
 			} else if (plotSelection.value.includes("EVENT")){
-				tmpURL = `${baseURL}/Event/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
+				tmpURL = `${baseURL}/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
 			} else {
 				tmpURL = `${baseURL}/All_Yrs/${plotSelection.value}_${yearSelection.value}.png`
 			}
